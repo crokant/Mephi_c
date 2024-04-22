@@ -6,8 +6,7 @@
 #include "integer.h"
 #include "test.h"
 
-
-void operationChoose(const Vector *vectorA, const Vector *vectorB, Vector *result) {
+void operationChoose(const Vector* vectorA, const Vector* vectorB, Vector* result) {
     char operation;
     printf("Choose the operation\n'1' for sum two vectors, '2' for dot product of vectors\n");
     scanf(" %c", &operation);
@@ -27,13 +26,13 @@ void operationChoose(const Vector *vectorA, const Vector *vectorB, Vector *resul
     }
 }
 
-void inputVector(Vector *vector) {
+void inputVector(Vector* vector) {
     for (int i = 0; i < vector->size; i++) {
         vector->base->input(vector->data + i * vector->base->elemSize);
     }
 }
 
-void createVectors(FieldInfo *fieldInfo) {
+void createVectors(FieldInfo* fieldInfo) {
     int size;
     printf("choose the size of your vectors, they must be the same size:\n");
     scanf("%d", &size);
@@ -59,17 +58,10 @@ void createVectors(FieldInfo *fieldInfo) {
 
 
 int main(void) {
-
-    printf("I chose variant 1, which involves the implementation of a n-dimensional vector"
-           " and its methods such as vector addition and scalar product\n");
-
-    runIntegerTest("..//tests//testInt.txt");
-
-    runComplexTest("..//tests//testComplex.txt");
-
-    runDoubleTest("..//tests//testDouble.txt");
-
+    runIntegerTest("tests\\testInt.txt");
     char type;
+    printf("I chose variant 1, which involves the implementation of an n-dimensional vector"
+           " and its methods such as vector addition and scalar product\n");
 
     printf("choose vectors type\n'i' for integer, 'd' for real, 'c' for complex\n");
     scanf(" %c", &type);
@@ -84,7 +76,7 @@ int main(void) {
             createVectors(getComplexImplementation());
             break;
         default:
-            printf("the program does not support this type\n");
+            printf("the program does not support this\n");
             break;
     }
 }
