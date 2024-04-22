@@ -58,7 +58,13 @@ void createVectors(FieldInfo* fieldInfo) {
 
 
 int main(void) {
-    runIntegerTest("tests\\testInt.txt");
+
+    runIntegerTest("..//tests//testInt.txt");
+
+    runComplexTest("..//tests//testComplex.txt");
+
+    runDoubleTest("..//tests//testDouble.txt");
+
     char type;
     printf("I chose variant 1, which involves the implementation of an n-dimensional vector"
            " and its methods such as vector addition and scalar product\n");

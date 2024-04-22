@@ -1,6 +1,6 @@
 #include "integer.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 
 void *intAddition(void *a, void *b, void *result) {

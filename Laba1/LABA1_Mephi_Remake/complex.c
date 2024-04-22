@@ -1,6 +1,6 @@
 #include "complex.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 typedef struct {
     int real;

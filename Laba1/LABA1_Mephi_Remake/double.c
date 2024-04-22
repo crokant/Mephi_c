@@ -1,6 +1,6 @@
 #include "double.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 
 void *doubleAddition(void *a, void *b, void *result) {
