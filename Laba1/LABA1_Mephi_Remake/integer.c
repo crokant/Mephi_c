@@ -1,6 +1,6 @@
 #include "integer.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 
 void *intAddition(void *a, void *b, void *result) {
@@ -13,7 +13,7 @@ void *intMultiplication(void *a, void *b, void *result) {
     return result;
 }
 
-void intPutZero(void *elem){
+void *intPutZero(void *elem){
     *(int *)elem = 0;
 }
 
@@ -34,13 +34,16 @@ void *intInputFromFile(FILE *file, void *elem) {
 }
 
 FieldInfo *getIntImplementation() {
-    FieldInfo *intInfo = malloc(sizeof(FieldInfo));
-    intInfo->add = &intAddition;
-    intInfo->multiply = &intMultiplication;
-    intInfo->zero = &intPutZero;
-    intInfo->input = &intInputElement;
-    intInfo->print = &intPrintElement;
-    intInfo->inputFromFile = &intInputFromFile;
-    intInfo->elemSize = sizeof(int);
+    static FieldInfo* intInfo = NULL;
+    if (intInfo == NULL) {
+        intInfo = malloc(sizeof(FieldInfo));
+        intInfo->add = &intAddition;
+        intInfo->multiply = &intMultiplication;
+        intInfo->zero = &intPutZero;
+        intInfo->input = &intInputElement;
+        intInfo->print = &intPrintElement;
+        intInfo->inputFromFile = &intInputFromFile;
+        intInfo->elemSize = sizeof(int);
+    }
     return intInfo;
 }

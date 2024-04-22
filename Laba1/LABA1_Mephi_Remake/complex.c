@@ -1,10 +1,11 @@
 #include "complex.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
+
 
 typedef struct {
-    int real;
-    int imaginary;
+    double real;
+    double imaginary;
 } Complex;
 
 void *complexAddition(void *a, void *b, void *result) {
@@ -23,19 +24,18 @@ void *complexMultiplication(void *a, void *b, void *result) {
     return (void *)res;
 }
 
-void complexPutZero(void *elem) {
+void *complexPutZero(void *elem) {
     Complex *c = (Complex *)elem;
     c->real = 0;
     c->imaginary = 0;
 }
 
 void *complexInputElement(void *elem) {
+    double real, imaginary;
     printf("Enter real part of the complex number: ");
-    int real;
-    scanf("%d", &real);
+    scanf("%lf", &real);
     printf("Enter imaginary part of the complex number: ");
-    int imaginary;
-    scanf("%d", &imaginary);
+    scanf("%lf", &imaginary);
     Complex *c = (Complex *)elem;
     c->real = real;
     c->imaginary = imaginary;
@@ -44,24 +44,27 @@ void *complexInputElement(void *elem) {
 
 void *complexPrintElement(void *a) {
     Complex *c = (Complex *)a;
-    printf("%d + %di", c->real, c->imaginary);
+    printf("%lf + %lfi", c->real, c->imaginary);
     return NULL;
 }
 
 void *complexInputFromFile(FILE *file, void *elem) {
     Complex *c = (Complex *)elem;
-    fscanf(file, "%d %d", &(c->real), &(c->imaginary));
+    fscanf(file, "%lf %lf", &(c->real), &(c->imaginary));
     return elem;
 }
 
 FieldInfo *getComplexImplementation() {
-    FieldInfo *complexInfo = malloc(sizeof(FieldInfo));
-    complexInfo->add = &complexAddition;
-    complexInfo->multiply = &complexMultiplication;
-    complexInfo->zero = &complexPutZero;
-    complexInfo->input = &complexInputElement;
-    complexInfo->print = &complexPrintElement;
-    complexInfo->inputFromFile = &complexInputFromFile;
-    complexInfo->elemSize = sizeof(Complex);
+    static FieldInfo *complexInfo = NULL;
+    if (complexInfo == NULL) {
+        complexInfo = malloc(sizeof(FieldInfo));
+        complexInfo->add = &complexAddition;
+        complexInfo->multiply = &complexMultiplication;
+        complexInfo->zero = &complexPutZero;
+        complexInfo->input = &complexInputElement;
+        complexInfo->print = &complexPrintElement;
+        complexInfo->inputFromFile = &complexInputFromFile;
+        complexInfo->elemSize = sizeof(Complex);
+    }
     return complexInfo;
 }

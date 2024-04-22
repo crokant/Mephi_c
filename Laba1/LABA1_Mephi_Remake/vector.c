@@ -10,7 +10,7 @@ Vector* newVector(int size, FieldInfo* impl) {
     return vector;
 }
 
-void destroyVector(const Vector* vector) {
+void destroyVector(Vector* vector) {
     if (vector != NULL) {
         free(vector->data);
         free(vector);
@@ -19,11 +19,13 @@ void destroyVector(const Vector* vector) {
 
 void printVector(const Vector* vector) {
     if (vector == NULL) return;
-    printf("(");
+    const char *prefix = "(";
+
     for (int i = 0; i < vector->size; i++) {
         void* element = vector->data + i * vector->base->elemSize;
+        printf(prefix);
         vector->base->print(element);
-        printf("; ");
+        prefix = "; ";
     }
     printf(")\n");
 }
@@ -38,7 +40,6 @@ Vector* addVectors(const Vector* vectorA, const Vector* vectorB, Vector* result)
         void* resultElement = result->data + i * result->base->elemSize;
         result->base->add(elementA, elementB, resultElement);
     }
-
     return result;
 }
 
@@ -47,15 +48,16 @@ void scalarMultiply(const Vector *vectorA, const Vector *vectorB) {
     if (vectorA->size != vectorB->size) return;
 
     void* result = malloc(vectorA->base->elemSize);
+    void* temp = malloc(vectorA->base->elemSize);
+
     vectorA->base->zero(result);
     for (int i = 0; i < vectorA->size; i++) {
         void* elementA = vectorA->data + i * vectorA->base->elemSize;
         void* elementB = vectorB->data + i * vectorB->base->elemSize;
-        void* temp = malloc(vectorA->base->elemSize);
         vectorA->base->multiply(elementA, elementB, temp);
         result = vectorA->base->add(result, temp, result);
-        free(temp);
     }
+    free(temp);
     printf("Dot product of vectors:\n");
     vectorA->base->print(result);
     printf("\n");

@@ -12,7 +12,7 @@ typedef struct {
 
 Vector *newVector(int size, FieldInfo *impl);
 
-void destroyVector(const Vector *target);
+void destroyVector(Vector *target);
 
 void printVector(const Vector *vector);
 

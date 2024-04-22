@@ -1,6 +1,6 @@
 #include "double.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 
 void *doubleAddition(void *a, void *b, void *result) {
@@ -13,7 +13,7 @@ void *doubleMultiplication(void *a, void *b, void *result) {
     return result;
 }
 
-void doublePutZero(void *elem){
+void *doublePutZero(void *elem){
     *(double *)elem = 0;
 }
 
@@ -34,13 +34,16 @@ void *doubleInputFromFile(FILE *file, void *elem) {
 }
 
 FieldInfo *getDoubleImplementation() {
-    FieldInfo *doubleInfo = malloc(sizeof(FieldInfo));
-    doubleInfo->add = &doubleAddition;
-    doubleInfo->multiply = &doubleMultiplication;
-    doubleInfo->zero = &doublePutZero;
-    doubleInfo->input = &doubleInputElement;
-    doubleInfo->print = &doublePrintElement;
-    doubleInfo->inputFromFile = &doubleInputFromFile;
-    doubleInfo->elemSize = sizeof(double);
+    static FieldInfo *doubleInfo = NULL;
+    if (doubleInfo == NULL) {
+        doubleInfo = malloc(sizeof(FieldInfo));
+        doubleInfo->add = &doubleAddition;
+        doubleInfo->multiply = &doubleMultiplication;
+        doubleInfo->zero = &doublePutZero;
+        doubleInfo->input = &doubleInputElement;
+        doubleInfo->print = &doublePrintElement;
+        doubleInfo->inputFromFile = &doubleInputFromFile;
+        doubleInfo->elemSize = sizeof(double);
+    }
     return doubleInfo;
 }

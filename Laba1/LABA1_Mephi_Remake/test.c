@@ -6,28 +6,28 @@
 #include "integer.h"
 #include "test.h"
 
-void runTest(const char* filename, FieldInfo* fieldInfo) {
-    FILE *file = fopen(filename, "r");
 
+void inputVectorFromFile(Vector *vector, FILE *file) {
+    for (int i = 0; i < vector->size; i++) {
+        vector->base->inputFromFile(file, vector->data + i * vector->base->elemSize);
+    }
+}
+
+void runTest(const char* filename, FieldInfo* fieldInfo) {
+    int size;
+    FILE *file = fopen(filename, "r");
     if (!file) {
         printf("Failed to open file.\n");
         return;
     }
-
-    int size;
     fscanf(file, "%d", &size);
 
     Vector *vector1 = newVector(size, fieldInfo);
     Vector *vector2 = newVector(size, fieldInfo);
     Vector *result = newVector(size, fieldInfo);
 
-    for (int i = 0; i < size; ++i) {
-        vector1->base->inputFromFile(file, vector1->data + i * vector1->base->elemSize);
-    }
-
-    for (int i = 0; i < size; ++i) {
-        vector2->base->inputFromFile(file, vector2->data + i * vector2->base->elemSize);
-    }
+    inputVectorFromFile(vector1, file);
+    inputVectorFromFile(vector2, file);
 
     printf("Vector 1: ");
     printVector(vector1);
