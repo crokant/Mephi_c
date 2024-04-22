@@ -1,3 +1,0 @@
-C:/Users/zavor/CLionProjects/mephi__c/Laba1/LABA1_Mephi_Remake/cmake-build-debug/CMakeFiles/LABA1_Mephi_Remake.dir
-C:/Users/zavor/CLionProjects/mephi__c/Laba1/LABA1_Mephi_Remake/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/zavor/CLionProjects/mephi__c/Laba1/LABA1_Mephi_Remake/cmake-build-debug/CMakeFiles/rebuild_cache.dir
