@@ -62,9 +62,9 @@ int main(void) {
     printf("I chose variant 1, which involves the implementation of an n-dimensional vector"
            " and its methods such as vector addition and scalar product\n");
 
-    runIntegerTest("..\\tests\\testInt.txt");
-    runDoubleTest("..\\tests\\testDouble.txt");
-    runComplexTest("..\\tests\\testComplex.txt");
+    runIntegerTest("..//tests//testInt.txt");
+    runDoubleTest("..//tests//testDouble.txt");
+    runComplexTest("..//tests//testComplex.txt");
 
     printf("choose vectors type\n'i' for integer, 'd' for real, 'c' for complex\n");
     scanf(" %c", &type);
