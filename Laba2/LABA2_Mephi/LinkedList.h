@@ -1,0 +1,170 @@
+#pragma once
+
+#include <stdexcept>
+
+
+template<typename T>
+class Node {
+public:
+    T data;
+    Node<T> *left;
+    Node<T> *right;
+
+    Node(const T &value) : data{value}, left{nullptr}, right{nullptr} {}
+};
+
+template<class T>
+class LinkedList {
+private:
+    Node<T> *first;
+    Node<T> *last;
+    int size;
+
+    void destroyList() {
+        Node<T> *temp = first;
+        while (temp) {
+            Node<T> *next = temp->right;
+            delete temp;
+            temp = next;
+        }
+        first = last = nullptr;
+        size = 0;
+    }
+
+    void checkIndex(int index) const {
+        if (index < 0 || index >= size) {
+            throw std::out_of_range("IndexOutOfRange");
+        }
+    }
+
+public:
+    LinkedList() : first{nullptr}, last{nullptr}, size{0} {}
+
+    LinkedList(T *items, int size) : first{nullptr}, last{nullptr}, size{0} {
+        for (int i = 0; i < size; ++i) {
+            append(items[i]);
+        }
+    }
+
+    LinkedList(const LinkedList<T> &list) : first{nullptr}, last{nullptr}, size{0} {
+        *this = list;
+    }
+
+    ~LinkedList() {
+        destroyList();
+    }
+
+    T getFirst() const {
+        if (!first) {
+            throw std::out_of_range("ListIsEmpty");
+        }
+        return first->data;
+    }
+
+    T getLast() const {
+        if (!last) {
+            throw std::out_of_range("ListIsEmpty");
+        }
+        return last->data;
+    }
+
+    T get(int index) const {
+        checkIndex(index);
+        Node<T> *temp = first;
+        for (int i = 0; i < index; ++i) {
+            temp = temp->right;
+        }
+        return temp->data;
+    }
+
+    LinkedList<T> *getSubList(int startIndex, int endIndex) const {
+        checkIndex(startIndex);
+        checkIndex(endIndex);
+        LinkedList<T> *sublist = new LinkedList<T>;
+        Node<T> *temp = first;
+        for (int i = 0; i < startIndex; ++i) {
+            temp = temp->right;
+        }
+        for (int i = startIndex; i <= endIndex; ++i) {
+            sublist->append(temp->data);
+            temp = temp->right;
+        }
+        return sublist;
+    }
+
+    int getLength() const {
+        return size;
+    }
+
+    void append(const T &value) {
+        Node<T> *newNode = new Node<T>(value);
+        if (!first) {
+            first = last = newNode;
+        } else {
+            last->right = newNode;
+            newNode->left = last;
+            last = newNode;
+        }
+        size++;
+    }
+
+    void prepend(const T &value) {
+        Node<T> *newNode = new Node<T>(value);
+        if (!first) {
+            first = last = newNode;
+        } else {
+            first->left = newNode;
+            newNode->right = first;
+            first = newNode;
+        }
+        size++;
+    }
+
+    void insert(int index, const T &value) {
+        checkIndex(index);
+        if (index == 0) {
+            prepend(value);
+        } else if (index == size) {
+            append(value);
+        } else {
+            Node<T> *temp = first;
+            for (int i = 0; i < index - 1; ++i) {
+                temp = temp->right;
+            }
+            Node<T> *newNode = new Node<T>(value);
+            newNode->right = temp->right;
+            newNode->left = temp;
+            temp->right->left = newNode;
+            temp->right = newNode;
+            size++;
+        }
+    }
+
+    void concatenate(const LinkedList<T> &other) {
+        if (!other.first) {
+            return;
+        }
+        if (!first) {
+            first = other.first;
+            last = other.last;
+        } else {
+            last->right = other.first;
+            other.first->left = last;
+            last = other.last;
+        }
+        size += other.size;
+    }
+
+    LinkedList<T> &operator=(const LinkedList<T> &list) {
+        if (this != &list) {
+            destroyList();
+            Node<T> *temp = list.first;
+            while (temp) {
+                append(temp->data);
+                temp = temp->right;
+            }
+        }
+        return *this;
+    }
+
+};
