@@ -74,13 +74,13 @@ void test2() {
 
 //test immutable array sequence
 void test3() {
-// Test default constructor
+    // Test default constructor
     ImmutableArraySequence<int> immutableArraySeq1;
     assert(immutableArraySeq1.getLength() == 0);
 
     // Test constructor with array
     int arr[] = {1, 2, 3, 4, 5};
-    int arrSize = sizeof(arr) / sizeof(arr[0]);
+    int arrSize = 5;
     ImmutableArraySequence<int> immutableArraySeq2(arr, arrSize);
     assert(immutableArraySeq2.getLength() == arrSize);
     assert(immutableArraySeq2.getFirst() == 1);
@@ -99,7 +99,7 @@ void test3() {
 
     // Test prepend
     auto prependedSeq = immutableArraySeq2.prepend(0);
-    /*
+
     assert(prependedSeq->getLength() == arrSize + 1);
     assert(prependedSeq->getFirst() == 0);
 
@@ -113,6 +113,148 @@ void test3() {
     auto concatenatedSeq = immutableArraySeq2.concat(&otherArrSeq);
     assert(concatenatedSeq->getLength() == arrSize * 2);
     assert(concatenatedSeq->getLast() == 5); // last element of original array
-    */
+
     std::cout << "TEST 3 PASSED!" << std::endl;
 }
+
+//test mutable array sequence
+void test4() {
+    // Test default constructor
+    MutableArraySequence<int> mutableArraySeq1;
+    assert(mutableArraySeq1.getLength() == 0);
+
+    // Test constructor with array
+    int arr[] = {1, 2, 3, 4, 5};
+    int arrSize = 5;
+    MutableArraySequence<int> mutableArraySeq2(arr, arrSize);
+    assert(mutableArraySeq2.getLength() == arrSize);
+    assert(mutableArraySeq2.getFirst() == 1);
+    assert(mutableArraySeq2.getLast() == 5);
+    assert(mutableArraySeq2.get(2) == 3);
+
+    // Test getSubSequence
+    auto subSeq = mutableArraySeq2.getSubSequence(1, 3);
+    assert(subSeq->getLength() == 3);
+    assert(subSeq->getFirst() == 2);
+    assert(subSeq->getLast() == 4);
+
+    // Test append
+    mutableArraySeq2.append(6);
+    assert(mutableArraySeq2.getLength() == arrSize + 1);
+    assert(mutableArraySeq2.getLast() == 6);
+
+    // Test prepend
+    mutableArraySeq2.prepend(0);
+    assert(mutableArraySeq2.getLength() == arrSize + 2);
+    assert(mutableArraySeq2.getFirst() == 0);
+
+    // Test insertAt
+    mutableArraySeq2.insertAt(2, 10);
+    assert(mutableArraySeq2.getLength() == arrSize + 3);
+    assert(mutableArraySeq2.get(2) == 10);
+
+    // Test concat
+    int arr2[] = {7, 8, 9};
+    int arr2Size = 3;
+    MutableArraySequence<int> otherArraySeq(arr2, arr2Size);
+    assert((mutableArraySeq2.concat(&otherArraySeq))->getLast() == 9);
+    assert(mutableArraySeq2.getLength() == arrSize + arr2Size);
+
+    std::cout << "TEST 4 PASSED!" << std::endl;
+}
+
+//test immutable list sequence
+void test5() {
+    // Test default constructor
+    ImmutableArraySequence<int> immutableArraySeq1;
+    assert(immutableArraySeq1.getLength() == 0);
+
+    // Test constructor with array
+    int arr[] = {1, 2, 3, 4, 5};
+    int arrSize = 5;
+    ImmutableArraySequence<int> immutableArraySeq2(arr, arrSize);
+    assert(immutableArraySeq2.getLength() == arrSize);
+    assert(immutableArraySeq2.getFirst() == 1);
+    assert(immutableArraySeq2.getLast() == 5);
+    assert(immutableArraySeq2.get(2) == 3);
+
+    // Test getSubSequence
+    auto subSeq = immutableArraySeq2.getSubSequence(1, 3);
+    assert(subSeq->getLength() == 3);
+    assert(subSeq->getFirst() == 2);
+    assert(subSeq->getLast() == 4);
+
+    // Test append
+    auto appendedSeq = immutableArraySeq2.append(6);
+    assert(appendedSeq->getLength() == arrSize + 1);
+    assert(appendedSeq->getLast() == 6);
+
+    // Test prepend
+    auto prependedSeq = immutableArraySeq2.prepend(0);
+    assert(prependedSeq->getLength() == arrSize + 1);
+    assert(prependedSeq->getFirst() == 0);
+
+    // Test insertAt
+    auto insertedSeq = immutableArraySeq2.insertAt(2, 10);
+    assert(insertedSeq->getLength() == arrSize + 1);
+    assert(insertedSeq->get(2) == 10);
+
+    // Test concat
+    ImmutableArraySequence<int> otherArrSeq(arr, arrSize);
+    auto concatenatedSeq = immutableArraySeq2.concat(&otherArrSeq);
+    assert(concatenatedSeq->getLength() == arrSize * 2);
+    assert(concatenatedSeq->getLast() == 5); // last element of original array
+
+    std::cout << "TEST 5 PASSED!" << std::endl;
+}
+
+//
+void test6() {
+    // Test default constructor
+    MutableArraySequence<int> mutableArraySeq1;
+    assert(mutableArraySeq1.getLength() == 0);
+
+    // Test constructor with array
+    int arr[] = {1, 2, 3, 4, 5};
+    int arrSize = 5;
+    MutableArraySequence<int> mutableArraySeq2(arr, arrSize);
+    assert(mutableArraySeq2.getLength() == arrSize);
+    assert(mutableArraySeq2.getFirst() == 1);
+    assert(mutableArraySeq2.getLast() == 5);
+    assert(mutableArraySeq2.get(2) == 3);
+
+    // Test getSubSequence
+    auto subSeq = mutableArraySeq2.getSubSequence(1, 3);
+    assert(subSeq->getLength() == 3);
+    assert(subSeq->getFirst() == 2);
+    assert(subSeq->getLast() == 4);
+
+    // Test append
+    mutableArraySeq2.append(6);
+    assert(mutableArraySeq2.getLength() == arrSize + 1);
+    assert(mutableArraySeq2.getLast() == 6);
+
+    // Test prepend
+    mutableArraySeq2.prepend(0);
+    assert(mutableArraySeq2.getLength() == arrSize + 2);
+    assert(mutableArraySeq2.getFirst() == 0);
+
+    // Test insertAt
+    mutableArraySeq2.insertAt(2, 10);
+    assert(mutableArraySeq2.getLength() == arrSize + 3);
+    assert(mutableArraySeq2.get(2) == 10);
+
+    // Test concat
+    MutableArraySequence<int> otherArrSeq(arr, arrSize);
+    auto concatSeq = mutableArraySeq2.concat(&otherArrSeq);
+    assert(concatSeq->getLength() == arrSize * 2 + 3);
+    assert(concatSeq->getLast() == 5);
+    std::cout << "TEST 6 PASSED!" << std::endl;
+}
+
+
+
+
+
+
+

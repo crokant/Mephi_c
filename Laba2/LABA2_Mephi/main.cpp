@@ -13,6 +13,9 @@ int main() {
     test1();
     test2();
     test3();
+    test4();
+    test5();
+    test6();
 
     int arr[] = {1, 2, 3, 4, 5};
     int arrSize = sizeof(arr) / sizeof(arr[0]);

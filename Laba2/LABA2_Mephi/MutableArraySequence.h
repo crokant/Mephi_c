@@ -64,7 +64,8 @@ public:
     }
 
     MutableSequence<T> *concat(MutableSequence<T> *sequence) override {
-        DynamicArray<T> newArray(base.getSize() + sequence->getLength());
+        DynamicArray<T> newArray;
+        newArray.setSize(base.getSize() + sequence->getLength());
         for (int i = 0; i < base.getSize(); ++i) {
             newArray.set(i, base.get(i));
         }

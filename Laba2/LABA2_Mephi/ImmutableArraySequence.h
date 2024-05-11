@@ -50,7 +50,8 @@ public:
     }
 
     ImmutableArraySequence<T> *prepend(const T item) const override {
-        DynamicArray<T> newArray(base.getSize() + 1);
+        DynamicArray<T> newArray;
+        newArray.setSize(base.getSize() + 1);
         newArray.set(0, item);
         for (int i = 0; i < base.getSize(); ++i) {
             newArray.set(i + 1, base.get(i));
@@ -60,7 +61,8 @@ public:
 
 
     ImmutableArraySequence<T> *insertAt(int index, const T item) const override {
-        DynamicArray<T> newArray(base.getSize() + 1);
+        DynamicArray<T> newArray;
+        newArray.setSize((base.getSize() + 1));
         for (int i = 0; i < index; ++i) {
             newArray.set(i, base.get(i));
         }
@@ -72,7 +74,8 @@ public:
     }
 
     ImmutableSequence<T> *concat(ImmutableSequence<T> *sequence) const override {
-        DynamicArray<T> newArray(base.getSize() + sequence->getLength());
+        DynamicArray<T> newArray;
+        newArray.setSize(base.getSize() + sequence->getLength());
         for (int i = 0; i < base.getSize(); ++i) {
             newArray.set(i, base.get(i));
         }
