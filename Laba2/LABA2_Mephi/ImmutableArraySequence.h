@@ -73,7 +73,7 @@ public:
         return new ImmutableArraySequence<T>(newArray);
     }
 
-    ImmutableSequence<T> *concat(ImmutableSequence<T> *sequence) const override {
+    ImmutableArraySequence<T> *concat(ImmutableSequence<T> *sequence) const override {
         DynamicArray<T> newArray;
         newArray.setSize(base.getSize() + sequence->getLength());
         for (int i = 0; i < base.getSize(); ++i) {

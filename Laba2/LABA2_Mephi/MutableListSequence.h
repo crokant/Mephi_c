@@ -5,7 +5,7 @@
 
 
 template<class T>
-class MutableListSequence : MutableSequence<T> {
+class MutableListSequence : public MutableSequence<T> {
 private:
     LinkedList<T> base;
 

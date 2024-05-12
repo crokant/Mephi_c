@@ -5,7 +5,7 @@
 
 
 template<class T>
-class ImmutableListSequence : ImmutableSequence<T> {
+class ImmutableListSequence : public ImmutableSequence<T> {
 private:
     LinkedList<T> base;
 
@@ -37,19 +37,19 @@ public:
     }
 
     ImmutableListSequence<T> *append(const T item) const override {
-        ImmutableListSequence<T> *newSequence = new ImmutableListSequence<T>(base);
+        auto *newSequence = new ImmutableListSequence<T>(base);
         newSequence->base.append(item);
         return newSequence;
     }
 
     ImmutableListSequence<T> *prepend(const T item) const override {
-        ImmutableListSequence<T> *newSequence = new ImmutableListSequence<T>(base);
+        auto *newSequence = new ImmutableListSequence<T>(base);
         newSequence->base.prepend(item);
         return newSequence;
     }
 
     ImmutableListSequence<T> *insertAt(int index, const T item) const override {
-        ImmutableListSequence<T> *newSequence = new ImmutableListSequence<T>(base);
+        auto *newSequence = new ImmutableListSequence<T>(base);
         newSequence->base.insert(index, item);
         return newSequence;
     }
