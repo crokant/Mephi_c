@@ -140,12 +140,14 @@ private:
     }
 
     void printSequence() {
+        const char *prefix = "(";
         int length = sequence->getLength();
         cout << "Sequence: ";
         for (int i = 0; i < length; ++i) {
-            cout << sequence->get(i) << " ";
+            cout << prefix << sequence->get(i);
+            prefix = "; ";
         }
-        cout << "\n";
+        cout << ")\n";
     }
 
     void showMenu() {
