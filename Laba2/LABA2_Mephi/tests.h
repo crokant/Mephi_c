@@ -1,18 +1,18 @@
 #pragma once
 
 
-void test1();
+void test_dynamic_array();
 
-void test2();
+void test_linked_list();
 
-void test3();
+void test_immutable_array_sequence();
 
-void test4();
+void test_mutable_array_sequence();
 
-void test5();
+void test_immutable_array_sequence2();
 
-void test6();
+void test_mutable_array_sequence2();
 
-void test7();
+void test_immutable_linked_list();
 
-void test8();
+void test_mutable_linked_list();

@@ -27,13 +27,13 @@ void startMenu() {
 }
 
 int main() {
-    test1();
-    test2();
-    test3();
-    test4();
-    test5();
-    test6();
-    test7();
-    test8();
+    test_dynamic_array();
+    test_linked_list();
+    test_immutable_array_sequence();
+    test_mutable_array_sequence();
+    test_immutable_array_sequence2();
+    test_mutable_array_sequence2();
+    test_immutable_linked_list();
+    test_mutable_linked_list();
     startMenu();
 }

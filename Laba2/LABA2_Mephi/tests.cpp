@@ -9,7 +9,7 @@
 #include <cassert>
 
 //test dynamic array
-void test1() {
+void test_dynamic_array() {
     int arr[] = {1, 2, 3, 4, 5};
     int arrSize = 5;
 
@@ -32,7 +32,7 @@ void test1() {
 }
 
 //test linked list
-void test2() {
+void test_linked_list() {
     LinkedList<int> linkedList1;
     assert(linkedList1.getLength() == 0);
 
@@ -72,7 +72,7 @@ void test2() {
 }
 
 //test immutable array sequence
-void test3() {
+void test_immutable_array_sequence() {
     // Test default constructor
     ImmutableArraySequence<int> immutableArraySeq1;
     assert(immutableArraySeq1.getLength() == 0);
@@ -117,7 +117,7 @@ void test3() {
 }
 
 //test mutable array sequence
-void test4() {
+void test_mutable_array_sequence() {
     // Test default constructor
     MutableArraySequence<int> mutableArraySeq1;
     assert(mutableArraySeq1.getLength() == 0);
@@ -163,7 +163,7 @@ void test4() {
 }
 
 //test immutable array sequence
-void test5() {
+void test_immutable_array_sequence2() {
     // Test default constructor
     ImmutableArraySequence<int> immutableArraySeq1;
     assert(immutableArraySeq1.getLength() == 0);
@@ -208,7 +208,7 @@ void test5() {
 }
 
 //test mutable array sequence
-void test6() {
+void test_mutable_array_sequence2() {
     // Test default constructor
     MutableArraySequence<int> mutableArraySeq1;
     assert(mutableArraySeq1.getLength() == 0);
@@ -251,7 +251,7 @@ void test6() {
     std::cout << "TEST 6 PASSED!" << std::endl;
 }
 
-void test7() {
+void test_immutable_linked_list() {
     // Test default constructor
     ImmutableListSequence<int> immutableListSeq1;
     assert(immutableListSeq1.getLength() == 0);
@@ -295,7 +295,7 @@ void test7() {
     std::cout << "TEST 7 PASSED!" << std::endl;
 }
 
-void test8() {
+void test_mutable_linked_list() {
     // Test default constructor
     MutableListSequence<int> mutableListSeq1;
     assert(mutableListSeq1.getLength() == 0);
