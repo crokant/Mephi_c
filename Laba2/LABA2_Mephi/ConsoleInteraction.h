@@ -76,8 +76,13 @@ private:
         cout << "Enter index and item to insert\n<<";
         consoleInput(index);
         consoleInput(item);
-        sequence->insertAt(index, item);
+        try {
+            sequence->insertAt(index, item);
+        } catch (const out_of_range &e) {
+            cout << "IndexOutOfRange\n";
+        }
     }
+
 
     void getItemAt() {
         int index;
