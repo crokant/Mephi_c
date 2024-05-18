@@ -50,6 +50,8 @@ public:
         *this = list;
     }
 
+    //конструктор копирующий sequence добавить
+
     ~LinkedList() {
         destroyList();
     }
@@ -79,7 +81,7 @@ public:
 
     LinkedList<T> *getSubList(int startIndex, int endIndex) const {
         checkIndex(startIndex);
-        checkIndex(endIndex);
+        checkIndex(endIndex + 1);
         LinkedList<T> *sublist = new LinkedList<T>;
         Node<T> *temp = first;
         for (int i = 0; i < startIndex; ++i) {
@@ -143,7 +145,7 @@ public:
     void concatenate(const LinkedList<T> &other) {
         if (!other.first) {
             return;
-        }
+        } //доделать
         if (!first) {
             first = other.first;
             last = other.last;

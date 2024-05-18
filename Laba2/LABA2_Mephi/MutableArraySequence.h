@@ -62,7 +62,7 @@ public:
         }
         base.set(index, item);
     }
-
+// сделать mutable
     MutableArraySequence<T> *concat(MutableSequence<T> *sequence) override {
         DynamicArray<T> newArray;
         newArray.setSize(base.getSize() + sequence->getLength());

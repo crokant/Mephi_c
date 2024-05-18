@@ -9,9 +9,12 @@ private:
     T *data;
     int allocatedMemory;
     int size;
-
+    //size_t size
+    //size_t capacity;
+    //удалить capacity
     void resize(int capacity) {
         T *newData = new T[capacity];
+        //capacity < size
         for (int i = 0; i < size; ++i) {
             newData[i] = data[i];
         }
@@ -42,6 +45,7 @@ public:
             this->data[i] = array.data[i];
         }
     }
+    //конструктор копирующий sequence добавить
 
     ~DynamicArray() {
         delete[] data;

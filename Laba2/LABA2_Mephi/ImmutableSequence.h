@@ -24,3 +24,4 @@ public:
 
     virtual ImmutableSequence<T> *concat(ImmutableSequence<T> *list) const = 0;
 };
+//T get1(); T &get2(); const T& get3 (); просто пример

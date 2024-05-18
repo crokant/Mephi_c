@@ -47,7 +47,7 @@ public:
     void insertAt(int index, const T item) override {
         base.insert(index, item);
     }
-
+//сделать mutable
     MutableListSequence<T> *concat(MutableSequence<T> *list) override {
         auto newList = new LinkedList<T>(base);
         auto otherList = dynamic_cast<MutableListSequence<T> *>(list);
