@@ -22,6 +22,5 @@ public:
 
     virtual ImmutableSequence<T> *insertAt(int index, const T item) const = 0;
 
-    virtual ImmutableSequence<T> *concat(ImmutableSequence<T> *list) const = 0;
+    virtual ImmutableSequence<T> *concat(ImmutableSequence<T> *sequence) const = 0;
 };
-//T get1(); T &get2(); const T& get3 (); просто пример

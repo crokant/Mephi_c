@@ -17,44 +17,40 @@ public:
     MutableListSequence(const LinkedList<T> list) : base{list} {}
 
     T getFirst() const override {
-        return base.getFirst();
+        return base.get_first();
     }
 
     T getLast() const override {
-        return base.getLast();
+        return base.get_last();
     }
 
     T get(int index) const override {
-        return base.get(index);
+        return base.get_by_index(index);
     }
 
     MutableListSequence<T> *getSubSequence(int startIndex, int endIndex) override {
-        return new MutableListSequence<T>(*base.getSubList(startIndex, endIndex));
+        return new MutableListSequence<T>(*base.get_sub_list(startIndex, endIndex));
     }
 
     int getLength() const override {
-        return base.getLength();
+        return base.get_length();
     }
 
     void append(const T item) override {
-        base.append(item);
+        base.list_append(item);
     }
 
     void prepend(const T item) override {
-        base.prepend(item);
+        base.list_prepend(item);
     }
 
     void insertAt(int index, const T item) override {
-        base.insert(index, item);
-    }
-//сделать mutable
-    MutableListSequence<T> *concat(MutableSequence<T> *list) override {
-        auto newList = new LinkedList<T>(base);
-        auto otherList = dynamic_cast<MutableListSequence<T> *>(list);
-        if (!otherList)
-            throw std::invalid_argument("Invalid type for concatenation.");
-        newList->concatenate(otherList->base);
-        return new MutableListSequence<T>(*newList);
+        base.insert_at(index, item);
     }
 
+    void concat(MutableSequence<T>* sequence) override {
+        for (int i = 0; i < sequence->getLength(); ++i) {
+            base.list_append(sequence->get(i));
+        }
+    }
 };

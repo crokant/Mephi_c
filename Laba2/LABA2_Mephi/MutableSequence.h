@@ -22,5 +22,5 @@ public:
 
     virtual void insertAt(int index, const T item) = 0;
 
-    virtual MutableSequence<T> *concat(MutableSequence<T> *list) = 0;
+    virtual void concat(MutableSequence<T> *sequence) = 0;
 };

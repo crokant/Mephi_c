@@ -2,6 +2,7 @@
 
 #include "MutableSequence.h"
 #include "ConsoleInput.h"
+#include "ImmutableSequence.h"
 
 using namespace std;
 //in ui the user is only given access to mutable type of sequence
@@ -58,14 +59,14 @@ private:
 
     void appendItem() {
         T item;
-        cout << "Enter item to append\n<<";
+        cout << "Enter item to list_append\n<<";
         consoleInput(item);
         sequence->append(item);
     }
 
     void prependItem() {
         T item;
-        cout << "Enter item to prepend\n<<";
+        cout << "Enter item to list_prepend\n<<";
         consoleInput(item);
         sequence->prepend(item);
     }
@@ -73,7 +74,7 @@ private:
     void insertItemAt() {
         int index;
         T item;
-        cout << "Enter index and item to insert\n<<";
+        cout << "Enter index and item to insert_at\n<<";
         consoleInput(index);
         consoleInput(item);
         try {
@@ -86,7 +87,7 @@ private:
 
     void getItemAt() {
         int index;
-        cout << "Enter index to get item\n<<";
+        cout << "Enter index to get_by_index item\n<<";
         consoleInput(index);
         try {
             T item = sequence->get(index);
@@ -138,9 +139,7 @@ private:
         cout << "Choose type of sequence to concatenate\n";
         ConsoleInteraction<T> otherConsole;
         otherConsole.chooseTypeOfSequence();
-        auto concatenatedSequence = sequence->concat(otherConsole.sequence);
-        delete sequence;
-        sequence = concatenatedSequence;
+        sequence->concat(otherConsole.sequence);
         cout << "Sequences concatenated.\n";
     }
 

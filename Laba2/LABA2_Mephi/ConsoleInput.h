@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+
 template<class T>
 void consoleInput(T &target) {
     T copy;

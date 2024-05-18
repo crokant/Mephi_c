@@ -8,25 +8,26 @@
 #include "DynamicArray.h"
 #include <cassert>
 
+
 //test dynamic array
 void test_dynamic_array() {
     int arr[] = {1, 2, 3, 4, 5};
     int arrSize = 5;
 
     DynamicArray<int> dynamicArr(arr, arrSize);
-    assert(dynamicArr.getSize() == arrSize);
+    assert(dynamicArr.get_size() == arrSize);
     for (int i = 0; i < arrSize; i++) {
-        assert(dynamicArr.get(i) == arr[i]);
+        assert(dynamicArr.get_by_index(i) == arr[i]);
     }
 
     int newSize = 10;
     int newValue = 100;
 
-    dynamicArr.setSize(newSize);
-    assert(dynamicArr.getSize() == newSize);
+    dynamicArr.set_size(newSize);
+    assert(dynamicArr.get_size() == newSize);
 
-    dynamicArr.set(7, newValue);
-    assert(dynamicArr.get(7) == newValue);
+    dynamicArr.insert_at(7, newValue);
+    assert(dynamicArr.get_by_index(7) == newValue);
     std::cout << "TEST 1 PASSED!" << std::endl;
 
 }
@@ -34,39 +35,39 @@ void test_dynamic_array() {
 //test linked list
 void test_linked_list() {
     LinkedList<int> linkedList1;
-    assert(linkedList1.getLength() == 0);
+    assert(linkedList1.get_length() == 0);
 
     int arr[] = {1, 2, 3, 4, 5};
     int arrSize = sizeof(arr) / sizeof(arr[0]);
     LinkedList<int> linkedList2(arr, arrSize);
-    assert(linkedList2.getLength() == arrSize);
-    assert(linkedList2.getFirst() == 1);
-    assert(linkedList2.getLast() == 5);
-    assert(linkedList2.get(2) == 3);
+    assert(linkedList2.get_length() == arrSize);
+    assert(linkedList2.get_first() == 1);
+    assert(linkedList2.get_last() == 5);
+    assert(linkedList2.get_by_index(2) == 3);
 
-    linkedList1.append(10);
-    linkedList1.prepend(20);
-    linkedList1.append(30);
-    assert(linkedList1.getLength() == 3);
-    assert(linkedList1.getFirst() == 20);
-    assert(linkedList1.getLast() == 30);
-    assert(linkedList1.get(1) == 10);
+    linkedList1.list_append(10);
+    linkedList1.list_prepend(20);
+    linkedList1.list_append(30);
+    assert(linkedList1.get_length() == 3);
+    assert(linkedList1.get_first() == 20);
+    assert(linkedList1.get_last() == 30);
+    assert(linkedList1.get_by_index(1) == 10);
 
-    linkedList1.prepend(5);
-    assert(linkedList1.getLength() == 4);
-    assert(linkedList1.getFirst() == 5);
+    linkedList1.list_prepend(5);
+    assert(linkedList1.get_length() == 4);
+    assert(linkedList1.get_first() == 5);
 
-    linkedList1.insert(2, 15);
-    assert(linkedList1.getLength() == 5);
-    assert(linkedList1.get(2) == 15);
-    assert(linkedList1.getLast() == 30);
+    linkedList1.insert_at(2, 15);
+    assert(linkedList1.get_length() == 5);
+    assert(linkedList1.get_by_index(2) == 15);
+    assert(linkedList1.get_last() == 30);
 
-    auto sublist = linkedList1.getSubList(1, 3);
-    assert(sublist->getLength() == 3);
-    assert(sublist->getFirst() == 20);
+    auto sublist = linkedList1.get_sub_list(1, 3);
+    assert(sublist->get_length() == 3);
+    assert(sublist->get_first() == 20);
     delete sublist;
 
-    assert(linkedList1.getLength() == 5);
+    assert(linkedList1.get_length() == 5);
     std::cout << "TEST 2 PASSED!" << std::endl;
 
 }
@@ -91,12 +92,12 @@ void test_immutable_array_sequence() {
     assert(subSeq->getLength() == 3);
     assert(subSeq->getFirst() == 2);
     assert(subSeq->getLast() == 4);
-    // Test append
+    // Test list_append
     auto appendedSeq = immutableArraySeq2.append(6);
     assert(appendedSeq->getLength() == arrSize + 1);
     assert(appendedSeq->getLast() == 6);
 
-    // Test prepend
+    // Test list_prepend
     auto prependedSeq = immutableArraySeq2.prepend(0);
 
     assert(prependedSeq->getLength() == arrSize + 1);
@@ -137,12 +138,12 @@ void test_mutable_array_sequence() {
     assert(subSeq->getFirst() == 2);
     assert(subSeq->getLast() == 4);
 
-    // Test append
+    // Test list_append
     mutableArraySeq2.append(6);
     assert(mutableArraySeq2.getLength() == arrSize + 1);
     assert(mutableArraySeq2.getLast() == 6);
 
-    // Test prepend
+    // Test list_prepend
     mutableArraySeq2.prepend(0);
     assert(mutableArraySeq2.getLength() == arrSize + 2);
     assert(mutableArraySeq2.getFirst() == 0);
@@ -156,8 +157,9 @@ void test_mutable_array_sequence() {
     int arr2[] = {7, 8, 9};
     int arr2Size = 3;
     MutableArraySequence<int> otherArraySeq(arr2, arr2Size);
-    assert((mutableArraySeq2.concat(&otherArraySeq))->getLast() == 9);
-    assert(mutableArraySeq2.getLength() == arrSize + arr2Size);
+    mutableArraySeq2.concat(&otherArraySeq);
+    assert(mutableArraySeq2.getLast() == 9);
+    assert(mutableArraySeq2.getLength() == arrSize + arr2Size + 3);
 
     std::cout << "TEST 4 PASSED!" << std::endl;
 }
@@ -183,12 +185,12 @@ void test_immutable_array_sequence2() {
     assert(subSeq->getFirst() == 2);
     assert(subSeq->getLast() == 4);
 
-    // Test append
+    // Test list_append
     auto appendedSeq = immutableArraySeq2.append(6);
     assert(appendedSeq->getLength() == arrSize + 1);
     assert(appendedSeq->getLast() == 6);
 
-    // Test prepend
+    // Test list_prepend
     auto prependedSeq = immutableArraySeq2.prepend(0);
     assert(prependedSeq->getLength() == arrSize + 1);
     assert(prependedSeq->getFirst() == 0);
@@ -228,12 +230,12 @@ void test_mutable_array_sequence2() {
     assert(subSeq->getFirst() == 2);
     assert(subSeq->getLast() == 4);
 
-    // Test append
+    // Test list_append
     mutableArraySeq2.append(6);
     assert(mutableArraySeq2.getLength() == arrSize + 1);
     assert(mutableArraySeq2.getLast() == 6);
 
-    // Test prepend
+    // Test list_prepend
     mutableArraySeq2.prepend(0);
     assert(mutableArraySeq2.getLength() == arrSize + 2);
     assert(mutableArraySeq2.getFirst() == 0);
@@ -245,9 +247,9 @@ void test_mutable_array_sequence2() {
 
     // Test concat
     MutableArraySequence<int> otherArrSeq(arr, arrSize);
-    auto concatSeq = mutableArraySeq2.concat(&otherArrSeq);
-    assert(concatSeq->getLength() == arrSize * 2 + 3);
-    assert(concatSeq->getLast() == 5);
+    mutableArraySeq2.concat(&otherArrSeq);
+    assert(mutableArraySeq2.getLength() == arrSize * 2 + 3);
+    assert(mutableArraySeq2.getLast() == 5);
     std::cout << "TEST 6 PASSED!" << std::endl;
 }
 
@@ -271,12 +273,12 @@ void test_immutable_linked_list() {
     assert(subSeq->getFirst() == 2);
     assert(subSeq->getLast() == 4);
 
-    // Test append
+    // Test list_append
     auto appendedSeq = immutableListSeq2.append(6);
     assert(appendedSeq->getLength() == arrSize + 1);
     assert(appendedSeq->getLast() == 6);
 
-    // Test prepend
+    // Test list_prepend
     auto prependedSeq = immutableListSeq2.prepend(0);
     assert(prependedSeq->getLength() == arrSize + 1);
     assert(prependedSeq->getFirst() == 0);
@@ -287,11 +289,11 @@ void test_immutable_linked_list() {
     assert(insertedSeq->get(2) == 10);
 
     // Test concat
+
     ImmutableListSequence<int> otherListSeq(arr, arrSize);
     auto concatenatedSeq = immutableListSeq2.concat(&otherListSeq);
     assert(concatenatedSeq->getLength() == arrSize * 2);
     assert(concatenatedSeq->getLast() == 5);
-
     std::cout << "TEST 7 PASSED!" << std::endl;
 }
 
@@ -315,12 +317,12 @@ void test_mutable_linked_list() {
     assert(subSeq->getFirst() == 2);
     assert(subSeq->getLast() == 4);
 
-    // Test append
+    // Test list_append
     mutableListSeq2.append(6);
     assert(mutableListSeq2.getLength() == arrSize + 1);
     assert(mutableListSeq2.getLast() == 6);
 
-    // Test prepend
+    // Test list_prepend
     mutableListSeq2.prepend(0);
     assert(mutableListSeq2.getLength() == arrSize + 2);
     assert(mutableListSeq2.getFirst() == 0);
@@ -332,9 +334,9 @@ void test_mutable_linked_list() {
 
     // Test concat
     MutableListSequence<int> otherArrSeq(arr, arrSize);
-    auto concatSeq = mutableListSeq2.concat(&otherArrSeq);
-    assert(concatSeq->getLength() == arrSize * 2 + 3);
-    assert(concatSeq->getLast() == 5);
+    mutableListSeq2.concat(&otherArrSeq);
+    assert(mutableListSeq2.getLength() == arrSize * 2 + 3);
+    assert(mutableListSeq2.getLast() == 5);
 
     std::cout << "TEST 8 PASSED!" << std::endl;
 }

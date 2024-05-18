@@ -17,50 +17,45 @@ public:
     ImmutableListSequence(const LinkedList<T> list) : base{list} {}
 
     T getFirst() const override {
-        return base.getFirst();
+        return base.get_first();
     }
 
     T getLast() const override {
-        return base.getLast();
+        return base.get_last();
     }
 
     T get(int index) const override {
-        return base.get(index);
+        return base.get_by_index(index);
     }
 
     ImmutableListSequence<T> *getSubSequence(int startIndex, int endIndex) override {
-        return new ImmutableListSequence(*base.getSubList(startIndex, endIndex));
+        return new ImmutableListSequence(*base.get_sub_list(startIndex, endIndex));
     }
 
     int getLength() const override {
-        return base.getLength();
+        return base.get_length();
     }
 
     ImmutableListSequence<T> *append(const T item) const override {
         auto *newSequence = new ImmutableListSequence<T>(base);
-        newSequence->base.append(item);
+        newSequence->base.list_append(item);
         return newSequence;
     }
 
     ImmutableListSequence<T> *prepend(const T item) const override {
         auto *newSequence = new ImmutableListSequence<T>(base);
-        newSequence->base.prepend(item);
+        newSequence->base.list_prepend(item);
         return newSequence;
     }
 
     ImmutableListSequence<T> *insertAt(int index, const T item) const override {
         auto *newSequence = new ImmutableListSequence<T>(base);
-        newSequence->base.insert(index, item);
+        newSequence->base.insert_at(index, item);
         return newSequence;
     }
 
-    ImmutableListSequence<T> *concat(ImmutableSequence<T> *list) const override {
-        auto newList = new LinkedList<T>(base);
-        auto otherList = dynamic_cast<ImmutableListSequence<T> *>(list);
-        if (!otherList)
-            throw std::invalid_argument("Invalid type for concatenation.");
-        newList->concatenate(otherList->base);
-        return new ImmutableListSequence<T>(*newList);
+    ImmutableListSequence<T>* concat(ImmutableSequence<T>* sequence) const override {
+        LinkedList<T> newBase = *base.concatenate(sequence);
+        return new ImmutableListSequence<T>(newBase);
     }
-
 };

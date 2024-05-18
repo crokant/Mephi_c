@@ -1,4 +1,6 @@
 #pragma once
+#include "ImmutableSequence.h"
+#include "MutableSequence.h"
 
 #include <stdexcept>
 
@@ -42,7 +44,7 @@ public:
 
     LinkedList(T *items, int size) : first{nullptr}, last{nullptr}, size{0} {
         for (int i = 0; i < size; ++i) {
-            append(items[i]);
+            list_append(items[i]);
         }
     }
 
@@ -50,27 +52,39 @@ public:
         *this = list;
     }
 
-    //конструктор копирующий sequence добавить
+    LinkedList(const MutableSequence<T> *sequence) : first{nullptr}, last{nullptr}, size{0} {
+        for (int i = 0; i < sequence->getLength(); ++i) {
+            list_append(sequence->get(i));
+        }
+    }
+
+
+    LinkedList(const ImmutableSequence<T> *sequence) : first{nullptr}, last{nullptr}, size{0} {
+        for (int i = 0; i < sequence->getLength(); ++i) {
+            list_append(sequence->get(i));
+        }
+    }
+
 
     ~LinkedList() {
         destroyList();
     }
 
-    T getFirst() const {
+    T get_first() const {
         if (!first) {
             throw std::out_of_range("ListIsEmpty");
         }
         return first->data;
     }
 
-    T getLast() const {
+    T get_last() const {
         if (!last) {
             throw std::out_of_range("ListIsEmpty");
         }
         return last->data;
     }
 
-    T get(int index) const {
+    T get_by_index(int index) const {
         checkIndex(index);
         Node<T> *temp = first;
         for (int i = 0; i < index; ++i) {
@@ -79,27 +93,27 @@ public:
         return temp->data;
     }
 
-    LinkedList<T> *getSubList(int startIndex, int endIndex) const {
+    LinkedList<T> *get_sub_list(int startIndex, int endIndex) const {
         checkIndex(startIndex);
         checkIndex(endIndex + 1);
-        LinkedList<T> *sublist = new LinkedList<T>;
+        auto *sublist = new LinkedList<T>;
         Node<T> *temp = first;
         for (int i = 0; i < startIndex; ++i) {
             temp = temp->right;
         }
         for (int i = startIndex; i <= endIndex; ++i) {
-            sublist->append(temp->data);
+            sublist->list_append(temp->data);
             temp = temp->right;
         }
         return sublist;
     }
 
-    int getLength() const {
+    int get_length() const {
         return size;
     }
 
-    void append(const T &value) {
-        Node<T> *newNode = new Node<T>(value);
+    void list_append(const T &value) {
+        auto *newNode = new Node<T>(value);
         if (!first) {
             first = last = newNode;
         } else {
@@ -110,8 +124,8 @@ public:
         size++;
     }
 
-    void prepend(const T &value) {
-        Node<T> *newNode = new Node<T>(value);
+    void list_prepend(const T &value) {
+        auto *newNode = new Node<T>(value);
         if (!first) {
             first = last = newNode;
         } else {
@@ -122,18 +136,18 @@ public:
         size++;
     }
 
-    void insert(int index, const T &value) {
+    void insert_at(int index, const T &value) {
         checkIndex(index);
         if (index == 0) {
-            prepend(value);
+            list_prepend(value);
         } else if (index == size) {
-            append(value);
+            list_append(value);
         } else {
             Node<T> *temp = first;
             for (int i = 0; i < index - 1; ++i) {
                 temp = temp->right;
             }
-            Node<T> *newNode = new Node<T>(value);
+            auto *newNode = new Node<T>(value);
             newNode->right = temp->right;
             newNode->left = temp;
             temp->right->left = newNode;
@@ -142,19 +156,19 @@ public:
         }
     }
 
-    void concatenate(const LinkedList<T> &other) {
-        if (!other.first) {
-            return;
-        } //доделать
-        if (!first) {
-            first = other.first;
-            last = other.last;
-        } else {
-            last->right = other.first;
-            other.first->left = last;
-            last = other.last;
+    LinkedList<T> *concatenate(const LinkedList<T> &other) const {
+        auto newList = new LinkedList<T>;
+        Node<T>* temp = first;
+        while (temp) {
+            newList->list_append(temp->data);
+            temp = temp->right;
         }
-        size += other.size;
+        temp = other.first;
+        while (temp) {
+            newList->list_append(temp->data);
+            temp = temp->right;
+        }
+        return newList;
     }
 
     LinkedList<T> &operator=(const LinkedList<T> &list) {
@@ -162,7 +176,7 @@ public:
             destroyList();
             Node<T> *temp = list.first;
             while (temp) {
-                append(temp->data);
+                list_append(temp->data);
                 temp = temp->right;
             }
         }

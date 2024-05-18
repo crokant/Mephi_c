@@ -26,6 +26,7 @@ void startMenu() {
     } else cout << "invalidType";
 }
 
+
 int main() {
     test_dynamic_array();
     test_linked_list();
