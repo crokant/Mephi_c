@@ -55,7 +55,8 @@ public:
     }
 
     ImmutableListSequence<T>* concat(ImmutableSequence<T>* sequence) const override {
-        LinkedList<T> newBase = *base.concatenate(sequence);
+        LinkedList<T> newList(sequence);
+        LinkedList<T> newBase = *base.concatenate(newList);
         return new ImmutableListSequence<T>(newBase);
     }
 };
