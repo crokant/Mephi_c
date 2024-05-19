@@ -65,7 +65,6 @@ public:
         }
     }
 
-
     ~LinkedList() {
         destroyList();
     }

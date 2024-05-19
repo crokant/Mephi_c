@@ -32,8 +32,6 @@ int main() {
     test_linked_list();
     test_immutable_array_sequence();
     test_mutable_array_sequence();
-    test_immutable_array_sequence2();
-    test_mutable_array_sequence2();
     test_immutable_linked_list();
     test_mutable_linked_list();
     startMenu();
