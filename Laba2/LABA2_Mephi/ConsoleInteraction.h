@@ -59,14 +59,14 @@ private:
 
     void appendItem() {
         T item;
-        cout << "Enter item to list_append\n<<";
+        cout << "Enter item to list append\n<<";
         consoleInput(item);
         sequence->append(item);
     }
 
     void prependItem() {
         T item;
-        cout << "Enter item to list_prepend\n<<";
+        cout << "Enter item to list prepend\n<<";
         consoleInput(item);
         sequence->prepend(item);
     }
@@ -74,7 +74,7 @@ private:
     void insertItemAt() {
         int index;
         T item;
-        cout << "Enter index and item to insert_at\n<<";
+        cout << "Enter index and item to insert\n<<";
         consoleInput(index);
         consoleInput(item);
         try {
@@ -87,7 +87,7 @@ private:
 
     void getItemAt() {
         int index;
-        cout << "Enter index to get_by_index item\n<<";
+        cout << "Enter index to get item\n<<";
         consoleInput(index);
         try {
             T item = sequence->get(index);
