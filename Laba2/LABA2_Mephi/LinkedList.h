@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ImmutableSequence.h"
 #include "MutableSequence.h"
 
@@ -69,21 +70,21 @@ public:
         destroyList();
     }
 
-    T get_first() const {
+    T &get_first() const {
         if (!first) {
             throw std::out_of_range("ListIsEmpty");
         }
         return first->data;
     }
 
-    T get_last() const {
+    T &get_last() const {
         if (!last) {
             throw std::out_of_range("ListIsEmpty");
         }
         return last->data;
     }
 
-    T get_by_index(int index) const {
+    T &get_by_index(int index) const {
         checkIndex(index);
         Node<T> *temp = first;
         for (int i = 0; i < index; ++i) {
@@ -157,7 +158,7 @@ public:
 
     LinkedList<T> *concatenate(const LinkedList<T> &other) const {
         auto newList = new LinkedList<T>;
-        Node<T>* temp = first;
+        Node<T> *temp = first;
         while (temp) {
             newList->list_append(temp->data);
             temp = temp->right;

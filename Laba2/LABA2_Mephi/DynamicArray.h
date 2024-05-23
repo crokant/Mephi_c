@@ -1,4 +1,5 @@
 #pragma once
+
 #include "MutableSequence.h"
 #include "ImmutableSequence.h"
 
@@ -45,14 +46,17 @@ public:
             this->data[i] = array.data[i];
         }
     }
-    DynamicArray(const MutableSequence<T> *sequence) : allocatedMemory{sequence->getLength() + 5}, size{sequence->getLength()} {
+
+    DynamicArray(const MutableSequence<T> *sequence) : allocatedMemory{sequence->getLength() + 5},
+                                                       size{sequence->getLength()} {
         this->data = new T[sequence->getLength()];
         for (int i = 0; i < sequence->getLength(); ++i) {
             this->data[i] = sequence->get(i);
         }
     }
 
-    DynamicArray(const ImmutableSequence<T> *sequence) : allocatedMemory{sequence->getLength() + 5}, size{sequence->getLength()} {
+    DynamicArray(const ImmutableSequence<T> *sequence) : allocatedMemory{sequence->getLength() + 5},
+                                                         size{sequence->getLength()} {
         this->data = new T[sequence->getLength()];
         for (int i = 0; i < sequence->getLength(); ++i) {
             this->data[i] = sequence->get(i);
@@ -63,7 +67,7 @@ public:
         delete[] data;
     }
 
-    T get_by_index(int index) const {
+    T &get_by_index(int index) const {
         if (index < 0 || index >= size) throw std::out_of_range("IndexOutOfRange");
         return data[index];
     }

@@ -16,15 +16,15 @@ public:
 
     MutableArraySequence(const DynamicArray<T> array) : base{DynamicArray<T>(array)} {}
 
-    T getFirst() const override {
+    T &getFirst() const override {
         return base.get_by_index(0);
     }
 
-    T getLast() const override {
+    T &getLast() const override {
         return base.get_by_index(base.get_size() - 1);
     }
 
-    T get(int index) const override {
+    T &get(int index) const override {
         return base.get_by_index(index);
     }
 

@@ -4,6 +4,12 @@
 #include "ConsoleInput.h"
 #include "ImmutableSequence.h"
 
+#define RESET   "\033[0m"
+#define GREEN   "\033[32m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+#define YELLOW  "\033[33m"
+
 using namespace std;
 //in ui the user is only given access to mutable type of sequence
 //but the tests check the functionality of all the code
@@ -16,10 +22,10 @@ private:
 
     ConsoleInteraction<T> *createDynamicArraySeq() {
         int size;
-        cout << "Enter size of your dynamic array sequence\n<<";
+        cout << CYAN << "Enter size of your dynamic array sequence" << RESET << "\n<<";
         consoleInput(size);
         T *items = new T[size];
-        cout << "Enter elements of the sequence\n<<";
+        cout << CYAN << "Enter elements of the sequence" << RESET << "\n<<";
         for (int i = 0; i < size; ++i) {
             consoleInput(items[i]);
         }
@@ -30,10 +36,10 @@ private:
 
     ConsoleInteraction<T> *createLinkedListSeq() {
         int size;
-        cout << "Enter size of your linked list sequence\n<<";
+        cout << CYAN << "Enter size of your linked list sequence" << RESET << "\n<<";
         consoleInput(size);
         T *items = new T[size];
-        cout << "Enter elements of the sequence\n<<";
+        cout << CYAN << "Enter elements of the sequence" << RESET << "\n<<";
         for (int i = 0; i < size; ++i) {
             consoleInput(items[i]);
         }
@@ -44,7 +50,8 @@ private:
 
     ConsoleInteraction<T> *chooseTypeOfSequence() {
         int type;
-        cout << "Choose type of sequence\n>>1 (for dynamic array sequence)\n>>2 (for linked list sequence)\n<<";
+        cout << CYAN << "Choose type of sequence\n>>1 (for dynamic array sequence)\n>>2 (for linked list sequence)"
+             << RESET << "\n<<";
         consoleInput(type);
         switch (type) {
             case 1:
@@ -59,14 +66,14 @@ private:
 
     void appendItem() {
         T item;
-        cout << "Enter item to list append\n<<";
+        cout << MAGENTA << "Enter item to list append" << RESET << "\n<<";
         consoleInput(item);
         sequence->append(item);
     }
 
     void prependItem() {
         T item;
-        cout << "Enter item to list prepend\n<<";
+        cout << MAGENTA << "Enter item to list prepend" << RESET << "\n<<";
         consoleInput(item);
         sequence->prepend(item);
     }
@@ -74,7 +81,7 @@ private:
     void insertItemAt() {
         int index;
         T item;
-        cout << "Enter index and item to insert\n<<";
+        cout << MAGENTA << "Enter index and item to insert" << RESET << "\n<<";
         consoleInput(index);
         consoleInput(item);
         try {
@@ -87,11 +94,11 @@ private:
 
     void getItemAt() {
         int index;
-        cout << "Enter index to get item\n<<";
+        cout << MAGENTA << "Enter index to get item" << RESET << "\n<<";
         consoleInput(index);
         try {
             T item = sequence->get(index);
-            cout << "Item at index " << index << " is " << item << "\n";
+            cout << MAGENTA << "Item at index " << index << " is " << item << RESET << "\n";
         } catch (const out_of_range &e) {
             cout << "IndexOutOfRange\n";
         }
@@ -100,7 +107,7 @@ private:
     void getFirstItem() {
         try {
             T item = sequence->getFirst();
-            cout << "First item is " << item << "\n";
+            cout << MAGENTA << "First item is " << item << RESET << "\n";
         } catch (const out_of_range &e) {
             cout << "SequenceIsEmpty\n";
         }
@@ -117,14 +124,14 @@ private:
 
     void getSubSequence() {
         int startIndex, endIndex;
-        cout << "Enter start and end index for subsequence\n<<";
+        cout << MAGENTA << "Enter start and end index for subsequence" << RESET << "\n<<";
         consoleInput(startIndex);
         consoleInput(endIndex);
         try {
             auto subsequence = sequence->getSubSequence(startIndex, endIndex);
             delete sequence;
             sequence = subsequence;
-            cout << "Subsequence created.\n";
+            cout << MAGENTA << "Subsequence created" << RESET << "\n";
         } catch (const out_of_range &e) {
             cout << "IndexOutOfRange\n";
         }
@@ -132,43 +139,43 @@ private:
 
     void getSequenceLength() {
         int length = sequence->getLength();
-        cout << "Length of the sequence is " << length << "\n";
+        cout << MAGENTA << "Length of the sequence is " << length << RESET "\n";
     }
 
     void concatenateSequence() {
-        cout << "Choose type of sequence to concatenate\n";
+        cout << MAGENTA << "Choose type of sequence to concatenate" << RESET << "\n";
         ConsoleInteraction<T> otherConsole;
         otherConsole.chooseTypeOfSequence();
         sequence->concat(otherConsole.sequence);
-        cout << "Sequences concatenated.\n";
+        cout << MAGENTA << "Sequences concatenated" << RESET << "\n";
     }
 
     void printSequence() {
         const char *prefix = "(";
         int length = sequence->getLength();
-        cout << "Sequence: ";
+        cout << MAGENTA << "Sequence: ";
         for (int i = 0; i < length; ++i) {
             cout << prefix << sequence->get(i);
             prefix = "; ";
         }
-        cout << ")\n";
+        cout << ")" << RESET << "\n";
     }
 
     void showMenu() {
         int choice;
         do {
-            cout << "\nChoose an action:\n";
-            cout << ">>1 Append item\n";
-            cout << ">>2 Prepend item\n";
-            cout << ">>3 Insert item at position\n";
-            cout << ">>4 Get item at position\n";
-            cout << ">>5 Get first item\n";
-            cout << ">>6 Get last item\n";
-            cout << ">>7 Get subsequence\n";
-            cout << ">>8 Get length\n";
-            cout << ">>9 Concatenate with another sequence\n";
-            cout << ">>10 Print sequence\n";
-            cout << ">>11 Exit\n<<";
+            cout << CYAN << "\nChoose an action:\n"
+                            ">>1 Append item\n"
+                            ">>2 Prepend item\n"
+                            ">>3 Insert item at position\n"
+                            ">>4 Get item at position\n"
+                            ">>5 Get first item\n"
+                            ">>6 Get last item\n"
+                            ">>7 Get subsequence\n"
+                            ">>8 Get length\n"
+                            ">>9 Concatenate with another sequence\n"
+                            ">>10 Print sequence\n"
+                            ">>11 Exit" << RESET << "\n<<";
             consoleInput(choice);
 
             switch (choice) {
@@ -203,10 +210,10 @@ private:
                     printSequence();
                     break;
                 case 11:
-                    cout << "Exiting menu.\n";
+                    cout << YELLOW << "Exiting menu" << RESET << "\n";
                     break;
                 default:
-                    cout << "Invalid choice. Please choose again.\n";
+                    cout << "Invalid choice. Please choose again\n";
             }
         } while (choice != 11);
     }

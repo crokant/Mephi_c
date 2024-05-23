@@ -7,12 +7,16 @@
 #include "ConsoleInput.h"
 #include "tests.h"
 
+#define RESET   "\033[0m"
+#define GREEN   "\033[32m"
+#define CYAN    "\033[36m"
+
 using namespace std;
 
 void startMenu() {
     int dataType;
     cout << "if all tests are passed, you can continue\n";
-    cout << "Choose data type:\n>>1 (for int)\n>>2 (for double)\n>>3 (for char)\n<<";
+    cout << CYAN << "Choose data type:\n>>1 (for int)\n>>2 (for double)\n>>3 (for char)\n" << RESET << "<<";
     consoleInput(dataType);
     if (dataType == 1) {
         auto *console = new ConsoleInteraction<int>;

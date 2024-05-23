@@ -16,15 +16,15 @@ public:
 
     ImmutableListSequence(const LinkedList<T> list) : base{list} {}
 
-    T getFirst() const override {
+    const T &getFirst() const override {
         return base.get_first();
     }
 
-    T getLast() const override {
+    const T &getLast() const override {
         return base.get_last();
     }
 
-    T get(int index) const override {
+    const T &get(int index) const override {
         return base.get_by_index(index);
     }
 
@@ -54,7 +54,7 @@ public:
         return newSequence;
     }
 
-    ImmutableListSequence<T>* concat(ImmutableSequence<T>* sequence) const override {
+    ImmutableListSequence<T> *concat(ImmutableSequence<T> *sequence) const override {
         LinkedList<T> newList(sequence);
         LinkedList<T> newBase = *base.concatenate(newList);
         return new ImmutableListSequence<T>(newBase);

@@ -16,15 +16,15 @@ public:
 
     MutableListSequence(const LinkedList<T> list) : base{list} {}
 
-    T getFirst() const override {
+    T &getFirst() const override {
         return base.get_first();
     }
 
-    T getLast() const override {
+    T &getLast() const override {
         return base.get_last();
     }
 
-    T get(int index) const override {
+    T &get(int index) const override {
         return base.get_by_index(index);
     }
 
@@ -48,7 +48,7 @@ public:
         base.insert_at(index, item);
     }
 
-    void concat(MutableSequence<T>* sequence) override {
+    void concat(MutableSequence<T> *sequence) override {
         for (int i = 0; i < sequence->getLength(); ++i) {
             base.list_append(sequence->get(i));
         }

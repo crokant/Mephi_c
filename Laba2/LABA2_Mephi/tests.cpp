@@ -8,6 +8,9 @@
 #include "DynamicArray.h"
 #include <cassert>
 
+#define RESET   "\033[0m"
+#define GREEN   "\033[32m"
+
 
 //test dynamic array
 void test_dynamic_array() {
@@ -28,7 +31,7 @@ void test_dynamic_array() {
 
     dynamicArr.insert_at(7, newValue);
     assert(dynamicArr.get_by_index(7) == newValue);
-    std::cout << "TEST 1 PASSED!" << std::endl;
+    std::cout << GREEN << "TEST 1 PASSED!" << RESET << std::endl;
 
 }
 
@@ -68,7 +71,7 @@ void test_linked_list() {
     delete sublist;
 
     assert(linkedList1.get_length() == 5);
-    std::cout << "TEST 2 PASSED!" << std::endl;
+    std::cout << GREEN << "TEST 2 PASSED!" << RESET << std::endl;
 
 }
 
@@ -114,7 +117,7 @@ void test_immutable_array_sequence() {
     assert(concatenatedSeq->getLength() == arrSize * 2);
     assert(concatenatedSeq->getLast() == 5);
 
-    std::cout << "TEST 3 PASSED!" << std::endl;
+    std::cout << GREEN << "TEST 3 PASSED!" << RESET << std::endl;
 }
 
 //test mutable array sequence
@@ -161,7 +164,7 @@ void test_mutable_array_sequence() {
     assert(mutableArraySeq2.getLast() == 9);
     assert(mutableArraySeq2.getLength() == arrSize + arr2Size + 3);
 
-    std::cout << "TEST 4 PASSED!" << std::endl;
+    std::cout << GREEN << "TEST 4 PASSED!" << RESET << std::endl;
 }
 
 void test_immutable_linked_list() {
@@ -205,7 +208,7 @@ void test_immutable_linked_list() {
     auto concatenatedSeq = immutableListSeq2.concat(&otherListSeq);
     assert(concatenatedSeq->getLength() == arrSize * 2);
     assert(concatenatedSeq->getLast() == 5);
-    std::cout << "TEST 5 PASSED!" << std::endl;
+    std::cout << GREEN << "TEST 5 PASSED!" << RESET << std::endl;
 }
 
 void test_mutable_linked_list() {
@@ -249,7 +252,7 @@ void test_mutable_linked_list() {
     assert(mutableListSeq2.getLength() == arrSize * 2 + 3);
     assert(mutableListSeq2.getLast() == 5);
 
-    std::cout << "TEST 6 PASSED!" << std::endl;
+    std::cout << GREEN << "TEST 6 PASSED!" << RESET << std::endl;
 }
 
 
