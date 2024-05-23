@@ -116,7 +116,7 @@ private:
     void getLastItem() {
         try {
             T item = sequence->getLast();
-            cout << "Last item is " << item << "\n";
+            cout << MAGENTA << "Last item is " << item << RESET << "\n";
         } catch (const out_of_range &e) {
             cout << "Sequence is empty\n";
         }
