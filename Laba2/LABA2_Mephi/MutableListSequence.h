@@ -16,15 +16,15 @@ public:
 
     MutableListSequence(const LinkedList<T> list) : base{list} {}
 
-    T &getFirst() const override {
+    T &getFirst() override {
         return base.get_first();
     }
 
-    T &getLast() const override {
+    T &getLast() override {
         return base.get_last();
     }
 
-    T &get(int index) const override {
+    T &get(int index) override {
         return base.get_by_index(index);
     }
 
