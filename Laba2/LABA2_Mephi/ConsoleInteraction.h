@@ -91,7 +91,6 @@ private:
         }
     }
 
-
     void getItemAt() {
         int index;
         cout << MAGENTA << "Enter index to get item" << RESET << "\n<<";

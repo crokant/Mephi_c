@@ -17,40 +17,40 @@ public:
     MutableListSequence(const LinkedList<T> list) : base{list} {}
 
     T &getFirst() override {
-        return base.get_first();
+        return base.getFirst();
     }
 
     T &getLast() override {
-        return base.get_last();
+        return base.getLast();
     }
 
     T &get(int index) override {
-        return base.get_by_index(index);
+        return base.getByIndex(index);
     }
 
     MutableListSequence<T> *getSubSequence(int startIndex, int endIndex) override {
-        return new MutableListSequence<T>(*base.get_sub_list(startIndex, endIndex));
+        return new MutableListSequence<T>(*base.getSubList(startIndex, endIndex));
     }
 
     int getLength() const override {
-        return base.get_length();
+        return base.getLength();
     }
 
     void append(const T item) override {
-        base.list_append(item);
+        base.append(item);
     }
 
     void prepend(const T item) override {
-        base.list_prepend(item);
+        base.prepend(item);
     }
 
     void insertAt(int index, const T item) override {
-        base.insert_at(index, item);
+        base.insertAt(index, item);
     }
 
     void concat(MutableSequence<T> *sequence) override {
         for (int i = 0; i < sequence->getLength(); ++i) {
-            base.list_append(sequence->get(i));
+            base.append(sequence->get(i));
         }
     }
 };

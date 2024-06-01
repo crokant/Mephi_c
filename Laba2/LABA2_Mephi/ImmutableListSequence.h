@@ -17,46 +17,58 @@ public:
     ImmutableListSequence(const LinkedList<T> list) : base{list} {}
 
     const T &getFirst() const override {
-        return base.get_first();
+        return base.getFirst();
     }
 
     const T &getLast() const override {
-        return base.get_last();
+        return base.getLast();
     }
 
     const T &get(int index) const override {
-        return base.get_by_index(index);
+        return base.getByIndex(index);
     }
 
     ImmutableListSequence<T> *getSubSequence(int startIndex, int endIndex) override {
-        return new ImmutableListSequence(*base.get_sub_list(startIndex, endIndex));
+        return new ImmutableListSequence(*base.getSubList(startIndex, endIndex));
     }
 
     int getLength() const override {
-        return base.get_length();
+        return base.getLength();
     }
 
     ImmutableListSequence<T> *append(const T item) const override {
         auto *newSequence = new ImmutableListSequence<T>(base);
-        newSequence->base.list_append(item);
+        newSequence->base.append(item);
         return newSequence;
     }
 
     ImmutableListSequence<T> *prepend(const T item) const override {
         auto *newSequence = new ImmutableListSequence<T>(base);
-        newSequence->base.list_prepend(item);
+        newSequence->base.prepend(item);
         return newSequence;
     }
 
     ImmutableListSequence<T> *insertAt(int index, const T item) const override {
         auto *newSequence = new ImmutableListSequence<T>(base);
-        newSequence->base.insert_at(index, item);
+        newSequence->base.insertAt(index, item);
         return newSequence;
     }
 
+    ImmutableListSequence<T> *concat(ImmutableSequence<T> *sequence) const override {
+        LinkedList<T> newList;
+        for (int i = 0; i < base.getLength(); ++i) {
+            newList.append(base.getByIndex(i));
+        }
+        for (int i = 0; i < sequence->getLength(); ++i) {
+            newList.append(sequence->get(i));
+        }
+        return new ImmutableListSequence<T>(newList);
+    }
+    /*
     ImmutableListSequence<T> *concat(ImmutableSequence<T> *sequence) const override {
         LinkedList<T> newList(sequence);
         LinkedList<T> newBase = *base.concatenate(newList);
         return new ImmutableListSequence<T>(newBase);
     }
+    */
 };
