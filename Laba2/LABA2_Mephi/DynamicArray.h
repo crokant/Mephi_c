@@ -76,14 +76,10 @@ public:
         if (size + 1 > allocatedMemory) {
             resize(allocatedMemory + 5);
         }
-        if (index == size) {
-            data[index] = value;
-        } else {
-            for (int i = size; i > index; --i) {
-                data[i] = data[i - 1];
-            }
-            data[index] = value;
+        for (int i = size; i > index; --i) {
+            data[i] = data[i - 1];
         }
+        data[index] = value;
         size++;
     }
 
