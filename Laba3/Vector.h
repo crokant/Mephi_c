@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <cmath>
 
+using namespace std;
 
 template<typename T>
 class Vector {
@@ -31,7 +32,7 @@ public:
 
     Vector<T> *add(Vector<T> &other) {
         if (coordinates.getLength() != other.getSize()) {
-            throw std::invalid_argument("VectorsCanNotBeAdd");
+            throw invalid_argument("VectorsCanNotBeAdd");
         }
         auto *result = new Vector<T>();
         for (int i = 0; i < coordinates.getLength(); ++i) {
@@ -42,7 +43,7 @@ public:
 
     T dotProduct(Vector<T> &other) {
         if (coordinates.getLength() != other.getSize()) {
-            throw std::invalid_argument("VectorsCanNotBeMultiply");
+            throw invalid_argument("VectorsCanNotBeMultiply");
         }
         T result = T();
         for (int i = 0; i < coordinates.getLength(); ++i) {
@@ -64,15 +65,15 @@ public:
         for (int i = 0; i < coordinates.getLength(); ++i) {
             sum += coordinates.get(i) * coordinates.get(i);
         }
-        return std::sqrt(sum);
+        return sqrt(sum);
     }
 
     void print() {
         const char *prefix = "(";
         for (int i = 0; i < coordinates.getLength(); ++i) {
-            std::cout << prefix << coordinates.get(i);
+            cout << prefix << coordinates.get(i);
             prefix = "; ";
         }
-        std::cout << ")" << std::endl;
+        cout << ")" << endl;
     }
 };
