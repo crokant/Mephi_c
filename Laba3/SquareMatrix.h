@@ -51,7 +51,7 @@ public:
         auto *result = new SquareMatrix<T>(size);
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                result->get(i, j) = this->get(i, j) * scalar;
+                result->get(i, j) = get(i, j) * scalar;
             }
         }
         return result;
@@ -61,7 +61,7 @@ public:
         T sum = T();
         for (int i = 0; i < size; ++i) {
             for (int j = 0; j < size; ++j) {
-                sum += this->get(i, j) * this->get(i, j);
+                sum += pow(get(i, j), 2);
             }
         }
         return sqrt(sum);
@@ -71,7 +71,7 @@ public:
         T sum = T();
         for (int i = 0; i < size; ++i) {
             for (int j = 0; j < size; ++j) {
-                sum += this->get(i, j) * this->get(i, j);
+                sum += pow(get(i, j), 2);
             }
         }
         cout << "Norm: " << sqrt(sum) << endl;

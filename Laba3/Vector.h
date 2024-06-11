@@ -63,7 +63,7 @@ public:
     T normCalculate() {
         T sum = T();
         for (int i = 0; i < coordinates.getLength(); ++i) {
-            sum += coordinates.get(i) * coordinates.get(i);
+            sum += pow(coordinates.get(i), 2);
         }
         return sqrt(sum);
     }
@@ -71,7 +71,7 @@ public:
     void printNorm() {
         T sum = T();
         for (int i = 0; i < coordinates.getLength(); ++i) {
-            sum += coordinates.get(i) * coordinates.get(i);
+            sum += pow(coordinates.get(i), 2);
         }
         cout << "Norm: " << sqrt(sum) << endl;
     }
