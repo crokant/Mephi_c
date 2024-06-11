@@ -68,6 +68,14 @@ public:
         return sqrt(sum);
     }
 
+    void printNorm() {
+        T sum = T();
+        for (int i = 0; i < coordinates.getLength(); ++i) {
+            sum += coordinates.get(i) * coordinates.get(i);
+        }
+        cout << "Norm: " << sqrt(sum) << endl;
+    }
+
     void print() {
         const char *prefix = "(";
         for (int i = 0; i < coordinates.getLength(); ++i) {

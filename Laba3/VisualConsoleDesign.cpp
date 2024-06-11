@@ -49,7 +49,7 @@ void vectorMainMenu(Vector<T> &vector) {
                 multiplicationByScalar(vector);
                 break;
             case 4:
-                cout << "Norm: " << vector.normCalculate() << endl;
+                vector.printNorm();
                 break;
             case 5:
                 vector.print();
@@ -58,7 +58,7 @@ void vectorMainMenu(Vector<T> &vector) {
                 cout << YELLOW << "Exiting vector operations" << RESET << "\n";
                 break;
             default:
-                cout << "Invalid choice";
+                cout << "Invalid choice\n";
         }
     } while (choice != 6);
 }
@@ -89,7 +89,7 @@ void matrixMainMenu(SquareMatrix<T> &matrix) {
                 multiplicationByScalar(matrix);
                 break;
             case 3:
-                cout << "Norm: " << matrix.normCalculate() << endl;
+                matrix.printNorm();
                 break;
             case 4:
                 rowsSwap(matrix);

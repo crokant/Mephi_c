@@ -67,6 +67,16 @@ public:
         return sqrt(sum);
     }
 
+    void printNorm() {
+        T sum = T();
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
+                sum += this->get(i, j) * this->get(i, j);
+            }
+        }
+        cout << "Norm: " << sqrt(sum) << endl;
+    }
+
     void swapRows(int row1, int row2) {
         if (row1 < 0 || row1 >= size || row2 < 0 || row2 >= size) {
             throw out_of_range("IndexOutOfRange");
