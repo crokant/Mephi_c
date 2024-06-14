@@ -83,6 +83,11 @@ public:
         size++;
     }
 
+    void set(int index, const T &value) {
+        if (index < 0 || index >= size) throw std::out_of_range("IndexOutOfRange");
+        data[index] = value;
+    }
+
     int getSize() const {
         return size;
     }

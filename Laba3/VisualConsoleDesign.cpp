@@ -20,6 +20,7 @@ int dataTypeMenu() {
                        "\n>>1 (for int)"
                        "\n>>2 (for double)"
                        "\n>>3 (for complex)"
+                       "\n>>4 Exit"
          << RESET << "\n<<";
     consoleInput(choice);
     return choice;
@@ -49,10 +50,10 @@ void vectorMainMenu(Vector<T> &vector) {
                 multiplicationByScalar(vector);
                 break;
             case 4:
-                vector.printNorm();
+                cout << "Norm: " << vector.normCalculate() << endl;
                 break;
             case 5:
-                vector.print();
+                print(vector);
                 break;
             case 6:
                 cout << YELLOW << "Exiting vector operations" << RESET << "\n";
@@ -89,7 +90,7 @@ void matrixMainMenu(SquareMatrix<T> &matrix) {
                 multiplicationByScalar(matrix);
                 break;
             case 3:
-                matrix.printNorm();
+                cout << "Norm: " << matrix.normCalculate() << endl;
                 break;
             case 4:
                 rowsSwap(matrix);
@@ -110,7 +111,7 @@ void matrixMainMenu(SquareMatrix<T> &matrix) {
                 columnsAddition(matrix);
                 break;
             case 10:
-                matrix.print();
+                print(matrix);
                 break;
             case 11:
                 cout << YELLOW << "Exiting matrix operations" << RESET << "\n";
@@ -122,35 +123,45 @@ void matrixMainMenu(SquareMatrix<T> &matrix) {
 }
 
 void vectorDataType() {
-    int choice = dataTypeMenu();
-    if (choice == 1) {
-        Vector<int> intVector = createVector<int>();
-        vectorMainMenu(intVector);
-    } else if (choice == 2) {
-        auto doubleVector = createVector<double>();
-        vectorMainMenu(doubleVector);
-    } else if (choice == 3) {
-        auto complexVector = createVector<complex<double>>();
-        vectorMainMenu(complexVector);
-    } else {
-        cout << "InvalidType" << endl;
-    }
+    int choice;
+    do {
+        choice = dataTypeMenu();
+        if (choice == 1) {
+            Vector<int> intVector = createVector<int>();
+            vectorMainMenu(intVector);
+        } else if (choice == 2) {
+            auto doubleVector = createVector<double>();
+            vectorMainMenu(doubleVector);
+        } else if (choice == 3) {
+            auto complexVector = createVector<complex<double>>();
+            vectorMainMenu(complexVector);
+        } else if (choice == 4) {
+            cout << YELLOW << "Exiting menu" << RESET << "\n";
+        } else {
+            cout << "InvalidType" << endl;
+        }
+    } while (choice != 4);
 }
 
 void matrixDataType() {
-    int choice = dataTypeMenu();
-    if (choice == 1) {
-        auto intMatrix = createMatrix<int>();
-        matrixMainMenu(intMatrix);
-    } else if (choice == 2) {
-        auto doubleMatrix = createMatrix<double>();
-        matrixMainMenu(doubleMatrix);
-    } else if (choice == 3) {
-        auto complexMatrix = createMatrix<complex<double>>();
-        matrixMainMenu(complexMatrix);
-    } else {
-        cout << "InvalidType" << endl;
-    }
+    int choice;
+    do {
+        choice = dataTypeMenu();
+        if (choice == 1) {
+            auto intMatrix = createMatrix<int>();
+            matrixMainMenu(intMatrix);
+        } else if (choice == 2) {
+            auto doubleMatrix = createMatrix<double>();
+            matrixMainMenu(doubleMatrix);
+        } else if (choice == 3) {
+            auto complexMatrix = createMatrix<complex<double>>();
+            matrixMainMenu(complexMatrix);
+        } else if (choice == 4) {
+            cout << YELLOW << "Exiting menu" << RESET << "\n";
+        } else {
+            cout << "InvalidType" << endl;
+        }
+    } while (choice != 4);
 }
 
 void startMenu() {

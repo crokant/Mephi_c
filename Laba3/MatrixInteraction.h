@@ -3,20 +3,41 @@
 #include "SquareMatrix.h"
 #include "../Laba2/LABA2_Mephi/ConsoleInput.h"
 #include <iostream>
+#include <iomanip>
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
 
 using namespace std;
 
+template<typename T>
+void print(SquareMatrix<T> &matrix) {
+    for (int i = 0; i < matrix.getSize(); ++i) {
+        cout << "+";
+        for (int j = 0; j < matrix.getSize(); ++j) {
+            cout << "-------+";
+        }
+        cout << endl << "| ";
+        for (int j = 0; j < matrix.getSize(); ++j) {
+            cout << setw(5) << matrix.get(i, j) << " | ";
+        }
+        cout << endl;
+    }
+    cout << "+";
+    for (int j = 0; j < matrix.getSize(); ++j) {
+        cout << "-------+";
+    }
+    cout << endl;
+}
 
 template<typename T>
-SquareMatrix<T> createMatrix() {
-    int size;
-    cout << "Enter size of matrix(NxN): ";
-    consoleInput(size);
+SquareMatrix<T> createMatrix(int size = -1) {
+    if (size == -1) {
+        cout << "Enter size of matrix (NxN): ";
+        consoleInput(size);
+    }
     T *elements = new T[size * size];
-    cout << "Enter elements of matrix: ";
+    cout << "Enter elements of the matrix: ";
     for (int i = 0; i < size * size; ++i) {
         consoleInput(elements[i]);
     }
@@ -27,9 +48,9 @@ SquareMatrix<T> createMatrix() {
 
 template<typename T>
 void addition(SquareMatrix<T> &matrix) {
-    cout << YELLOW << "Enter second matrix. Please don`t try to make it different size" << RESET << endl;
-    auto other = createMatrix<T>();
-    matrix.add(other)->print();
+    cout << YELLOW << "Enter second matrix. Matrices have to be the same size" << RESET << endl;
+    auto other = createMatrix<T>(matrix.getSize());
+    print(*matrix.add(other));
 }
 
 template<typename T>
@@ -37,7 +58,7 @@ void multiplicationByScalar(SquareMatrix<T> &matrix) {
     T scalar;
     cout << "Enter scalar: ";
     consoleInput(scalar);
-    matrix.multiplyByScalar(scalar)->print();
+    print(*matrix.multiplyByScalar(scalar));
 }
 
 template<typename T>

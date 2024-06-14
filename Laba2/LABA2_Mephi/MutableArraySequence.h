@@ -16,15 +16,15 @@ public:
 
     MutableArraySequence(const DynamicArray<T> array) : base{DynamicArray<T>(array)} {}
 
-    T &getFirst() override {
+    const T &getFirst() const override {
         return base.getByIndex(0);
     }
 
-    T &getLast() override {
+    const T &getLast() const override {
         return base.getByIndex(base.getSize() - 1);
     }
 
-    T &get(int index) override {
+    const T &get(int index) const override {
         return base.getByIndex(index);
     }
 
@@ -52,6 +52,13 @@ public:
 
     void insertAt(int index, const T item) override {
         base.insertAt(index, item);
+    }
+
+    void set(int index, const T &value) {
+        if (index < 0 || index >= base.getSize()) {
+            throw std::out_of_range("IndexOutOfRange");
+        }
+        base.set(index, value);
     }
 
     void concat(MutableSequence<T> *sequence) override {

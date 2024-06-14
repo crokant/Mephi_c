@@ -2,7 +2,6 @@
 
 #include "../Laba2/LABA2_Mephi/MutableArraySequence.h"
 #include <complex>
-#include <iostream>
 #include <stdexcept>
 #include <cmath>
 
@@ -22,7 +21,7 @@ public:
 
     Vector(T *items, int length) : coordinates(items, length) {}
 
-    T &get(int index) {
+    const T &get(int index) const {
         return coordinates.get(index);
     }
 
@@ -30,7 +29,7 @@ public:
         return coordinates.getLength();
     }
 
-    Vector<T> *add(Vector<T> &other) {
+    Vector<T> *add(const Vector<T> &other) const {
         if (coordinates.getLength() != other.getSize()) {
             throw invalid_argument("VectorsCanNotBeAdd");
         }
@@ -41,7 +40,7 @@ public:
         return result;
     }
 
-    T dotProduct(Vector<T> &other) {
+    T dotProduct(const Vector<T> &other) const {
         if (coordinates.getLength() != other.getSize()) {
             throw invalid_argument("VectorsCanNotBeMultiply");
         }
@@ -52,7 +51,7 @@ public:
         return result;
     }
 
-    Vector<T> *multiplyByScalar(const T &scalar) {
+    Vector<T> *multiplyByScalar(const T &scalar) const {
         auto *result = new Vector<T>();
         for (int i = 0; i < coordinates.getLength(); ++i) {
             result->append(coordinates.get(i) * scalar);
@@ -60,28 +59,11 @@ public:
         return result;
     }
 
-    T normCalculate() {
-        T sum = T();
+    T normCalculate() const {
+        T norm = T();
         for (int i = 0; i < coordinates.getLength(); ++i) {
-            sum += pow(coordinates.get(i), 2);
+            norm += pow(coordinates.get(i), 2);
         }
-        return sqrt(sum);
-    }
-
-    void printNorm() {
-        T sum = T();
-        for (int i = 0; i < coordinates.getLength(); ++i) {
-            sum += pow(coordinates.get(i), 2);
-        }
-        cout << "Norm: " << sqrt(sum) << endl;
-    }
-
-    void print() {
-        const char *prefix = "(";
-        for (int i = 0; i < coordinates.getLength(); ++i) {
-            cout << prefix << coordinates.get(i);
-            prefix = "; ";
-        }
-        cout << ")" << endl;
+        return sqrt(norm);
     }
 };

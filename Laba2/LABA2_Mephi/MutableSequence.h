@@ -6,11 +6,11 @@ class MutableSequence {
 public:
     virtual ~MutableSequence() = default;
 
-    virtual T &get(int index) = 0;
+    virtual const T &get(int index) const = 0;
 
-    virtual T &getFirst() = 0;
+    virtual const T &getFirst() const = 0;
 
-    virtual T &getLast() = 0;
+    virtual const T &getLast() const = 0;
 
     virtual MutableSequence<T> *getSubSequence(int startIndex, int endIndex) = 0;
 
