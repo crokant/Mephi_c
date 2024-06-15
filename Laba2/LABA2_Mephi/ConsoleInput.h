@@ -15,7 +15,7 @@ void consoleInput(T &target) {
     cin >> copy;
     while (cin.fail()) {
         cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << YELLOW << "Try again: " << RESET;
         cin >> copy;
     }
@@ -28,10 +28,10 @@ void consoleInputOne(T &target) {
     cin >> copy;
     while (cin.fail()) {
         cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << YELLOW << "Try again: " << RESET;
         cin >> copy;
     }
     target = copy;
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }

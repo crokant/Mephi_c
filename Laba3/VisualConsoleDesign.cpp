@@ -28,7 +28,7 @@ int dataTypeMenu() {
 
 template<typename T>
 void vectorMainMenu(Vector<T> &vector) {
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     int choice;
     do {
         cout << CYAN << "Choose an operation:\n"
@@ -43,11 +43,11 @@ void vectorMainMenu(Vector<T> &vector) {
         switch (choice) {
             case 1:
                 addition(vector);
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 2:
                 scalarMultiplication(vector);
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 3:
                 multiplicationByScalar(vector);
@@ -69,7 +69,7 @@ void vectorMainMenu(Vector<T> &vector) {
 
 template<typename T>
 void matrixMainMenu(SquareMatrix<T> &matrix) {
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     int choice;
     do {
         cout << CYAN << "Choose an operation:\n"
@@ -89,7 +89,7 @@ void matrixMainMenu(SquareMatrix<T> &matrix) {
         switch (choice) {
             case 1:
                 addition(matrix);
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 2:
                 multiplicationByScalar(matrix);
