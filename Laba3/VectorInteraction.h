@@ -3,11 +3,13 @@
 #include "Vector.h"
 #include "../Laba2/LABA2_Mephi/ConsoleInput.h"
 #include <iostream>
+#include <stdexcept>
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
 
 using namespace std;
+
 
 template<typename T>
 void print(Vector<T> &vector) {
@@ -23,7 +25,7 @@ template<typename T>
 Vector<T> createVector(int size = -1) {
     if (size == -1) {
         cout << "Enter size of vector: ";
-        consoleInput(size);
+        consoleInputOne(size);
     }
     T *items = new T[size];
     cout << "Enter elements of the vector: ";
@@ -33,7 +35,6 @@ Vector<T> createVector(int size = -1) {
     Vector<T> vector(items, size);
     delete[] items;
     return vector;
-
 }
 
 template<typename T>
@@ -54,6 +55,6 @@ template<typename T>
 void multiplicationByScalar(Vector<T> &vector) {
     T scalar;
     cout << "Enter scalar: ";
-    consoleInput(scalar);
+    consoleInputOne(scalar);
     print(*vector.multiplyByScalar(scalar));
 }

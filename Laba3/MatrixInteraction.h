@@ -6,9 +6,11 @@
 #include <iomanip>
 
 #define YELLOW  "\033[33m"
+#define RED "\033[31m"
 #define RESET   "\033[0m"
 
 using namespace std;
+
 
 template<typename T>
 void print(SquareMatrix<T> &matrix) {
@@ -34,7 +36,7 @@ template<typename T>
 SquareMatrix<T> createMatrix(int size = -1) {
     if (size == -1) {
         cout << "Enter size of matrix (NxN): ";
-        consoleInput(size);
+        consoleInputOne(size);
     }
     T *elements = new T[size * size];
     cout << "Enter elements of the matrix: ";
@@ -57,7 +59,7 @@ template<typename T>
 void multiplicationByScalar(SquareMatrix<T> &matrix) {
     T scalar;
     cout << "Enter scalar: ";
-    consoleInput(scalar);
+    consoleInputOne(scalar);
     print(*matrix.multiplyByScalar(scalar));
 }
 
@@ -65,20 +67,36 @@ template<typename T>
 void rowsSwap(SquareMatrix<T> &matrix) {
     int row1, row2;
     cout << YELLOW << "WARNING: numbers of columns and rows of matrix start from ZERO" << RESET << "\n";
-    cout << "Enter two rows to swap: ";
-    consoleInput(row1);
-    consoleInput(row2);
-    matrix.swapRows(row1, row2);
+    while (true) {
+        cout << "Enter first row to swap: ";
+        consoleInputOne(row1);
+        cout << "Enter second row to swap: ";
+        consoleInputOne(row2);
+        try {
+            matrix.swapRows(row1, row2);
+            break;
+        } catch (const out_of_range &e) {
+            cout << RED << "Error: " << RESET << e.what() << ". Try again\n";
+        }
+    }
 }
 
 template<typename T>
 void columnsSwap(SquareMatrix<T> &matrix) {
     int column1, column2;
     cout << YELLOW << "WARNING: numbers of columns and rows of matrix start from ZERO" << RESET << "\n";
-    cout << "Enter two columns to swap: ";
-    consoleInput(column1);
-    consoleInput(column2);
-    matrix.swapColumns(column1, column2);
+    while (true) {
+        cout << "Enter first column to swap: ";
+        consoleInputOne(column1);
+        cout << "Enter second column to swap: ";
+        consoleInputOne(column2);
+        try {
+            matrix.swapColumns(column1, column2);
+            break;
+        } catch (const out_of_range &e) {
+            cout << RED << "Error: " << RESET << e.what() << ". Try again\n";
+        }
+    }
 }
 
 template<typename T>
@@ -86,11 +104,18 @@ void multiplyRow(SquareMatrix<T> &matrix) {
     int row;
     T scalar;
     cout << YELLOW << "WARNING: numbers of columns and rows of matrix start from ZERO" << RESET << "\n";
-    cout << "Enter row to multiply: ";
-    consoleInput(row);
-    cout << "Enter scalar: ";
-    consoleInput(scalar);
-    matrix.multiplyRowByScalar(row, scalar);
+    while (true) {
+        cout << "Enter row to multiply: ";
+        consoleInputOne(row);
+        cout << "Enter scalar: ";
+        consoleInputOne(scalar);
+        try {
+            matrix.multiplyRowByScalar(row, scalar);
+            break;
+        } catch (const out_of_range &e) {
+            cout << RED << "Error: " << RESET << e.what() << ". Try again\n";
+        }
+    }
 }
 
 template<typename T>
@@ -98,29 +123,54 @@ void multiplyColumn(SquareMatrix<T> &matrix) {
     int column;
     T scalar;
     cout << YELLOW << "WARNING: numbers of columns and rows of matrix start from ZERO" << RESET << "\n";
-    cout << "Enter column to multiply: ";
-    consoleInput(column);
-    cout << "Enter scalar: ";
-    consoleInput(scalar);
-    matrix.multiplyColumnByScalar(column, scalar);
+    while (true) {
+        cout << "Enter column to multiply: ";
+        consoleInputOne(column);
+        cout << "Enter scalar: ";
+        consoleInputOne(scalar);
+        try {
+            matrix.multiplyColumnByScalar(column, scalar);
+            break;
+        } catch (const out_of_range &e) {
+            cout << RED << "Error: " << RESET << e.what() << ". Try again\n";
+        }
+    }
 }
 
 template<typename T>
 void rowsAddition(SquareMatrix<T> &matrix) {
     int row1, row2;
     cout << YELLOW << "WARNING: numbers of columns and rows of matrix start from ZERO" << RESET << "\n";
-    cout << "Enter two raws(1+=2): ";
-    consoleInput(row1);
-    consoleInput(row2);
-    matrix.addRows(row1, row2);
+    cout << "Enter two raws(first row += second row)\n";
+    while (true) {
+        cout << "Enter first row: ";
+        consoleInputOne(row1);
+        cout << "Enter second row: ";
+        consoleInputOne(row2);
+        try {
+            matrix.addRows(row1, row2);
+            break;
+        } catch (const out_of_range &e) {
+            cout << RED << "Error: " << RESET << e.what() << ". Try again\n";
+        }
+    }
 }
 
 template<typename T>
 void columnsAddition(SquareMatrix<T> &matrix) {
     int column1, column2;
     cout << YELLOW << "WARNING: numbers of columns and rows of matrix start from ZERO" << RESET << "\n";
-    cout << "Enter two columns(1+=2): ";
-    consoleInput(column1);
-    consoleInput(column2);
-    matrix.addColumns(column1, column2);
+    cout << "Enter two columns(first column += second column)\n";
+    while (true) {
+        cout << "Enter first column: ";
+        consoleInputOne(column1);
+        cout << "Enter second column: ";
+        consoleInputOne(column2);
+        try {
+            matrix.addColumns(column1, column2);
+            break;
+        } catch (const out_of_range &e) {
+            cout << RED << "Error: " << RESET << e.what() << ". Try again\n";
+        }
+    }
 }

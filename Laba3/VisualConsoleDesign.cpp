@@ -22,12 +22,13 @@ int dataTypeMenu() {
                        "\n>>3 (for complex)"
                        "\n>>4 Exit"
          << RESET << "\n<<";
-    consoleInput(choice);
+    consoleInputOne(choice);
     return choice;
 }
 
 template<typename T>
 void vectorMainMenu(Vector<T> &vector) {
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     int choice;
     do {
         cout << CYAN << "Choose an operation:\n"
@@ -38,13 +39,15 @@ void vectorMainMenu(Vector<T> &vector) {
                         ">>5 Print Vector\n"
                         ">>6 Exit"
              << RESET << "\n<<";
-        consoleInput(choice);
+        consoleInputOne(choice);
         switch (choice) {
             case 1:
                 addition(vector);
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
             case 2:
                 scalarMultiplication(vector);
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
             case 3:
                 multiplicationByScalar(vector);
@@ -66,25 +69,27 @@ void vectorMainMenu(Vector<T> &vector) {
 
 template<typename T>
 void matrixMainMenu(SquareMatrix<T> &matrix) {
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     int choice;
     do {
-        cout << MAGENTA << "Choose an operation:\n"
-                           ">>1 Add\n"
-                           ">>2 Multiply by Scalar\n"
-                           ">>3 Calculate Norm\n"
-                           ">>4 Swap Rows\n"
-                           ">>5 Swap Columns\n"
-                           ">>6 Multiply Row by Scalar\n"
-                           ">>7 Multiply Column by Scalar\n"
-                           ">>8 Add Rows\n"
-                           ">>9 Add Columns\n"
-                           ">>10 Print Matrix\n"
-                           ">>11 Exit"
+        cout << CYAN << "Choose an operation:\n"
+                        ">>1 Add\n"
+                        ">>2 Multiply by Scalar\n"
+                        ">>3 Calculate Norm\n"
+                        ">>4 Swap Rows\n"
+                        ">>5 Swap Columns\n"
+                        ">>6 Multiply Row by Scalar\n"
+                        ">>7 Multiply Column by Scalar\n"
+                        ">>8 Add Rows\n"
+                        ">>9 Add Columns\n"
+                        ">>10 Print Matrix\n"
+                        ">>11 Exit"
              << RESET << "\n<<";
-        consoleInput(choice);
+        consoleInputOne(choice);
         switch (choice) {
             case 1:
                 addition(matrix);
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
             case 2:
                 multiplicationByScalar(matrix);
@@ -173,7 +178,7 @@ void startMenu() {
                            ">>2 SquareMatrix\n"
                            ">>3 Exit"
              << RESET << "\n<<";
-        consoleInput(choice);
+        consoleInputOne(choice);
         switch (choice) {
             case 1:
                 vectorDataType();
