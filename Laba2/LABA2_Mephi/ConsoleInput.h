@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <limits>
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
