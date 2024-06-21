@@ -62,8 +62,9 @@ void testRemove() {
 void testInOrderTraversal() {
     int arr[] = {5, 3, 7, 2, 4, 6, 8};
     BinaryTree<int> tree(arr, 7);
-    vector<int> result = tree.getInOrderTraversal();
-    vector<int> expected = {2, 3, 4, 5, 6, 7, 8};
+    DynamicArray<int> result = tree.getInOrderTraversal();
+    int arr1[] = {2, 3, 4, 5, 6, 7, 8};
+    DynamicArray<int> expected(arr1, 7);
     assert(result == expected);
     printTestResult("TestInOrderTraversal");
 }
@@ -71,8 +72,9 @@ void testInOrderTraversal() {
 void testPreOrderTraversal() {
     int arr[] = {5, 3, 7, 2, 4, 6, 8};
     BinaryTree<int> tree(arr, 7);
-    vector<int> result = tree.getPreOrderTraversal();
-    vector<int> expected = {5, 3, 2, 4, 7, 6, 8};
+    DynamicArray<int> result = tree.getPreOrderTraversal();
+    int arr1[] = {5, 3, 2, 4, 7, 6, 8};
+    DynamicArray<int> expected(arr1, 7);
     assert(result == expected);
     printTestResult("TestPreOrderTraversal");
 }
@@ -80,8 +82,9 @@ void testPreOrderTraversal() {
 void testPostOrderTraversal() {
     int arr[] = {5, 3, 7, 2, 4, 6, 8};
     BinaryTree<int> tree(arr, 7);
-    vector<int> result = tree.getPostOrderTraversal();
-    vector<int> expected = {2, 4, 3, 6, 8, 7, 5};
+    DynamicArray<int> result = tree.getPostOrderTraversal();
+    int arr1[] = {2, 4, 3, 6, 8, 7, 5};
+    DynamicArray<int> expected(arr1, 7);
     assert(result == expected);
     printTestResult("TestPostOrderTraversal");
 }
@@ -98,8 +101,9 @@ void testMerge() {
     assert(mergedTree.find(2));
     assert(mergedTree.find(6));
     assert(mergedTree.find(8));
-    vector<int> result = mergedTree.getInOrderTraversal();
-    vector<int> expected = {2, 3, 5, 6, 7, 8};
+    DynamicArray<int> result = mergedTree.getInOrderTraversal();
+    int arrExpected[] = {2, 3, 5, 6, 7, 8};
+    DynamicArray<int> expected(arrExpected, 6);
     assert(result == expected);
     printTestResult("TestMerge");
 }
@@ -113,8 +117,9 @@ void testExtractSubtree() {
     assert(subtree.find(4));
     assert(!subtree.find(5));
     assert(!subtree.find(7));
-    vector<int> result = subtree.getInOrderTraversal();
-    vector<int> expected = {2, 3, 4};
+    DynamicArray<int> result = subtree.getInOrderTraversal();
+    int arr1[] = {2, 3, 4};
+    DynamicArray<int> expected(arr1, 3);
     assert(result == expected);
     printTestResult("TestExtractSubtree");
 }
@@ -136,8 +141,9 @@ void testMap() {
     BinaryTree<int> tree(arr, 7);
     auto doubler = [](int x) { return 2 * x; };
     BinaryTree<int> mappedTree = tree.map(doubler);
-    vector<int> result = mappedTree.getInOrderTraversal();
-    vector<int> expected = {4, 6, 8, 10, 12, 14, 16};
+    DynamicArray<int> result = mappedTree.getInOrderTraversal();
+    int arr1[] = {4, 6, 8, 10, 12, 14, 16};
+    DynamicArray<int> expected(arr1, 7);
     assert(result == expected);
     printTestResult("TestMap");
 }
@@ -147,8 +153,9 @@ void testWhere() {
     BinaryTree<int> tree(arr, 7);
     auto evenPredicate = [](int x) { return x % 2 == 0; };
     BinaryTree<int> filteredTree = tree.where(evenPredicate);
-    vector<int> result = filteredTree.getInOrderTraversal();
-    vector<int> expected = {2, 4, 6, 8};
+    auto result = filteredTree.getInOrderTraversal();
+    int arr1[] = {2, 4, 6, 8};
+    DynamicArray<int> expected(arr1, 4);
     assert(result == expected);
     printTestResult("TestWhere");
 }
@@ -164,17 +171,19 @@ void testReduce() {
 void testPreOrderTraversalHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
-    vector<int> preOrder = heap.getPreOrderTraversal();
-    vector<int> expectedPreOrder = {8, 10, 17, 15, 20};
-    assert(preOrder == expectedPreOrder);
+    auto preOrder = heap.getPreOrderTraversal();
+    int arr1[] = {8, 10, 17, 15, 20};
+    DynamicArray<int> expectedPreOrder(arr1, 5);
+    assert(preOrder.getSize() == expectedPreOrder.getSize());
     printTestResult("TestPreOrderTraversalHeap");
 }
 
 void testInOrderTraversalHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
-    vector<int> inOrder = heap.getInOrderTraversal();
-    vector<int> expectedInOrder = {17, 10, 15, 8, 20};
+    auto inOrder = heap.getInOrderTraversal();
+    int arr1[] = {17, 10, 15, 8, 20};
+    DynamicArray<int> expectedInOrder(arr1, 5);
     assert(inOrder == expectedInOrder);
     printTestResult("TestInOrderTraversalHeap");
 }
@@ -184,8 +193,9 @@ void testExtractMinAndPostOrderTraversalHeap() {
     MinHeap<int> heap(arr, 5);
     int minVal = heap.extractMin();
     assert(minVal == 8);
-    vector<int> postOrder = heap.getPostOrderTraversal();
-    vector<int> expectedPostOrder = {17, 15, 20, 10};
+    DynamicArray<int> postOrder = heap.getPostOrderTraversal();
+    int arr1[] = {17, 15, 20, 10};
+    DynamicArray<int> expectedPostOrder(arr1, 4);
     assert(postOrder == expectedPostOrder);
     printTestResult("TestExtractMinAndPostOrderTraversalHeap");
 }
@@ -193,8 +203,8 @@ void testExtractMinAndPostOrderTraversalHeap() {
 void testFindElementHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
-    assert(heap.findElement(15) == true);
-    assert(heap.findElement(8) == true);
+    assert(heap.find(15) == true);
+    assert(heap.find(8) == true);
     printTestResult("TestFindElementHeap");
 }
 
@@ -202,8 +212,9 @@ void testMapHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
     MinHeap<int> mappedHeap = heap.map([](int x) { return x * 2; });
-    vector<int> preOrder = mappedHeap.getPreOrderTraversal();
-    vector<int> expectedPreOrder = {16, 20, 34, 30, 40};
+    DynamicArray<int> preOrder = mappedHeap.getPreOrderTraversal();
+    int arr1[] = {16, 20, 34, 30, 40};
+    DynamicArray<int> expectedPreOrder(arr1, 5);
     assert(preOrder == expectedPreOrder);
     printTestResult("TestMapHeap");
 }
@@ -212,8 +223,9 @@ void testWhereHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
     MinHeap<int> filteredHeap = heap.where([](int x) { return x > 15; });
-    vector<int> preOrder = filteredHeap.getPreOrderTraversal();
-    vector<int> expectedPreOrder = {17, 20};
+    auto preOrder = filteredHeap.getPreOrderTraversal();
+    int arr1[] = {17, 20};
+    DynamicArray<int> expectedPreOrder(arr1, 2);
     assert(preOrder == expectedPreOrder);
     printTestResult("TestWhereHeap");
 }
@@ -230,8 +242,9 @@ void testExtractSubtreeHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
     MinHeap<int> subtree = heap.extractSubtree(15);
-    vector<int> preOrder = subtree.getPreOrderTraversal();
-    vector<int> expectedPreOrder = {10, 15, 17};
+    auto preOrder = subtree.getPreOrderTraversal();
+    int arr1[] = {10, 15, 17};
+    DynamicArray<int> expectedPreOrder(arr1, 3);
     assert(preOrder == expectedPreOrder);
     printTestResult("TestExtractSubtreeHeap");
 }

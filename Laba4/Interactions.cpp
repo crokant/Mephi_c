@@ -60,7 +60,7 @@ void findElementInTree(BinaryTree<int> &tree) {
 void findElementInHeap(MinHeap<int> &heap) {
     int value = generateRandomNumber(1, 100000);
     auto start = startTimer();
-    bool found = heap.findElement(value);
+    bool found = heap.find(value);
     endTimerAndPrint(start, "Finding element in MinHeap");
     cout << "Element " << (found ? "found" : "not found") << " in MinHeap" << endl;
 }

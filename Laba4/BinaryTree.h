@@ -2,6 +2,7 @@
 #include <sstream>
 #include <functional>
 #include <stdexcept>
+#include "../Laba2/LABA2_Mephi/DynamicArray.h"
 
 using namespace std;
 
@@ -201,9 +202,9 @@ private:
         }
     }
 
-    void preOrderTraversal(Node<T> *node, vector<T> &result, bool reverse = false) const {
+    void preOrderTraversal(Node<T> *node, DynamicArray<T> &result, bool reverse = false) const {
         if (node) {
-            result.push_back(node->data);
+            result.add(node->data);
             if (reverse) {
                 preOrderTraversal(node->right, result, reverse);
                 preOrderTraversal(node->left, result, reverse);
@@ -214,7 +215,7 @@ private:
         }
     }
 
-    void postOrderTraversal(Node<T> *node, vector<T> &result, bool reverse = false) const {
+    void postOrderTraversal(Node<T> *node, DynamicArray<T> &result, bool reverse = false) const {
         if (node) {
             if (reverse) {
                 postOrderTraversal(node->right, result, reverse);
@@ -223,19 +224,19 @@ private:
                 postOrderTraversal(node->left, result, reverse);
                 postOrderTraversal(node->right, result, reverse);
             }
-            result.push_back(node->data);
+            result.add(node->data);
         }
     }
 
-    void inOrderTraversal(Node<T> *node, vector<T> &result, bool reverse = false) const {
+    void inOrderTraversal(Node<T> *node, DynamicArray<T> &result, bool reverse = false) const {
         if (node) {
             if (reverse) {
                 inOrderTraversal(node->right, result, reverse);
-                result.push_back(node->data);
+                result.add(node->data);
                 inOrderTraversal(node->left, result, reverse);
             } else {
                 inOrderTraversal(node->left, result, reverse);
-                result.push_back(node->data);
+                result.add(node->data);
                 inOrderTraversal(node->right, result, reverse);
             }
         }
@@ -312,22 +313,21 @@ public:
         return oss.str();
     }
 
-    vector<T> getInOrderTraversal(bool reverse = false) const {
-        vector<T> result;
+    DynamicArray<T> getInOrderTraversal(bool reverse = false) const {
+        DynamicArray<T> result;
         inOrderTraversal(root, result, reverse);
         return result;
     }
 
-    vector<T> getPreOrderTraversal(bool reverse = false) const {
-        vector<T> result;
+    DynamicArray<T> getPreOrderTraversal(bool reverse = false) const {
+        DynamicArray<T> result;
         preOrderTraversal(root, result, reverse);
         return result;
     }
 
-    vector<T> getPostOrderTraversal(bool reverse = false) const {
-        vector<T> result;
+    DynamicArray<T> getPostOrderTraversal(bool reverse = false) const {
+        DynamicArray<T> result;
         postOrderTraversal(root, result, reverse);
         return result;
     }
 };
-

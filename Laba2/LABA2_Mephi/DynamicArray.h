@@ -88,6 +88,13 @@ public:
         data[index] = value;
     }
 
+    void add(const T &value) {
+        if (size + 1 > allocatedMemory) {
+            resize(allocatedMemory + 5);
+        }
+        data[size++] = value;
+    }
+
     int getSize() const {
         return size;
     }
@@ -100,5 +107,17 @@ public:
             resize(newSize + 5);
         }
         size = newSize;
+    }
+
+    bool operator==(const DynamicArray<T>& other) const {
+        if (size != other.size) {
+            return false;
+        }
+        for (int i = 0; i < size; ++i) {
+            if (data[i] != other.data[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 };

@@ -1,21 +1,21 @@
 #include <iostream>
 #include <stdexcept>
-#include <vector>
 #include <functional>
-#include <queue>
+#include <sstream>
+#include "../Laba2/LABA2_Mephi/DynamicArray.h"
 
 using namespace std;
 
 template<typename T>
 class MinHeap {
 private:
-    vector<T> data;
+    DynamicArray<T> data;
 
     void heapifyUp(int index) {
         if (index == 0) return;
         int parentIndex = (index - 1) / 2;
-        if (data[index] < data[parentIndex]) {
-            swap(data[index], data[parentIndex]);
+        if (data.getByIndex(index) < data.getByIndex(parentIndex)) {
+            swap(data.getByIndex(index), data.getByIndex(parentIndex));
             heapifyUp(parentIndex);
         }
     }
@@ -24,60 +24,57 @@ private:
         int leftChildIndex = 2 * index + 1;
         int rightChildIndex = 2 * index + 2;
         int smallest = index;
-
-        if (leftChildIndex < data.size() && data[leftChildIndex] < data[smallest]) {
+        if (leftChildIndex < data.getSize() && data.getByIndex(leftChildIndex) < data.getByIndex(smallest)) {
             smallest = leftChildIndex;
         }
-
-        if (rightChildIndex < data.size() && data[rightChildIndex] < data[smallest]) {
+        if (rightChildIndex < data.getSize() && data.getByIndex(rightChildIndex) < data.getByIndex(smallest)) {
             smallest = rightChildIndex;
         }
-
         if (smallest != index) {
-            swap(data[index], data[smallest]);
+            swap(data.getByIndex(index), data.getByIndex(smallest));
             heapifyDown(smallest);
         }
     }
 
-    bool findElement(int index, const T &value) const {
-        if (index >= data.size()) return false;
-        if (data[index] == value) return true;
-        if (data[index] > value) return false;
-
+    int findElement(int index, const T &value) const {
+        if (index >= data.getSize()) return -1;
+        if (data.getByIndex(index) == value) return index;
+        if (data.getByIndex(index) > value) return -1;
         return findElement(2 * index + 1, value) || findElement(2 * index + 2, value);
     }
 
-    void preOrderTraversal(int index, vector<T> &result) const {
-        if (index >= data.size()) return;
-        result.push_back(data[index]);
+    void preOrderTraversal(int index, DynamicArray<T> &result) const {
+        if (index >= data.getSize()) return;
+        result.add(data.getByIndex(index));
         preOrderTraversal(2 * index + 1, result);
         preOrderTraversal(2 * index + 2, result);
     }
 
-    void inOrderTraversal(int index, vector<T> &result) const {
-        if (index >= data.size()) return;
+    void inOrderTraversal(int index, DynamicArray<T> &result) const {
+        if (index >= data.getSize()) return;
         inOrderTraversal(2 * index + 1, result);
-        result.push_back(data[index]);
+        result.add(data.getByIndex(index));
         inOrderTraversal(2 * index + 2, result);
     }
 
-    void postOrderTraversal(int index, vector<T> &result) const {
-        if (index >= data.size()) return;
+    void postOrderTraversal(int index, DynamicArray<T> &result) const {
+        if (index >= data.getSize()) return;
         postOrderTraversal(2 * index + 1, result);
         postOrderTraversal(2 * index + 2, result);
-        result.push_back(data[index]);
+        result.add(data.getByIndex(index));
     }
 
     bool isSubtree(int mainIndex, const MinHeap &subtree, int subIndex) const {
-        if (subIndex >= subtree.data.size()) return true;
-        if (mainIndex >= data.size() || data[mainIndex] != subtree.data[subIndex]) return false;
+        if (subIndex >= subtree.data.getSize()) return true;
+        if (mainIndex >= data.getSize() || data.getByIndex(mainIndex) != subtree.data.getByIndex(subIndex))
+            return false;
         return isSubtree(2 * mainIndex + 1, subtree, 2 * subIndex + 1) &&
                isSubtree(2 * mainIndex + 2, subtree, 2 * subIndex + 2);
     }
 
     void toString(int index, ostringstream &oss) const {
-        if (index >= data.size()) return;
-        oss << data[index] << " ";
+        if (index >= data.getSize()) return;
+        oss << data.getByIndex(index) << " ";
         toString(2 * index + 1, oss);
         toString(2 * index + 2, oss);
     }
@@ -94,36 +91,37 @@ public:
     MinHeap(const MinHeap<T> &other) : data(other.data) {}
 
     void insert(const T &value) {
-        data.push_back(value);
-        heapifyUp(data.size() - 1);
+        data.add(value);
+        heapifyUp(data.getSize() - 1);
     }
 
     T extractMin() {
-        if (data.empty()) throw out_of_range("HeapIsEmpty");
-        T minValue = data[0];
-        data[0] = data.back();
-        data.pop_back();
+        if (data.getSize() == 0) throw out_of_range("HeapIsEmpty");
+        T minValue = data.getByIndex(0);
+        data.set(0, data.getByIndex(data.getSize() - 1));
+        data.setSize(data.getSize() - 1);
         heapifyDown(0);
         return minValue;
     }
 
-    bool findElement(const T &value) const {
-        return findElement(0, value);
+    bool find(const T &value) const {
+        return findElement(0, value) != -1;
     }
 
     MinHeap extractSubtree(const T &value) const {
-        int index = findElement(value);
+        int index = findElement(0, value);
         if (index == -1) throw invalid_argument("ElementNotFound");
 
         MinHeap subtree;
-        vector<int> indicesToProcess = {index};
-        while (!indicesToProcess.empty()) {
-            int currentIndex = indicesToProcess.back();
-            indicesToProcess.pop_back();
-            if (currentIndex < data.size()) {
-                subtree.insert(data[currentIndex]);
-                indicesToProcess.push_back(2 * currentIndex + 1);
-                indicesToProcess.push_back(2 * currentIndex + 2);
+        DynamicArray<int> indicesToProcess;
+        indicesToProcess.add(index);
+        while (indicesToProcess.getSize() > 0) {
+            int currentIndex = indicesToProcess.getByIndex(indicesToProcess.getSize() - 1);
+            indicesToProcess.setSize(indicesToProcess.getSize() - 1);
+            if (currentIndex < data.getSize()) {
+                subtree.insert(data.getByIndex(currentIndex));
+                indicesToProcess.add(2 * currentIndex + 1);
+                indicesToProcess.add(2 * currentIndex + 2);
             }
         }
         return subtree;
@@ -136,7 +134,7 @@ public:
     }
 
     bool containsSubtree(const MinHeap &subtree) const {
-        for (int i = 0; i < data.size(); ++i) {
+        for (int i = 0; i < data.getSize(); ++i) {
             if (isSubtree(i, subtree, 0)) {
                 return true;
             }
@@ -144,48 +142,46 @@ public:
         return false;
     }
 
-    vector<T> getPreOrderTraversal() const {
-        vector<T> result;
+    DynamicArray<T> getPreOrderTraversal() const {
+        DynamicArray<T> result;
         preOrderTraversal(0, result);
         return result;
     }
 
-    vector<T> getInOrderTraversal() const {
-        vector<T> result;
+    DynamicArray<T> getInOrderTraversal() const {
+        DynamicArray<T> result;
         inOrderTraversal(0, result);
         return result;
     }
 
-    vector<T> getPostOrderTraversal() const {
-        vector<T> result;
+    DynamicArray<T> getPostOrderTraversal() const {
+        DynamicArray<T> result;
         postOrderTraversal(0, result);
         return result;
     }
 
     MinHeap map(function<T(T)> func) const {
         MinHeap newHeap;
-        for (const T &value: data) {
-            newHeap.insert(func(value));
+        for (int i = 0; i < data.getSize(); ++i) {
+            newHeap.insert(func(data.getByIndex(i)));
         }
         return newHeap;
     }
 
     MinHeap where(function<bool(T)> predicate) const {
         MinHeap newHeap;
-        for (const T &value: data) {
-            if (predicate(value)) {
-                newHeap.insert(value);
+        for (int i = 0; i < data.getSize(); ++i) {
+            if (predicate(data.getByIndex(i))) {
+                newHeap.insert(data.getByIndex(i));
             }
         }
         return newHeap;
     }
 
     T reduce(const function<T(T, T)> &func, T init) const {
-        for (const T &value: data) {
-            init = func(init, value);
+        for (int i = 0; i < data.getSize(); ++i) {
+            init = func(init, data.getByIndex(i));
         }
         return init;
     }
 };
-
-
