@@ -153,6 +153,14 @@ void testWhere() {
     printTestResult("TestWhere");
 }
 
+void testReduce() {
+    int arr[] = {5, 3, 8, 1, 4, 7, 10};
+    BinaryTree<int> tree(arr, 7);
+    int sum = tree.reduce([](int a, int b) { return a + b; }, 0);
+    assert(sum == 38);
+    printTestResult("TestReduce");
+}
+
 void testPreOrderTraversalHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
@@ -210,6 +218,14 @@ void testWhereHeap() {
     printTestResult("TestWhereHeap");
 }
 
+void testReduceHeap() {
+    int arr[] = {5, 3, 8, 1, 4, 7, 10};
+    MinHeap<int> heap(arr, 7);
+    int product = heap.reduce([](int a, int b) { return a * b; }, 1);
+    assert(product == 33600);
+    printTestResult("TestReduceHeap");
+}
+
 void testExtractSubtreeHeap() {
     int arr[] = {10, 15, 20, 17, 8};
     MinHeap<int> heap(arr, 5);
@@ -254,6 +270,7 @@ void runBinaryTreeTests() {
     testContainsSubtree();
     testMap();
     testWhere();
+    testReduce();
 }
 
 void runMinHeapTest() {
@@ -263,6 +280,7 @@ void runMinHeapTest() {
     testFindElementHeap();
     testMapHeap();
     testWhereHeap();
+    testReduceHeap();
     testExtractSubtreeHeap();
     testContainsSubtreeHeap();
     testToStringHeap();

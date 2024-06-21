@@ -130,6 +130,15 @@ private:
         return newNode;
     }
 
+    T reduceTree(Node<T> *node, const function<T(T, T)> &func, T init) const {
+        if (!node) {
+            return init;
+        }
+        T left_result = reduceTree(node->left, func, init);
+        T right_result = reduceTree(node->right, func, init);
+        return func(node->data, func(left_result, right_result));
+    }
+
     void mergeInto(Node<T> *&head, Node<T> *node) {
         if (!node) {
             return;
@@ -271,6 +280,10 @@ public:
         BinaryTree<T> newTree;
         newTree.root = whereTree(root, predicate);
         return newTree;
+    }
+
+    T reduce(const function<T(T, T)> &func, T init) const {
+        return reduceTree(root, func, init);
     }
 
     BinaryTree<T> merge(const BinaryTree<T> &other) {

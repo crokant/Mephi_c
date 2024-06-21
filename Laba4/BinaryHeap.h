@@ -179,6 +179,13 @@ public:
         }
         return newHeap;
     }
+
+    T reduce(const function<T(T, T)> &func, T init) const {
+        for (const T &value: data) {
+            init = func(init, value);
+        }
+        return init;
+    }
 };
 
 
