@@ -3,4 +3,4 @@ project(LABA1_Mephi_Sem3)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(LABA1_Mephi_Sem3 main.cpp SmartPtr.h)
+add_executable(LABA1_Mephi_Sem3 main.cpp SharedPtr.h UniquePtr.h WeakPtr.h SmartList.h)
