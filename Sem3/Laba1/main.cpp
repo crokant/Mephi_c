@@ -1,6 +1,64 @@
 #include <iostream>
 #include <cassert>
 #include "SmartList.h"
+#include "SmartListSequence.h"
+
+void testSmartListSequence() {
+    // Тестирование конструктора по умолчанию
+    SmartListSequence<int> sequence;
+    assert(sequence.getLength() == 0);
+
+    // Тестирование конструктора с массивом
+    int items[] = {1, 2, 3, 4, 5};
+    SmartListSequence<int> sequenceWithItems(items, 5);
+    assert(sequenceWithItems.getLength() == 5);
+    assert(sequenceWithItems.getFirst() == 1);
+    assert(sequenceWithItems.getLast() == 5);
+
+    // Тестирование метода get
+    assert(sequenceWithItems.get(0) == 1);
+    assert(sequenceWithItems.get(1) == 2);
+    assert(sequenceWithItems.get(4) == 5);
+
+    // Тестирование метода getSubSequence
+    SmartListSequence<int> *subSequence = sequenceWithItems.getSubSequence(1, 3);
+    assert(subSequence->getLength() == 3);
+    assert(subSequence->get(0) == 2);
+    assert(subSequence->get(1) == 3);
+    assert(subSequence->get(2) == 4);
+   // delete subSequence; // Освобождаем память после создания подпоследовательности
+
+    // Тестирование метода append
+    sequence.append(10);
+    assert(sequence.getLength() == 1);
+    assert(sequence.getFirst() == 10);
+    assert(sequence.getLast() == 10);
+
+    // Тестирование метода prepend
+    sequence.prepend(5);
+    assert(sequence.getLength() == 2);
+    assert(sequence.getFirst() == 5);
+    assert(sequence.getLast() == 10);
+
+    // Тестирование метода insertAt
+    sequence.insertAt(1, 7);
+    assert(sequence.getLength() == 3);
+    assert(sequence.get(0) == 5);
+    assert(sequence.get(1) == 7);
+    assert(sequence.get(2) == 10);
+
+    // Тестирование объединения двух последовательностей
+    SmartListSequence<int> anotherSequence;
+    anotherSequence.append(20);
+    anotherSequence.append(30);
+
+    sequence.concat(&anotherSequence);
+    assert(sequence.getLength() == 5);
+    assert(sequence.get(3) == 20);
+    assert(sequence.get(4) == 30);
+
+    std::cout << "All tests for SmartListSequence passed!" << std::endl;
+}
 
 void testLinkedList() {
     // Создание списка
@@ -70,7 +128,7 @@ void testLinkedList() {
     assert(subList->getByIndex(1) == 1); // 1
     assert(subList->getByIndex(2) == 2); // 2
 
-    delete subList; // Освобождение памяти после создания подпоследовательности
+   // delete subList; // Освобождение памяти после создания подпоследовательности
 
     // Удаление элементов
     list = SmartList<int>(); // Очистка списка
@@ -90,12 +148,13 @@ void testLinkedList() {
     assert(combinedList->getByIndex(2) == 3);
     assert(combinedList->getByIndex(3) == 4);
 
-    delete combinedList; // Освобождение памяти после объединения
+    //delete combinedList; // Освобождение памяти после объединения
 
     std::cout << "All tests passed!" << std::endl;
 }
 
 int main() {
     testLinkedList();
+    testSmartListSequence();
     return 0;
 }
