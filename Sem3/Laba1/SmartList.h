@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include "SharedPtr.h"
 #include "WeakPtr.h"
+#include "UniquePtr.h"
 
 template<typename T>
 class Node {
@@ -80,11 +81,26 @@ public:
             return temp->data;
         }
     }
-
+/*
     SmartList<T> *getSubList(int startIndex, int endIndex) const {
         checkIndex(startIndex);
         checkIndex(endIndex);
         auto *sublist = new SmartList<T>;
+        SharedPtr<Node<T>> temp = first;
+        for (int i = 0; i < startIndex; ++i) {
+            temp = temp->right;
+        }
+        for (int i = startIndex; i <= endIndex; ++i) {
+            sublist->append(temp->data);
+            temp = temp->right;
+        }
+        return sublist;
+    }
+*/
+    UniquePtr<SmartList<T>> getSubList(int startIndex, int endIndex) const {
+        checkIndex(startIndex);
+        checkIndex(endIndex);
+        UniquePtr<SmartList<T>> sublist = UniquePtr<SmartList<T>>(new SmartList<T>);
         SharedPtr<Node<T>> temp = first;
         for (int i = 0; i < startIndex; ++i) {
             temp = temp->right;
