@@ -31,7 +31,7 @@ public:
         return new SmartListSequence<T>(*base->getSubList(startIndex, endIndex));
     }
 
-    int getLength() const {
+    [[nodiscard]] int getLength() const {
         return base->getLength();
     }
 

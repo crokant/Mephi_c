@@ -97,7 +97,7 @@ public:
         return sublist;
     }
 
-    int getLength() const {
+    [[nodiscard]] int getLength() const {
         return size;
     }
 

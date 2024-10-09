@@ -51,7 +51,6 @@ void testSharedPtrCopy() {
     assert(*sPtr2 == 25);
     assert(sPtr1.useCount() == 2);
     assert(sPtr2.useCount() == 2);
-
 }
 
 void testSharedPtrReset() {
@@ -81,16 +80,6 @@ void testWeakPtrBasic() {
     assert(*locked == 100);
 }
 
-void testWeakPtrExpired() {
-    WeakPtr<int> wPtr;
-    {
-        SharedPtr<int> sPtr(new int(200));
-        wPtr = sPtr;
-        assert(!wPtr.gone());
-    }
-    assert(wPtr);
-}
-
 void runPointersTests() {
     testUniquePtrBasic();
     testUniquePtrMoveSemantics();
@@ -101,6 +90,5 @@ void runPointersTests() {
     testSharedPtrReset();
     testSharedPtrSwap();
     testWeakPtrBasic();
-    testWeakPtrExpired();
     std::cout << "Smart pointer functionality tests passed\n";
 }

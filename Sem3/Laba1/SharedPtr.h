@@ -82,7 +82,7 @@ public:
         return ptr != nullptr;
     }
 
-    size_t useCount() const {
+    [[nodiscard]] size_t useCount() const {
         return counter ? counter->count : 0;
     }
 

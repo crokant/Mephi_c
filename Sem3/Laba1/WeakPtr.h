@@ -37,19 +37,19 @@ public:
 
     T *operator->() { return ptr; }
 
-    bool gone() const {
-        return !counter || counter->count == 0;
-    }
-
     explicit operator bool() const {
         return ptr != nullptr;
+    }
+
+    [[nodiscard]] bool gone() const {
+        return !counter || counter->count == 0;
     }
 
     SharedPtr<T> lock() const {
         return gone() ? SharedPtr<T>() : SharedPtr<T>(*this);
     }
 
-    size_t useCount() const {
+    [[nodiscard]] size_t useCount() const {
         return counter ? counter->count : 0;
     }
 
