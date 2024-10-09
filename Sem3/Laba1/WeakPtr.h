@@ -29,20 +29,20 @@ public:
         return *this;
     }
 
-    T &operator*() const {
-        return *ptr;
-    }
+    T &operator*() const { return *ptr; }
 
-    T *operator->() const {
-        return ptr;
-    }
+    T &operator*() { return *ptr; }
 
-    bool expired() const {
+    T *operator->() const { return ptr; }
+
+    T *operator->() { return ptr; }
+
+    bool gone() const {
         return !counter || counter->count == 0;
     }
 
     SharedPtr<T> lock() const {
-        return expired() ? SharedPtr<T>() : SharedPtr<T>(*this);
+        return gone() ? SharedPtr<T>() : SharedPtr<T>(*this);
     }
 
     size_t useCount() const {
@@ -53,4 +53,6 @@ public:
         ptr = nullptr;
         counter = nullptr;
     }
+
+    friend SharedPtr<T>;
 };

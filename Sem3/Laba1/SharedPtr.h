@@ -64,7 +64,11 @@ public:
 
     T &operator*() const { return *ptr; }
 
+    T &operator*() { return *ptr; }
+
     T *operator->() const { return ptr; }
+
+    T *operator->() { return ptr; }
 
     bool operator!() const {
         return ptr == nullptr;

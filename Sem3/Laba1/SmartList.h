@@ -81,22 +81,7 @@ public:
             return temp->data;
         }
     }
-/*
-    SmartList<T> *getSubList(int startIndex, int endIndex) const {
-        checkIndex(startIndex);
-        checkIndex(endIndex);
-        auto *sublist = new SmartList<T>;
-        SharedPtr<Node<T>> temp = first;
-        for (int i = 0; i < startIndex; ++i) {
-            temp = temp->right;
-        }
-        for (int i = startIndex; i <= endIndex; ++i) {
-            sublist->append(temp->data);
-            temp = temp->right;
-        }
-        return sublist;
-    }
-*/
+
     UniquePtr<SmartList<T>> getSubList(int startIndex, int endIndex) const {
         checkIndex(startIndex);
         checkIndex(endIndex);
@@ -160,8 +145,8 @@ public:
         }
     }
 
-    SmartList<T> *concatenate(const SmartList<T> &other) const {
-        auto newList = new SmartList<T>;
+    UniquePtr<SmartList<T>> concatenate(const SmartList<T> &other) const {
+        UniquePtr<SmartList<T>> newList = UniquePtr<SmartList<T>>(new SmartList<T>);
         SharedPtr<Node<T>> temp = first;
         while (temp.isValid()) {
             newList->append(temp->data);
