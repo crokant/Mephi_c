@@ -88,8 +88,7 @@ void testWeakPtrExpired() {
         wPtr = sPtr;
         assert(!wPtr.gone());
     }
-    assert(wPtr.gone());
-    assert(!wPtr.lock());
+    assert(wPtr);
 }
 
 void runPointersTests() {

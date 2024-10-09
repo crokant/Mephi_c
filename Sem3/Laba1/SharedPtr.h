@@ -78,12 +78,12 @@ public:
         return ptr != nullptr;
     }
 
-    size_t useCount() const {
-        return counter ? counter->count : 0;
+    explicit operator bool() const {
+        return ptr != nullptr;
     }
 
-    bool isValid() const {
-        return ptr != nullptr;
+    size_t useCount() const {
+        return counter ? counter->count : 0;
     }
 
     void swap(SharedPtr<T> &other) {

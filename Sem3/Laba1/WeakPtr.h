@@ -41,6 +41,10 @@ public:
         return !counter || counter->count == 0;
     }
 
+    explicit operator bool() const {
+        return ptr != nullptr;
+    }
+
     SharedPtr<T> lock() const {
         return gone() ? SharedPtr<T>() : SharedPtr<T>(*this);
     }

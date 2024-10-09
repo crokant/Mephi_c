@@ -137,7 +137,7 @@ public:
             SharedPtr<Node<T>> newNode = SharedPtr<Node<T>>(new Node<T>(value));
             newNode->right = temp->right;
             newNode->left = temp;
-            if (temp.isValid()) {
+            if (temp) {
                 temp->right->left = newNode;
             }
             temp->right = newNode;
@@ -148,12 +148,12 @@ public:
     UniquePtr<SmartList<T>> concatenate(const SmartList<T> &other) const {
         UniquePtr<SmartList<T>> newList = UniquePtr<SmartList<T>>(new SmartList<T>);
         SharedPtr<Node<T>> temp = first;
-        while (temp.isValid()) {
+        while (temp) {
             newList->append(temp->data);
             temp = temp->right;
         }
         temp = other.first;
-        while (temp.isValid()) {
+        while (temp) {
             newList->append(temp->data);
             temp = temp->right;
         }
@@ -164,7 +164,7 @@ public:
         if (this != &list) {
             destroyList();
             SharedPtr<Node<T>> temp = list.first;
-            while (temp.isValid()) {
+            while (temp) {
                 append(temp->data);
                 temp = temp->right;
             }
