@@ -74,7 +74,7 @@ void testWeakPtrBasic() {
     SharedPtr<int> sPtr(new int(100));
     WeakPtr<int> wPtr(sPtr);
     assert(wPtr.useCount() == 1);
-    assert(!wPtr.gone());
+    assert(!wPtr.expired());
     SharedPtr<int> locked = wPtr.lock();
     assert(locked);
     assert(*locked == 100);

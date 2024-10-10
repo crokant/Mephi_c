@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>
 #include "SharedPtr.h"
 
 template<typename T>
@@ -29,24 +30,44 @@ public:
         return *this;
     }
 
-    T &operator*() const { return *ptr; }
+    const T &operator*() const {
+        if (expired()) {
+            throw std::runtime_error("Attempted to access expired WeakPtr");
+        }
+        return *ptr;
+    }
 
-    T &operator*() { return *ptr; }
+    T &operator*() {
+        if (expired()) {
+            throw std::runtime_error("Attempted to access expired WeakPtr");
+        }
+        return *ptr;
+    }
 
-    T *operator->() const { return ptr; }
+    const T *operator->() const {
+        if (expired()) {
+            throw std::runtime_error("Attempted to access expired WeakPtr");
+        }
+        return ptr;
+    }
 
-    T *operator->() { return ptr; }
+    T *operator->() {
+        if (expired()) {
+            throw std::runtime_error("Attempted to access expired WeakPtr");
+        }
+        return ptr;
+    }
 
     explicit operator bool() const {
         return ptr != nullptr;
     }
 
-    [[nodiscard]] bool gone() const {
+    [[nodiscard]] bool expired() const {
         return !counter || counter->count == 0;
     }
 
     SharedPtr<T> lock() const {
-        return gone() ? SharedPtr<T>() : SharedPtr<T>(*this);
+        return expired() ? SharedPtr<T>() : SharedPtr<T>(*this);
     }
 
     [[nodiscard]] size_t useCount() const {

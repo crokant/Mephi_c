@@ -52,21 +52,21 @@ public:
         destroyList();
     }
 
-    T &getFirst() const {
+    const T &getFirst() const {
         if (!first) {
             throw std::out_of_range("ListIsEmpty");
         }
         return first->data;
     }
 
-    T &getLast() const {
+    const T &getLast() const {
         if (!last) {
             throw std::out_of_range("ListIsEmpty");
         }
         return last->data;
     }
 
-    T &getByIndex(int index) const {
+    const T &getByIndex(int index) const {
         checkIndex(index);
         if (index < size / 2) {
             SharedPtr<Node<T>> temp = first;
@@ -83,10 +83,10 @@ public:
         }
     }
 
-    UniquePtr<SmartList<T>> getSubList(int startIndex, int endIndex) const {
+    SharedPtr<SmartList<T>> getSubList(int startIndex, int endIndex) const {
         checkIndex(startIndex);
         checkIndex(endIndex);
-        UniquePtr<SmartList<T>> sublist = UniquePtr<SmartList<T>>(new SmartList<T>);
+        SharedPtr<SmartList<T>> sublist = SharedPtr<SmartList<T>>(new SmartList<T>);
         SharedPtr<Node<T>> temp = first;
         for (int i = 0; i < startIndex; ++i) {
             temp = temp->right;
@@ -128,8 +128,8 @@ public:
 
     void insertAt(int index, const T &value) {
         checkIndex(index);
-        if (index == size) {
-            append(value);
+        if (index == 0) {
+            prepend(value);
         } else {
             SharedPtr<Node<T>> temp = first;
             for (int i = 0; i < index - 1; ++i) {
@@ -146,8 +146,8 @@ public:
         }
     }
 
-    UniquePtr<SmartList<T>> concatenate(const SmartList<T> &other) const {
-        UniquePtr<SmartList<T>> newList = UniquePtr<SmartList<T>>(new SmartList<T>);
+    SharedPtr<SmartList<T>> concatenate(const SmartList<T> &other) const {
+        SharedPtr<SmartList<T>> newList = SharedPtr<SmartList<T>>(new SmartList<T>);
         SharedPtr<Node<T>> temp = first;
         while (temp) {
             newList->append(temp->data);

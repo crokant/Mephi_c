@@ -44,6 +44,11 @@ public:
         }
     }
 
+    SharedPtr(SharedPtr &&other) noexcept : ptr(other.ptr), counter(other.counter) {
+        other.ptr = nullptr;
+        other.counter = nullptr;
+    }
+
     ~SharedPtr() {
         release();
     }
@@ -60,13 +65,24 @@ public:
         return *this;
     }
 
-    T *get() const { return ptr; }
+    SharedPtr<T> &operator=(SharedPtr<T> &&other) noexcept {
+        if (this != &other) {
+            release();
+            ptr = other.ptr;
+            counter = other.counter;
+            other.ptr = nullptr;
+            other.counter = nullptr;
+        }
+        return *this;
+    }
 
-    T &operator*() const { return *ptr; }
+    T *get() { return ptr; }
+
+    const T &operator*() const { return *ptr; }
 
     T &operator*() { return *ptr; }
 
-    T *operator->() const { return ptr; }
+    const T *operator->() const { return ptr; }
 
     T *operator->() { return ptr; }
 

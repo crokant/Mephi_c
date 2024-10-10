@@ -51,7 +51,7 @@ void testSequenceGetByIndex() {
 void testSequenceSubSeq() {
     int arr[] = {5, 10, 15, 20};
     SmartListSequence<int> sequence(arr, 4);
-    UniquePtr<SmartListSequence<int>> subSequence = UniquePtr(sequence.getSubSequence(1, 2));
+    UniquePtr<Sequence<int>> subSequence = sequence.getSubSequence(1, 2);
     assert(subSequence->getLength() == 2);
     assert(subSequence->get(0) == 10);
     assert(subSequence->get(1) == 15);
@@ -62,7 +62,7 @@ void testSequenceConcat() {
     int arr2[] = {3, 4};
     SmartListSequence<int> sequence1(arr1, 2);
     SmartListSequence<int> sequence2(arr2, 2);
-    sequence1.concat(&sequence2);
+    sequence1.concat(sequence2);
     assert(sequence1.getLength() == 4);
     assert(sequence1.get(0) == 1);
     assert(sequence1.get(1) == 2);
