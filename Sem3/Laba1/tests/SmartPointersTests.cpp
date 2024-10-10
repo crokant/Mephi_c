@@ -1,7 +1,7 @@
 #include "test.h"
-#include "../Laba1/UniquePtr.h"
-#include "../Laba1/SharedPtr.h"
-#include "../Laba1/WeakPtr.h"
+#include "../UniquePtr.h"
+#include "../SharedPtr.h"
+#include "../WeakPtr.h"
 
 #include <iostream>
 #include <cassert>

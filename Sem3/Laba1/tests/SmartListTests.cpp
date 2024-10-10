@@ -1,4 +1,4 @@
-#include "../Laba1/SmartList.h"
+#include "../SmartList.h"
 #include "test.h"
 
 #include <cassert>

@@ -1,4 +1,4 @@
-#include "../tests/test.h"
+#include "tests/test.h"
 
 int main() {
     runPointersTests();

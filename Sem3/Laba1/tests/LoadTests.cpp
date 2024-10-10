@@ -1,10 +1,11 @@
+#include "../UniquePtr.h"
+#include "../SharedPtr.h"
+
 #include <iostream>
 #include <chrono>
 #include <memory>
 #include <vector>
 #include <iomanip>
-#include "../Laba1/UniquePtr.h"
-#include "../Laba1/SharedPtr.h"
 
 template<typename Func>
 long long measureTime(Func func) {

@@ -1,9 +1,10 @@
 #pragma once
 
-#include <stdexcept>
 #include "SharedPtr.h"
 #include "WeakPtr.h"
 #include "UniquePtr.h"
+
+#include <stdexcept>
 
 template<typename T>
 class Node {
