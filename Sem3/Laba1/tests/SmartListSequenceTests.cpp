@@ -51,7 +51,7 @@ void testSequenceGetByIndex() {
 void testSequenceSubSeq() {
     int arr[] = {5, 10, 15, 20};
     SmartListSequence<int> sequence(arr, 4);
-    UniquePtr<SmartListSequence<int>> subSequence = UniquePtr(sequence.getSubSequence(1, 2));
+    SharedPtr<Sequence<int>> subSequence = SharedPtr(sequence.getSubSequence(1, 2));
     assert(subSequence->getLength() == 2);
     assert(subSequence->get(0) == 10);
     assert(subSequence->get(1) == 15);

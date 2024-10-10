@@ -3,9 +3,6 @@
 #include <cstddef>
 
 template<typename T>
-class WeakPtr;
-
-template<typename T>
 class SharedPtr {
 private:
     class Counter {
@@ -19,11 +16,10 @@ private:
     Counter *counter;
 
     void release() {
-        if (counter) {
-            if (--counter->count == 0) {
-                delete ptr;
-                delete counter;
-            }
+        if (!counter) return;
+        if (--counter->count == 0) {
+            delete ptr;
+            delete counter;
         }
     }
 
@@ -33,12 +29,6 @@ public:
     explicit SharedPtr(T *ptr) : ptr(ptr), counter(new Counter()) {}
 
     SharedPtr(const SharedPtr<T> &other) : ptr(other.ptr), counter(other.counter) {
-        if (counter) {
-            counter->count++;
-        }
-    }
-
-    explicit SharedPtr(const WeakPtr<T> &other) : ptr(other.ptr), counter(other.counter) {
         if (counter) {
             counter->count++;
         }
@@ -60,13 +50,13 @@ public:
         return *this;
     }
 
-    T *get() const { return ptr; }
+    const T *get() const { return ptr; }
 
-    T &operator*() const { return *ptr; }
+    const T &operator*() const { return *ptr; }
 
     T &operator*() { return *ptr; }
 
-    T *operator->() const { return ptr; }
+    const T *operator->() const { return ptr; }
 
     T *operator->() { return ptr; }
 
@@ -100,7 +90,5 @@ public:
         ptr = nullptr;
         counter = nullptr;
     }
-
-    friend class WeakPtr<T>;
 };
 
