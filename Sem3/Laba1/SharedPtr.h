@@ -1,15 +1,20 @@
 #pragma once
 
 #include <cstddef>
+#include <stdexcept>
+
+template<typename T>
+class WeakPtr;
 
 template<typename T>
 class SharedPtr {
 private:
     class Counter {
     public:
-        size_t count;
+        size_t sharedCount;
+        size_t weakCount;
 
-        Counter() : count(1) {}
+        Counter() : sharedCount(1), weakCount(0) {}
     };
 
     T *ptr;
@@ -17,9 +22,11 @@ private:
 
     void release() {
         if (!counter) return;
-        if (--counter->count == 0) {
-            delete ptr;
+        if (--counter->sharedCount > 0) return;
+        delete ptr;
+        if (counter->weakCount == 0) {
             delete counter;
+            counter = nullptr;
         }
     }
 
@@ -30,8 +37,23 @@ public:
 
     SharedPtr(const SharedPtr<T> &other) : ptr(other.ptr), counter(other.counter) {
         if (counter) {
-            counter->count++;
+            counter->sharedCount++;
         }
+    }
+
+    explicit SharedPtr(const WeakPtr<T> &other) : ptr(other.ptr), counter(other.counter) {
+        if (counter) {
+            if (ptr) {
+                counter->sharedCount++;
+            } else {
+                throw std::runtime_error("Cannot create SharedPtr from expired WeakPtr");
+            }
+        }
+    }
+
+    SharedPtr(SharedPtr &&other) noexcept : ptr(other.ptr), counter(other.counter) {
+        other.ptr = nullptr;
+        other.counter = nullptr;
     }
 
     ~SharedPtr() {
@@ -44,13 +66,24 @@ public:
             ptr = other.ptr;
             counter = other.counter;
             if (counter) {
-                counter->count++;
+                counter->sharedCount++;
             }
         }
         return *this;
     }
 
-    const T *get() const { return ptr; }
+    SharedPtr<T> &operator=(SharedPtr<T> &&other) noexcept {
+        if (this != &other) {
+            release();
+            ptr = other.ptr;
+            counter = other.counter;
+            other.ptr = nullptr;
+            other.counter = nullptr;
+        }
+        return *this;
+    }
+
+    T *get() const { return ptr; }
 
     const T &operator*() const { return *ptr; }
 
@@ -60,12 +93,20 @@ public:
 
     T *operator->() { return ptr; }
 
+    bool operator!() const {
+        return ptr == nullptr;
+    }
+
+    bool operator!=(std::nullptr_t) const {
+        return ptr != nullptr;
+    }
+
     explicit operator bool() const {
         return ptr != nullptr;
     }
 
     [[nodiscard]] size_t useCount() const {
-        return counter ? counter->count : 0;
+        return counter ? counter->sharedCount : 0;
     }
 
     void swap(SharedPtr<T> &other) {
@@ -82,5 +123,7 @@ public:
         ptr = nullptr;
         counter = nullptr;
     }
+
+    friend class WeakPtr<T>;
 };
 

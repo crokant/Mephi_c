@@ -83,7 +83,7 @@ public:
         for (int i = 0; i < startIndex; ++i) {
             temp = temp->right;
         }
-        for (int i = startIndex; i <= endIndex; ++i) {
+        for (int i = startIndex; i <= endIndex && temp; ++i) {
             sublist->append(temp->data);
             temp = temp->right;
         }

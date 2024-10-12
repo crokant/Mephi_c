@@ -1,6 +1,7 @@
 #include "test.h"
 #include "../UniquePtr.h"
 #include "../SharedPtr.h"
+#include "../WeakPtr.h"
 
 #include <iostream>
 #include <cassert>
@@ -69,6 +70,15 @@ void testSharedPtrSwap() {
     assert(sPtr2.useCount() == 1);
 }
 
+void testWeakPtrBasic() {
+    SharedPtr<int> sPtr(new int(100));
+    WeakPtr<int> wPtr(sPtr);
+    assert(wPtr.useCount() == 1);
+    assert(!wPtr.expired());
+    SharedPtr<int> locked = wPtr.lock();
+    assert(locked);
+    assert(*locked == 100);
+}
 
 void runPointersTests() {
     testUniquePtrBasic();
@@ -79,5 +89,6 @@ void runPointersTests() {
     testSharedPtrCopy();
     testSharedPtrReset();
     testSharedPtrSwap();
+    testWeakPtrBasic();
     std::cout << "Smart pointer functionality tests passed\n";
 }

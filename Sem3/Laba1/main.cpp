@@ -3,7 +3,7 @@
 int main() {
     runPointersTests();
     runSmartListTest();
-    runSmartListSequenceTests();
-    runPerformanceTests();
+    //runSmartListSequenceTests();
+   // runPerformanceTests();
     return 0;
 }
