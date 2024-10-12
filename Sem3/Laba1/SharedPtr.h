@@ -83,7 +83,7 @@ public:
         return *this;
     }
 
-    T *get() const { return ptr; }
+    T *get() { return ptr; }
 
     const T &operator*() const { return *ptr; }
 

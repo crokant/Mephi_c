@@ -48,7 +48,7 @@ public:
         base->insertAt(index, item);
     }
 
-    void concat(Sequence<T> *sequence) override {
+    void concat(SharedPtr<Sequence<T>> sequence) override {
         for (int i = 0; i < sequence->getLength(); ++i) {
             base->append(sequence->get(i));
         }

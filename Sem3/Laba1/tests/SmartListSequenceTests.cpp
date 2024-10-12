@@ -62,7 +62,7 @@ void testSequenceConcat() {
     int arr2[] = {3, 4};
     SmartListSequence<int> sequence1(arr1, 2);
     SmartListSequence<int> sequence2(arr2, 2);
-    sequence1.concat(&sequence2);
+    sequence1.concat(SharedPtr<Sequence<int>>(&sequence2));
     assert(sequence1.getLength() == 4);
     assert(sequence1.get(0) == 1);
     assert(sequence1.get(1) == 2);

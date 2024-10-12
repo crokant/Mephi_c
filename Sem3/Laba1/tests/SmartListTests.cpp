@@ -51,7 +51,7 @@ void testGetByIndex() {
 void testSubList() {
     int arr[] = {5, 10, 15, 20};
     SmartList<int> list(arr, 4);
-    UniquePtr<SmartList<int>> subList = list.getSubList(0, 2);
+    SharedPtr<SmartList<int>> subList = list.getSubList(0, 2);
     assert(subList->getLength() == 3);
     assert(subList->getByIndex(0) == 5);
     assert(subList->getByIndex(1) == 10);
@@ -62,7 +62,7 @@ void testConcatenate() {
     int arr2[] = {3, 4};
     SmartList<int> list1(arr1, 2);
     SmartList<int> list2(arr2, 2);
-    UniquePtr<SmartList<int>> combinedList = list1.concatenate(list2);
+    SharedPtr<SmartList<int>> combinedList = list1.concatenate(list2);
     assert(combinedList->getLength() == 4);
     assert(combinedList->getByIndex(0) == 1);
     assert(combinedList->getByIndex(1) == 2);
@@ -95,16 +95,13 @@ void testDestructor() {
 }
 
 void runSmartListTest() {
-    //testAppend();
-   // testPrepend();
-   // testInsertAt();
-    //testGetByIndex();
-
-    //testSubList();
-    //testConcatenate();
-    //testDestructor();
-
+    testAppend();
+    testPrepend();
+    testInsertAt();
+    testGetByIndex();
+    testSubList();
+    testConcatenate();
+    testDestructor();
     testAssignmentOperator();
-
     std::cout << "Smart list functionality tests passed\n";
 }
