@@ -60,14 +60,6 @@ public:
 
     T *operator->() { return ptr; }
 
-    bool operator!() const {
-        return ptr == nullptr;
-    }
-
-    bool operator!=(std::nullptr_t) const {
-        return ptr != nullptr;
-    }
-
     explicit operator bool() const {
         return ptr != nullptr;
     }
