@@ -38,8 +38,7 @@ public:
     }
 
     SharedPtr<Sequence<T>> getSubSequence(int startIndex, int endIndex) override {
-        SmartList<T> subList = base->getSubList(startIndex, endIndex);
-        return SharedPtr<Sequence<T>>(new SmartListSequence<T>(subList));
+        return SharedPtr<Sequence<T>>(new SmartListSequence<T>(base->getSubList(startIndex, endIndex)));
     }
 
     [[nodiscard]] int getLength() const override {
