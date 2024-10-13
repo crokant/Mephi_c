@@ -66,7 +66,7 @@ public:
         return !counter || counter->count == 0;
     }
 
-    SharedPtr<T> lock() const {
+    SharedPtr<T> lock() {
         return expired() ? SharedPtr<T>() : SharedPtr<T>(*this);
     }
 

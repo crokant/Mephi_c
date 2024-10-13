@@ -51,10 +51,10 @@ void testGetByIndex() {
 void testSubList() {
     int arr[] = {5, 10, 15, 20};
     SmartList<int> list(arr, 4);
-    SmartList<int> subList = list.getSubList(1, 2);
-    assert(subList.getLength() == 2);
-    assert(subList.getByIndex(0) == 10);
-    assert(subList.getByIndex(1) == 15);
+    UniquePtr<SmartList<int>> subList = list.getSubList(1, 2);
+    assert(subList->getLength() == 2);
+    assert(subList->getByIndex(0) == 10);
+    assert(subList->getByIndex(1) == 15);
 }
 
 void testConcatenate() {

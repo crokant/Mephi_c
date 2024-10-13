@@ -48,6 +48,10 @@ public:
         *this = list;
     }
 
+    SmartList(SmartList &&other) noexcept : first{std::move(other.first)}, last{std::move(other.last)}, size(other.size) {
+        other.size = 0;
+    }
+
     ~SmartList() {
         destroyList();
     }
@@ -83,16 +87,16 @@ public:
         }
     }
 
-    SmartList<T> getSubList(int startIndex, int endIndex) const {
+    UniquePtr<SmartList<T>> getSubList(int startIndex, int endIndex) const {
         checkIndex(startIndex);
         checkIndex(endIndex);
-        SmartList<T> sublist;
+        UniquePtr<SmartList<T>> sublist(new SmartList<T>());
         SharedPtr<Node<T>> temp = first;
         for (int i = 0; i < startIndex; ++i) {
             temp = temp->right;
         }
         for (int i = startIndex; i <= endIndex; ++i) {
-            sublist.append(temp->data);
+            sublist->append(temp->data);
             temp = temp->right;
         }
         return sublist;
@@ -105,7 +109,8 @@ public:
     void append(const T &value) {
         SharedPtr<Node<T>> newNode = SharedPtr<Node<T>>(new Node<T>(value));
         if (!first) {
-            first = last = newNode;
+            first = newNode;
+            last = newNode;
         } else {
             last->right = newNode;
             newNode->left = last;
