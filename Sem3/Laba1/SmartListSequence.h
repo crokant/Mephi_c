@@ -16,9 +16,9 @@ public:
 
     explicit SmartListSequence(const SmartList<T> &list) : base{new SmartList<T>(list)} {}
 
-    SmartListSequence(SmartListSequence &&other) noexcept : base{std::move(other.base)} {}
+    SmartListSequence(SmartListSequence &&other) noexcept: base{std::move(other.base)} {}
 
-    SmartListSequence& operator=(const SmartListSequence &other) {
+    SmartListSequence &operator=(const SmartListSequence &other) {
         if (this != &other) {
             base.reset(new SmartList<T>(*other.base));
         }
@@ -37,8 +37,9 @@ public:
         return base->getByIndex(index);
     }
 
-    UniquePtr<Sequence<T>> getSubSequence(int startIndex, int endIndex) override {
-        return UniquePtr<Sequence<T>>(new SmartListSequence<T>(*base->getSubList(startIndex, endIndex)));
+    SharedPtr<Sequence<T>> getSubSequence(int startIndex, int endIndex) override {
+        SmartList<T> subList = base->getSubList(startIndex, endIndex);
+        return SharedPtr<Sequence<T>>(new SmartListSequence<T>(subList));
     }
 
     [[nodiscard]] int getLength() const override {

@@ -83,16 +83,16 @@ public:
         }
     }
 
-    SharedPtr<SmartList<T>> getSubList(int startIndex, int endIndex) const {
+    SmartList<T> getSubList(int startIndex, int endIndex) const {
         checkIndex(startIndex);
         checkIndex(endIndex);
-        SharedPtr<SmartList<T>> sublist = SharedPtr<SmartList<T>>(new SmartList<T>);
+        SmartList<T> sublist;
         SharedPtr<Node<T>> temp = first;
         for (int i = 0; i < startIndex; ++i) {
             temp = temp->right;
         }
         for (int i = startIndex; i <= endIndex; ++i) {
-            sublist->append(temp->data);
+            sublist.append(temp->data);
             temp = temp->right;
         }
         return sublist;

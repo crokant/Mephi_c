@@ -44,7 +44,7 @@ public:
         }
     }
 
-    SharedPtr(SharedPtr &&other) noexcept : ptr(other.ptr), counter(other.counter) {
+    SharedPtr(SharedPtr &&other) noexcept: ptr(other.ptr), counter(other.counter) {
         other.ptr = nullptr;
         other.counter = nullptr;
     }
@@ -119,4 +119,5 @@ public:
 
     friend class WeakPtr<T>;
 };
+
 

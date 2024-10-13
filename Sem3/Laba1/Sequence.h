@@ -12,7 +12,7 @@ public:
 
     virtual const T &getLast() const = 0;
 
-    virtual UniquePtr<Sequence<T>> getSubSequence(int startIndex, int endIndex) = 0;
+    virtual SharedPtr<Sequence<T>> getSubSequence(int startIndex, int endIndex) = 0;
 
     [[nodiscard]] virtual int getLength() const = 0;
 
