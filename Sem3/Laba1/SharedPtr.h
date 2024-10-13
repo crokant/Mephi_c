@@ -26,7 +26,6 @@ private:
         delete ptr;
         if (counter->weakCount == 0) {
             delete counter;
-            counter = nullptr;
         }
     }
 
@@ -92,10 +91,6 @@ public:
     const T *operator->() const { return ptr; }
 
     T *operator->() { return ptr; }
-
-    bool operator!() const {
-        return ptr == nullptr;
-    }
 
     bool operator!=(std::nullptr_t) const {
         return ptr != nullptr;

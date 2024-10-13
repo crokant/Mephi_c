@@ -14,9 +14,18 @@ public:
 
     SmartListSequence(T *items, int size) : base{new SmartList<T>(items, size)} {}
 
-    explicit SmartListSequence(const SmartList<T> list) : base{new SmartList<T>(list)} {}
+    explicit SmartListSequence(const SmartList<T> &list) : base{new SmartList<T>(list)} {}
 
-    const T &getFirst() const override {
+    SmartListSequence(SmartListSequence &&other) noexcept : base{std::move(other.base)} {}
+
+    SmartListSequence& operator=(const SmartListSequence &other) {
+        if (this != &other) {
+            base.reset(new SmartList<T>(*other.base));
+        }
+        return *this;
+    }
+
+        const T &getFirst() const override {
         return base->getFirst();
     }
 
