@@ -60,9 +60,9 @@ public:
         base->insertAt(index, item);
     }
 
-    void concat(Sequence<T> &sequence) override {
-        for (int i = 0; i < sequence.getLength(); ++i) {
-            base->append(sequence.get(i));
+    void concat(UniquePtr<Sequence<T>> sequence) override {
+        for (int i = 0; i < sequence->getLength(); ++i) {
+            base->append(sequence->get(i));
         }
     }
 };

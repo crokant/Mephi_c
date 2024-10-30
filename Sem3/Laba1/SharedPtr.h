@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <stdexcept>
 
 template<typename T>
 class WeakPtr;
@@ -10,37 +11,42 @@ class SharedPtr {
 private:
     class Counter {
     public:
-        size_t count;
+        size_t sharedCount;
+        size_t weakCount;
 
-        Counter() : count(1) {}
+        Counter() : sharedCount(1), weakCount(0) {}
     };
 
     T *ptr;
     Counter *counter;
 
     void release() {
-        if (counter) {
-            if (--counter->count == 0) {
-                delete ptr;
-                delete counter;
-            }
+        if (!counter) return;
+        if (--counter->sharedCount > 0) return;
+        delete ptr;
+        if (counter->weakCount == 0) {
+            delete counter;
         }
     }
 
 public:
     SharedPtr() : ptr(nullptr), counter(nullptr) {}
 
-    explicit SharedPtr(T *ptr) : ptr(ptr), counter(new Counter()) {}
+    explicit SharedPtr(T *ptr) : ptr(ptr), counter(ptr ? new Counter() : nullptr) {}
 
     SharedPtr(const SharedPtr<T> &other) : ptr(other.ptr), counter(other.counter) {
         if (counter) {
-            counter->count++;
+            counter->sharedCount++;
         }
     }
 
-    explicit SharedPtr(const WeakPtr<T> &other) : ptr(other.ptr), counter(other.counter) {
-        if (counter) {
-            counter->count++;
+    explicit SharedPtr(const WeakPtr<T> &other) : ptr(nullptr), counter(nullptr) {
+        if (!other.expired()) {
+            ptr = other.ptr;
+            counter = other.counter;
+            if (counter) {
+                counter->sharedCount++;
+            }
         }
     }
 
@@ -59,7 +65,7 @@ public:
             ptr = other.ptr;
             counter = other.counter;
             if (counter) {
-                counter->count++;
+                counter->sharedCount++;
             }
         }
         return *this;
@@ -76,15 +82,40 @@ public:
         return *this;
     }
 
-    T *get() { return ptr; }
+    T *get() {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null SharedPtr");
+        }
+        return ptr;
+    }
 
-    const T &operator*() const { return *ptr; }
+    const T &operator*() const {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null SharedPtr");
+        }
+        return *ptr;
+    }
 
-    T &operator*() { return *ptr; }
+    T &operator*() {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null SharedPtr");
+        }
+        return *ptr;
+    }
 
-    const T *operator->() const { return ptr; }
+    const T *operator->() const {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null SharedPtr");
+        }
+        return ptr;
+    }
 
-    T *operator->() { return ptr; }
+    T *operator->() {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null SharedPtr");
+        }
+        return ptr;
+    }
 
     bool operator!() const {
         return ptr == nullptr;
@@ -99,7 +130,7 @@ public:
     }
 
     [[nodiscard]] size_t useCount() const {
-        return counter ? counter->count : 0;
+        return counter ? counter->sharedCount : 0;
     }
 
     void swap(SharedPtr<T> &other) {

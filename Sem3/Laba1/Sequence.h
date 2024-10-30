@@ -22,5 +22,5 @@ public:
 
     virtual void insertAt(int index, const T &item) = 0;
 
-    virtual void concat(Sequence<T> &sequence) = 0;
+    virtual void concat(UniquePtr<Sequence<T>> sequence) = 0;
 };

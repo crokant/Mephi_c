@@ -62,7 +62,7 @@ void testConcatenate() {
     int arr2[] = {3, 4};
     SmartList<int> list1(arr1, 2);
     SmartList<int> list2(arr2, 2);
-    SharedPtr<SmartList<int>> combinedList = list1.concatenate(list2);
+    UniquePtr<SmartList<int>> combinedList = list1.concatenate(list2);
     assert(combinedList->getLength() == 4);
     assert(combinedList->getByIndex(0) == 1);
     assert(combinedList->getByIndex(1) == 2);

@@ -10,10 +10,9 @@ template<typename T>
 class Node {
 public:
     T data;
-    WeakPtr<Node<T>> left;
     SharedPtr<Node<T>> right;
 
-    explicit Node(const T &value) : data(value), left(), right(nullptr) {}
+    explicit Node(const T &value) : data(value), right(nullptr) {}
 };
 
 template<class T>
@@ -48,7 +47,7 @@ public:
         *this = list;
     }
 
-    SmartList(SmartList &&other) noexcept : first{std::move(other.first)}, last{std::move(other.last)}, size(other.size) {
+    SmartList(SmartList &&other) noexcept: first{std::move(other.first)}, last{std::move(other.last)}, size(other.size) {
         other.size = 0;
     }
 
@@ -72,19 +71,11 @@ public:
 
     const T &getByIndex(int index) const {
         checkIndex(index);
-        if (index < size / 2) {
-            SharedPtr<Node<T>> temp = first;
-            for (int i = 0; i < index; ++i) {
-                temp = temp->right;
-            }
-            return temp->data;
-        } else {
-            WeakPtr<Node<T>> temp = WeakPtr(last);
-            for (int i = size - 1; i > index; --i) {
-                temp = temp->left;
-            }
-            return temp->data;
+        SharedPtr<Node<T>> temp = first;
+        for (int i = 0; i < index; ++i) {
+            temp = temp->right;
         }
+        return temp->data;
     }
 
     UniquePtr<SmartList<T>> getSubList(int startIndex, int endIndex) const {
@@ -113,7 +104,6 @@ public:
             last = newNode;
         } else {
             last->right = newNode;
-            newNode->left = last;
             last = newNode;
         }
         size++;
@@ -124,7 +114,6 @@ public:
         if (!first) {
             first = last = newNode;
         } else {
-            first->left = newNode;
             newNode->right = first;
             first = newNode;
         }
@@ -132,27 +121,23 @@ public:
     }
 
     void insertAt(int index, const T &value) {
-        checkIndex(index);
         if (index == 0) {
             prepend(value);
-        } else {
-            SharedPtr<Node<T>> temp = first;
-            for (int i = 0; i < index - 1; ++i) {
-                temp = temp->right;
-            }
-            SharedPtr<Node<T>> newNode = SharedPtr<Node<T>>(new Node<T>(value));
-            newNode->right = temp->right;
-            newNode->left = temp;
-            if (temp) {
-                temp->right->left = newNode;
-            }
-            temp->right = newNode;
-            size++;
+            return;
         }
+        checkIndex(index);
+        SharedPtr<Node<T>> temp = first;
+        for (int i = 0; i < index - 1; ++i) {
+            temp = temp->right;
+        }
+        SharedPtr<Node<T>> newNode = SharedPtr<Node<T>>(new Node<T>(value));
+        newNode->right = temp->right;
+        temp->right = newNode;
+        size++;
     }
 
-    SharedPtr<SmartList<T>> concatenate(const SmartList<T> &other) const {
-        SharedPtr<SmartList<T>> newList = SharedPtr<SmartList<T>>(new SmartList<T>);
+    UniquePtr<SmartList<T>> concatenate(const SmartList<T> &other) const {
+        UniquePtr<SmartList<T>> newList(new SmartList<T>());
         SharedPtr<Node<T>> temp = first;
         while (temp) {
             newList->append(temp->data);

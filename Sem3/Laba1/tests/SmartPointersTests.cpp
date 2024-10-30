@@ -53,6 +53,18 @@ void testSharedPtrCopy() {
     assert(sPtr2.useCount() == 2);
 }
 
+void testSharedPtrException() {
+    SharedPtr<int> sPtr1(new int(25));
+    sPtr1.reset();
+    int count = 0;
+    try {
+        int *temp = sPtr1.get();
+    } catch (const std::runtime_error &e) {
+        count++;
+    }
+    assert(count = 1);
+}
+
 void testSharedPtrReset() {
     SharedPtr<int> sPtr(new int(50));
     sPtr.reset();
@@ -87,6 +99,7 @@ void runPointersTests() {
     testUniquePtrRelease();
     testSharedPtrBasic();
     testSharedPtrCopy();
+    testSharedPtrException();
     testSharedPtrReset();
     testSharedPtrSwap();
     testWeakPtrBasic();
