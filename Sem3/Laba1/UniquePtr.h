@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <stdexcept>
 
 template<typename T>
 class UniquePtr {
@@ -33,15 +34,40 @@ public:
         delete ptr;
     }
 
-    T *get() { return ptr; }
+    T *get() {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null UniquePtr");
+        }
+        return ptr;
+    }
 
-    const T &operator*() const { return *ptr; }
+    const T &operator*() const {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null UniquePtr");
+        }
+        return *ptr;
+    }
 
-    T &operator*() { return *ptr; }
+    T &operator*() {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null UniquePtr");
+        }
+        return *ptr;
+    }
 
-    const T *operator->() const { return ptr; }
+    const T *operator->() const {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null UniquePtr");
+        }
+        return ptr;
+    }
 
-    T *operator->() { return ptr; }
+    T *operator->() {
+        if (!ptr) {
+            throw std::runtime_error("Attempted to access null UniquePtr");
+        }
+        return ptr;
+    }
 
     explicit operator bool() const {
         return ptr != nullptr;

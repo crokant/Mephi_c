@@ -124,8 +124,8 @@ public:
         if (index == 0) {
             prepend(value);
             return;
-        }
-        checkIndex(index);
+        }      
+        checkIndex(index - 1);
         SharedPtr<Node<T>> temp = first;
         for (int i = 0; i < index - 1; ++i) {
             temp = temp->right;

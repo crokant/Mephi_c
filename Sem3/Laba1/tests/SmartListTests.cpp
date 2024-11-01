@@ -26,11 +26,13 @@ void testInsertAt() {
     int arr[] = {10, 20, 30};
     SmartList<int> list(arr, 3);
     list.insertAt(1, 15);
+    list.insertAt(4, 40);
     assert(list.getLength() == 4);
     assert(list.getByIndex(0) == 10);
     assert(list.getByIndex(1) == 15);
     assert(list.getByIndex(2) == 20);
     assert(list.getByIndex(3) == 30);
+    assert(list.getByIndex(4) == 40);
 }
 
 void testGetByIndex() {
