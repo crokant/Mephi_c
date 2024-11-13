@@ -46,6 +46,13 @@ public:
         }
     }
 
+    DynamicArray(DynamicArray<T> &&other) noexcept: data{other.data}, allocatedMemory{other.allocatedMemory},
+                                                    size{other.size} {
+        other.data = nullptr;
+        other.allocatedMemory = 0;
+        other.size = 0;
+    }
+
     explicit DynamicArray(const MutableSequence<T> *sequence) : allocatedMemory{sequence->getLength() + 5},
                                                                 size{sequence->getLength()} {
         this->data = new T[sequence->getLength() + 5];
@@ -131,7 +138,6 @@ public:
         size = newSize;
     }
 
-
     class Iterator {
     private:
         T *cur;
@@ -169,7 +175,7 @@ public:
 
         Iterator &operator++() {
             if (index + 1 > ptr->size)
-                throw std::out_of_range("Iterator out of working zone(++|)");
+                throw std::out_of_range("Iterator out of working zone(++)");
             ++index;
             ++cur;
             return *this;
@@ -182,8 +188,8 @@ public:
         }
 
         Iterator &operator--() {
-            if (index == 0)
-                throw std::out_of_range("Iterator out of working zone(--|)");
+            if (index < 0)
+                throw std::out_of_range("Iterator out of working zone(--)");
             --index;
             --cur;
             return *this;
