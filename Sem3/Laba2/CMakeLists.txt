@@ -10,6 +10,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup()
 
-add_executable(LABA2_Mephi_Sem3 main.cpp DataGenerator.cpp SortUI.cpp)
+add_executable(LABA2_Mephi_Sem3 main.cpp DataGenerator.cpp SortUI.cpp tests.cpp)
 
 target_link_libraries(LABA2_Mephi_Sem3 PRIVATE Qt6::Core Qt6::Widgets)

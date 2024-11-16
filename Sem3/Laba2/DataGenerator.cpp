@@ -1,7 +1,5 @@
 #include "DataGenerator.h"
 #include <random>
-#include "SortUi.h"
-
 
 int generateRandomNumber(int min, int max) {
     std::random_device rd;
