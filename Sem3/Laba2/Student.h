@@ -12,28 +12,28 @@ public:
 
     Student() : name(""), surname(""), course(0), age(0), averageScore(0.0) {}
 
-    Student(const std::string &name, const std::string &surname, int course, int age, double averageScore)
+    Student(const std::string &&name, const std::string &&surname, int course, int age, double averageScore)
             : name(name), surname(surname), course(course), age(age), averageScore(averageScore) {}
 
     ~Student() = default;
 
-    std::string getName() const {
+    [[nodiscard]] std::string getName() const {
         return name;
     }
 
-    std::string getSurname() const {
+    [[nodiscard]] std::string getSurname() const {
         return surname;
     }
 
-    int getCourse() const {
+    [[nodiscard]] int getCourse() const {
         return course;
     }
 
-    int getAge() const {
+    [[nodiscard]] int getAge() const {
         return age;
     }
 
-    double getAverageScore() const {
+    [[nodiscard]] double getAverageScore() const {
         return averageScore;
     }
 

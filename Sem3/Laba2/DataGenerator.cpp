@@ -11,7 +11,7 @@ int generateRandomNumber(int min, int max) {
 }
 
 double generateRandomDouble(int min, int max, int accuracy) {
-    double factor = pow(10, accuracy);
+    int factor = (int) pow(10, accuracy);
     int minScaled = min * factor;
     int maxScaled = max * factor;
     return generateRandomNumber(minScaled, maxScaled) / pow(10.0, accuracy);
@@ -68,15 +68,15 @@ Student generateStudent() {
     int course = generateRandomNumber(1, 4);
     double marks = generateRandomDouble(3, 5, 2);
     std::string name;
-    std::string surname = surnames[generateRandomNumber(0, surnames.size() - 1)];
+    std::string surname = surnames[generateRandomNumber(0, (int) surnames.size() - 1)];
     bool isFemale = generateRandomNumber(0, 1) == 0;
     if (isFemale) {
-        name = femaleNames[generateRandomNumber(0, femaleNames.size() - 1)];
+        name = femaleNames[generateRandomNumber(0, (int) femaleNames.size() - 1)];
         surname += "a";
     } else {
-        name = maleNames[generateRandomNumber(0, maleNames.size() - 1)];
+        name = maleNames[generateRandomNumber(0, (int) maleNames.size() - 1)];
     }
-    return Student(name, surname, course, age, marks);
+    return Student(std::move(name), std::move(surname), course, age, marks);
 }
 
 void generateStudentArray(Student *arr, int size) {
