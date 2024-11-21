@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include "../../Sem2/Laba2/LABA2_Mephi/DynamicArray.h"
+#include "Student.h"
 
 class SortUI : public QMainWindow {
 public:
@@ -18,6 +19,8 @@ public:
 
 private:
     QComboBox *sortTypeComboBox;
+    QComboBox *dataTypeComboBox;
+    QComboBox *sortByComboBox;
     QSpinBox *dataSizeSpinBox;
     QSpinBox *maxValueSpinBox;
     QSpinBox *minValueSpinBox;
@@ -28,7 +31,8 @@ private:
     QPushButton *saveToFileButton;
     QTableWidget *dataTable;
 
-    DynamicArray<int> *data;
+    DynamicArray<int> *intData;
+    DynamicArray<Student> *studentData;
 
     void setupUI();
 

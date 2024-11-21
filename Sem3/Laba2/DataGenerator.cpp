@@ -50,17 +50,17 @@ std::vector<std::string> surnames = {
         "Trofimov", "Martynov", "Emelyanov", "Gorshkov", "Chernov", "Ovchinnikov", "Seleznev", "Panfilov", "Kopylov",
         "Mikheev", "Galkin", "Nazrov", "Lobanov", "Lukin", "Belyakov", "Potapov", "Nikrasov", "Khokhlov", "Zhdanov",
         "Naumov", "Shilov", "Vorontsov", "Ermakov", "Drozdov", "Ignatyev", "Savin", "Loginov", "Safonov", "Kapustin",
-        "Kirillov", "Moiseev", "Yeliseev", "Koshelev", "Kostin", "Gorbachev", "Orekhov", "Efremov", "Isayev", "Evdokimov",
-        "Kalashnikov", "Kabanov", "Noskov", "Yudin", "Kulagin", "Lapin", "Prokhorov", "Nesterov", "Kharitonov",
-        "Agafonov", "Muravyov", "Laryonov", "Fedoseev", "Zimin", "Pakhomov", "Shubin", "Ignatov", "Filatov", "Kryukov",
-        "Rogov", "Kulakov", "Terentyev", "Molchanov", "Vladimirov", "Artemyev", "Guryev", "Zinovyev", "Grishin",
-        "Kononov", "Dementyev", "Sitnikov", "Simonov", "Mishin", "Fadeev", "Komissarov", "Mamonov", "Nosov", "Gulyaev",
-        "Sharov", "Ustinov", "Vishnyakov", "Yevseev", "Lavrentyev", "Bragin", "Konstantinov", "Kornilov", "Avdeev",
-        "Zykov", "Biryukov", "Sharapov", "Nikonomov", "Shchukin", "Dyachkov", "Odintsov", "Sazonov", "Yakushev",
-        "Krasilnikov", "Gordeyev", "Samoylov", "Knyazev", "Bespalov", "Uvarov", "Shashkov", "Bobylev", "Doronin",
-        "Belozyorov", "Roshkov", "Samsonov", "Myasnikov", "Likhachev", "Burov", "Sysoev", "Fomichev", "Rusakov",
-        "Strelkov", "Gushchin", "Teterin", "Kolobov", "Subbotin", "Fokin", "Blokhin", "Seliverstov", "Pestov",
-        "Kondratiev", "Silin", "Merkushev", "Lytkin", "Turov"
+        "Kirillov", "Moiseev", "Yeliseev", "Koshelev", "Kostin", "Gorbachev", "Orekhov", "Efremov", "Isayev",
+        "Evdokimov", "Kalashnikov", "Kabanov", "Noskov", "Yudin", "Kulagin", "Lapin", "Prokhorov", "Nesterov",
+        "Kharitonov", "Agafonov", "Muravyov", "Laryonov", "Fedoseev", "Zimin", "Pakhomov", "Shubin", "Ignatov",
+        "Filatov", "Kryukov", "Rogov", "Kulakov", "Terentyev", "Molchanov", "Vladimirov", "Artemyev", "Guryev",
+        "Zinovyev", "Grishin", "Kononov", "Dementyev", "Sitnikov", "Simonov", "Mishin", "Fadeev", "Komissarov",
+        "Mamonov", "Nosov", "Gulyaev", "Sharov", "Ustinov", "Vishnyakov", "Yevseev", "Lavrentyev", "Bragin",
+        "Konstantinov", "Kornilov", "Avdeev", "Zykov", "Biryukov", "Sharapov", "Nikonomov", "Shchukin", "Dyachkov",
+        "Odintsov", "Sazonov", "Yakushev", "Krasilnikov", "Gordeyev", "Samoylov", "Knyazev", "Bespalov", "Uvarov",
+        "Shashkov", "Bobylev", "Doronin", "Belozyorov", "Roshkov", "Samsonov", "Myasnikov", "Likhachev", "Burov",
+        "Sysoev", "Fomichev", "Rusakov", "Strelkov", "Gushchin", "Teterin", "Kolobov", "Subbotin", "Fokin", "Blokhin",
+        "Seliverstov", "Pestov", "Kondratiev", "Silin", "Merkushev", "Lytkin", "Turov"
 };
 
 Student generateStudent() {
@@ -84,3 +84,4 @@ void generateStudentArray(Student *arr, int size) {
         arr[i] = generateStudent();
     }
 }
+

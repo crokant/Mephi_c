@@ -23,15 +23,15 @@ void runPerformanceTest(ISorter<int> &sorter, const std::string &sorterName, int
     std::function<bool(const int &, const int &)> comp = [](const int &a, const int &b) { return a < b; };
     generateRandomArray(arr, dataSize, INT_MIN / 100, INT_MAX / 100);
     DynamicArray<int> dynamic(arr, dataSize);
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     sorter.sort(dynamic.begin(), dynamic.end(), comp);
 
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto end = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << std::setw(25) << std::left << sorterName
               << std::setw(10) << std::right << dataSize
-              << std::setw(15) << std::right << duration.count() << " ms" << std::endl;
+              << std::setw(20) << std::right << duration.count() << " ms" << std::endl;
 }
 
 void sortersPerformanceTest(ISorter<Student> &sorter, const std::string &sorterName) {
@@ -39,12 +39,10 @@ void sortersPerformanceTest(ISorter<Student> &sorter, const std::string &sorterN
 }
 
 void sortersPerformanceTest(ISorter<int> &sorter, const std::string &sorterName) {
-    std::cout << std::string(55, '-') << std::endl;
+    std::cout << std::string(60, '-') << std::endl;
     runPerformanceTest(sorter, sorterName, 100);
     runPerformanceTest(sorter, sorterName, 1000);
     runPerformanceTest(sorter, sorterName, 10000);
-    runPerformanceTest(sorter, sorterName, 20000);
-    runPerformanceTest(sorter, sorterName, 30000);
 }
 
 void supSortersTestStudents(ISorter<Student> &sorter, const std::string &sorterName,

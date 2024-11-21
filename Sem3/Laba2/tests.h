@@ -45,19 +45,18 @@ void runTests(bool load = false) {
             {"BinaryInsertionSorter",   new BinaryInsertionSorter<T>()}
     };
 
-    if(!load) {
+    if (!load) {
         for (auto &entry: sorters) {
             sortersFunctionalityTest(*entry.second, entry.first, 100);
         }
     } else {
         std::cout << std::setw(25) << std::left << "Sorter"
                   << std::setw(10) << std::right << "Data Size"
-                  << std::setw(20) << std::right << "Time (ms)" << std::endl;
+                  << std::setw(25) << std::right << "Time (microseconds)" << std::endl;
         for (auto &entry: sorters) {
             sortersPerformanceTest(*entry.second, entry.first);
         }
     }
-
     for (auto &entry: sorters) {
         delete entry.second;
     }

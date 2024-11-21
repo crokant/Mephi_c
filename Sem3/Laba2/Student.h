@@ -17,6 +17,26 @@ public:
 
     ~Student() = default;
 
+    std::string getName() const {
+        return name;
+    }
+
+    std::string getSurname() const {
+        return surname;
+    }
+
+    int getCourse() const {
+        return course;
+    }
+
+    int getAge() const {
+        return age;
+    }
+
+    double getAverageScore() const {
+        return averageScore;
+    }
+
     static bool compareByAge(const Student &a, const Student &b) {
         return a.age < b.age;
     }
