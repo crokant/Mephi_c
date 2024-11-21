@@ -1,66 +1,87 @@
 #include <cassert>
 #include <iostream>
+#include <chrono>
 #include "tests.h"
 #include "sorting/ISorter.h"
-#include "sorting/ShellSorter.h"
-#include "sorting/HeapSorter.h"
-#include "sorting/QuickSorter.h"
-#include "sorting/BubbleSorter.h"
-#include "sorting/CountingSorter.h"
-#include "sorting/ImprovedSelectionSorter.h"
-#include "sorting/InsertionSorter.h"
-#include "sorting/MergeSorter.h"
-#include "sorting/SelectionSorter.h"
-#include "sorting/ShakerSorter.h"
-#include "sorting/TreeSorter.h"
-#include "sorting/BinaryInsertionSorter.h"
-#include "DataGenerator.h"
 
-bool isSorted(const DynamicArray<int> &dynamic) {
+#define GREEN "\033[32m"
+#define RED   "\033[31m"
+#define RESET  "\033[0m"
+
+template<typename T>
+bool isSorted(const DynamicArray<T> &dynamic, std::function<bool(const T &, const T &)> comp) {
     for (int i = 1; i < dynamic.getSize() - 1; ++i) {
-        if (dynamic[i] < dynamic[i - 1]) {
+        if (comp(dynamic[i], dynamic[i - 1])) {
             return false;
         }
     }
     return true;
 }
 
-void sortersTest(ISorter<int> &sorter) {
-    int arr[100];
-    generateRandomArray(arr, 100, INT_MIN / 100, INT_MAX / 100);
-    DynamicArray<int> dynamic(arr, 100);
-    sorter.sort(dynamic.begin(), dynamic.end(), [](const int &a, const int &b) { return a < b; });
-    if (!isSorted(dynamic)) {
-        std::cout << "fail" << std::endl;
+void runPerformanceTest(ISorter<int> &sorter, const std::string &sorterName, int dataSize) {
+    int arr[dataSize];
+    std::function<bool(const int &, const int &)> comp = [](const int &a, const int &b) { return a < b; };
+    generateRandomArray(arr, dataSize, INT_MIN / 100, INT_MAX / 100);
+    DynamicArray<int> dynamic(arr, dataSize);
+    auto start = std::chrono::high_resolution_clock::now();
+
+    sorter.sort(dynamic.begin(), dynamic.end(), comp);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << std::setw(25) << std::left << sorterName
+              << std::setw(10) << std::right << dataSize
+              << std::setw(15) << std::right << duration.count() << " ms" << std::endl;
+}
+
+void sortersPerformanceTest(ISorter<Student> &sorter, const std::string &sorterName) {
+    std::cout << RED << sorterName << "Not realized" << RESET << std::endl;
+}
+
+void sortersPerformanceTest(ISorter<int> &sorter, const std::string &sorterName) {
+    std::cout << std::string(55, '-') << std::endl;
+    runPerformanceTest(sorter, sorterName, 100);
+    runPerformanceTest(sorter, sorterName, 1000);
+    runPerformanceTest(sorter, sorterName, 10000);
+    runPerformanceTest(sorter, sorterName, 20000);
+    runPerformanceTest(sorter, sorterName, 30000);
+}
+
+void supSortersTestStudents(ISorter<Student> &sorter, const std::string &sorterName,
+                            std::function<bool(const Student &, const Student &)> &comp, int dataSize) {
+    Student arr[dataSize];
+    generateStudentArray(arr, dataSize);
+    DynamicArray<Student> dynamic(arr, dataSize);
+    sorter.sort(dynamic.begin(), dynamic.end(), comp);
+
+    if (!isSorted(dynamic, comp)) {
+        std::cout << RED << sorterName << " test failed" << RESET << std::endl;
+    } else {
+        std::cout << GREEN << sorterName << " test passed" << RESET << std::endl;
     }
 }
 
-void test() {
-    ShellSorter<int> shellSorter;
-    HeapSorter<int> heapSorter;
-    QuickSorter<int> quickSorter;
-    BubbleSorter<int> bubbleSorter;
-    CountingSorter<int> countingSorter;
-    ImprovedSelectionSorter<int> improvedSelectionSorter;
-    InsertionSorter<int> insertionSorter;
-    MergeSorter<int> mergeSorter;
-    SelectionSorter<int> selectionSorter;
-    ShakerSorter<int> shakerSorter;
-    TreeSorter<int> treeSorter;
-    BinaryInsertionSorter<int> binaryInsertionSorter;
-
-    sortersTest(shellSorter);
-    sortersTest(heapSorter);
-    sortersTest(quickSorter);
-    sortersTest(bubbleSorter);
-    sortersTest(countingSorter);
-    sortersTest(improvedSelectionSorter);
-    sortersTest(insertionSorter);
-    sortersTest(mergeSorter);
-    sortersTest(selectionSorter);
-    sortersTest(shakerSorter);
-    sortersTest(treeSorter);
-    sortersTest(binaryInsertionSorter);
-
-    std::cout << "Sorting tests passed!" << std::endl;
+void sortersFunctionalityTest(ISorter<Student> &sorter, const std::string &sorterName, int dataSize) {
+    std::function<bool(const Student &, const Student &)> compAge = Student::compareByAge;
+    std::function<bool(const Student &, const Student &)> compScore = Student::compareByAverageScore;
+    std::function<bool(const Student &, const Student &)> compCourse = Student::compareByCourse;
+    supSortersTestStudents(sorter, sorterName + " - Students by age", compAge, dataSize);
+    supSortersTestStudents(sorter, sorterName + " - Students by average score", compScore, dataSize);
+    supSortersTestStudents(sorter, sorterName + " - Students by course", compCourse, dataSize);
 }
+
+void sortersFunctionalityTest(ISorter<int> &sorter, const std::string &sorterName, int dataSize) {
+    int arr[dataSize];
+    std::function<bool(const int &, const int &)> comp = [](const int &a, const int &b) { return a < b; };
+    generateRandomArray(arr, dataSize, INT_MIN / 100, INT_MAX / 100);
+    DynamicArray<int> dynamic(arr, dataSize);
+    sorter.sort(dynamic.begin(), dynamic.end(), comp);
+
+    if (!isSorted(dynamic, comp)) {
+        std::cout << RED << sorterName << " - int test failed" << RESET << std::endl;
+    } else {
+        std::cout << GREEN << sorterName << " - int test passed" << RESET << std::endl;
+
+    }
+}
+

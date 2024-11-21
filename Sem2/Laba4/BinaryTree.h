@@ -34,6 +34,16 @@ private:
         }
     }
 
+    void addNodeWithComp(Node<T> *&node, const T &value, const function<bool(const T&, const T&)> &comp) {
+        if (!node) {
+            node = new Node<T>(value);
+        } else if (comp(value, node->data)) {
+            addNodeWithComp(node->left, value, comp);
+        } else {
+            addNodeWithComp(node->right, value, comp);
+        }
+    }
+
     bool findNode(Node<T> *node, const T &value) const {
         if (!node) {
             return false;
@@ -260,6 +270,10 @@ public:
 
     void add(const T &value) {
         addNode(root, value);
+    }
+
+    void addWithComp(const T &value, const function<bool(const T&, const T&)> &comp) {
+        addNodeWithComp(root, value, comp);
     }
 
     bool find(const T &value) const {

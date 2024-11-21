@@ -1,10 +1,13 @@
 #include "SortUI.h"
 #include "tests.h"
+#include "Student.h"
 #include <QApplication>
 
 
 int main(int argc, char *argv[]) {
-    test();
+    runTests<int>();
+    runTests<Student>();
+    runTests<int>(true);
 
     QApplication app(argc, argv);
     SortUI mainWindow;
