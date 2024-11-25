@@ -139,6 +139,7 @@ void SortUI::onGenerateDataClicked() {
 void SortUI::onLoadFromFileClicked() {
     QString filePath = QFileDialog::getOpenFileName(this, "Выберите файл", "", "Text Files (*.txt)");
     if (filePath.isEmpty()) return;
+
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "Ошибка", "Не удалось открыть файл.");
@@ -146,23 +147,58 @@ void SortUI::onLoadFromFileClicked() {
     }
 
     QTextStream in(&file);
-    QVector<int> values;
-    while (!in.atEnd()) {
-        bool ok;
-        int value = in.readLine().toInt(&ok);
-        if (ok) {
-            values.append(value);
+    QString selectedDataType = dataTypeComboBox->currentText();
+
+    if (selectedDataType == "Целые числа") {
+        QVector<int> values;
+        while (!in.atEnd()) {
+            bool ok;
+            int value = in.readLine().toInt(&ok);
+            if (ok) {
+                values.append(value);
+            }
         }
-    }
-    file.close();
+        file.close();
 
-    delete intData;
-    intData = new DynamicArray<int>(values.size());
-    dataTable->setRowCount(values.size());
+        delete intData;
+        intData = new DynamicArray<int>(values.size());
+        dataTable->setRowCount(values.size());
 
-    for (int i = 0; i < values.size(); ++i) {
-        intData->set(i, values[i]);
-        dataTable->setItem(i, 0, new QTableWidgetItem(QString::number(values[i])));
+        for (int i = 0; i < values.size(); ++i) {
+            intData->set(i, values[i]);
+            dataTable->setItem(i, 0, new QTableWidgetItem(QString::number(values[i])));
+        }
+    } else if (selectedDataType == "Студенты") {
+        QVector<Student> students;
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            QStringList parts = line.split(" ");
+            if (parts.size() == 5) {
+                Student student(
+                        parts[0].trimmed().toStdString(),
+                        parts[1].trimmed().toStdString(),
+                        parts[2].toInt(),
+                        parts[3].toInt(),
+                        parts[4].toDouble()
+                );
+                students.append(student);
+            }
+        }
+        file.close();
+
+        delete studentData;
+        studentData = new DynamicArray<Student>(students.size());
+        dataTable->setRowCount(students.size());
+
+        for (int i = 0; i < students.size(); ++i) {
+            studentData->set(i, students[i]);
+            QString studentInfo = QString::fromStdString(students[i].getName()) + " " +
+                                  QString::fromStdString(students[i].getSurname()) + "  " +
+                                  QString::number(students[i].getCourse()) + "  " +
+                                  QString::number(students[i].getAge()) + "  " +
+                                  QString::number(students[i].getAverageScore(), 'f', 2);
+            dataTable->setItem(i, 0, new QTableWidgetItem(studentInfo));
+        }
     }
     QMessageBox::information(this, "Загрузка завершена", "Данные успешно загружены.");
 }
@@ -321,10 +357,23 @@ void SortUI::onSaveToFileClicked() {
     }
 
     QTextStream out(&file);
-    for (int i = 0; i < intData->getSize(); ++i) {
-        out << (*intData)[i] << '\n';
-    }
-    file.close();
+    QString selectedDataType = dataTypeComboBox->currentText();
 
+    if (selectedDataType == "Целые числа" && intData) {
+        for (int i = 0; i < intData->getSize(); ++i) {
+            out << (*intData)[i] << '\n';
+        }
+    } else if (selectedDataType == "Студенты" && studentData) {
+        for (int i = 0; i < studentData->getSize(); ++i) {
+            const Student &student = (*studentData)[i];
+            out << QString::fromStdString(student.getName()) << " "
+                << QString::fromStdString(student.getSurname()) << " "
+                << student.getAge() << " "
+                << student.getCourse() << " "
+                << student.getAverageScore() << '\n';
+        }
+    }
+
+    file.close();
     QMessageBox::information(this, "Сохранение завершено", "Данные успешно сохранены.");
 }
