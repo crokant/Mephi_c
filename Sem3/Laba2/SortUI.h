@@ -37,7 +37,6 @@ private:
     void setupUI();
 
 private slots:
-
     void onGenerateDataClicked();
 
     void onLoadFromFileClicked();
@@ -47,4 +46,6 @@ private slots:
     void onSortButtonClicked();
 
     void onSaveToFileClicked();
+
+    void addStudentToTable(int row, int column, const Student &student);
 };

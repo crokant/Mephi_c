@@ -21,6 +21,30 @@
 #include "DataGenerator.h"
 
 
+template<typename T>
+std::unique_ptr<ISorter<T>> getSorter(const QString &sortType) {
+    static const std::map<QString, std::function<std::unique_ptr<ISorter<T>>()>> sorterMap = {
+            {"Метод пузырька",           []() { return std::make_unique<BubbleSorter<T>>(); }},
+            {"Шейкерная сортировка",     []() { return std::make_unique<ShakerSorter<T>>(); }},
+            {"Метод простых вставок",    []() { return std::make_unique<InsertionSorter<T>>(); }},
+            {"Сортировка выбором",       []() { return std::make_unique<SelectionSorter<T>>(); }},
+            {"Сортировка подсчетом",     []() { return std::make_unique<CountingSorter<T>>(); }},
+            {"Метод двоичных вставок",   []() { return std::make_unique<BinaryInsertionSorter<T>>(); }},
+            {"Квадратичная сортировка",  []() { return std::make_unique<ImprovedSelectionSorter<T>>(); }},
+            {"Сортировка деревом",       []() { return std::make_unique<TreeSorter<T>>(); }},
+            {"Сортировка слиянием",      []() { return std::make_unique<MergeSorter<T>>(); }},
+            {"Пирамидальная сортировка", []() { return std::make_unique<HeapSorter<T>>(); }},
+            {"Быстрая сортировка",       []() { return std::make_unique<QuickSorter<T>>(); }},
+            {"Сортировка Шелла",         []() { return std::make_unique<ShellSorter<T>>(); }},
+    };
+
+    auto it = sorterMap.find(sortType);
+    if (it != sorterMap.end()) {
+        return it->second();
+    }
+    return nullptr;
+}
+
 SortUI::SortUI(QWidget *parent) : QMainWindow(parent), intData(nullptr), studentData(nullptr) {
     setupUI();
 }
@@ -125,12 +149,7 @@ void SortUI::onGenerateDataClicked() {
         for (int i = 0; i < size; ++i) {
             Student student = generateStudent();
             studentData->set(i, student);
-            QString studentInfo = QString::fromStdString(student.name) + " " +
-                                  QString::fromStdString(student.surname) + "  " +
-                                  QString::number(student.course) + "  " +
-                                  QString::number(student.age) + "  " +
-                                  QString::number(student.averageScore, 'f', 2);
-            dataTable->setItem(i, 0, new QTableWidgetItem(studentInfo));
+            addStudentToTable(i, 0, student);
         }
     }
     QMessageBox::information(this, "Генерация завершена", "Данные успешно сгенерированы.");
@@ -192,12 +211,7 @@ void SortUI::onLoadFromFileClicked() {
 
         for (int i = 0; i < students.size(); ++i) {
             studentData->set(i, students[i]);
-            QString studentInfo = QString::fromStdString(students[i].getName()) + " " +
-                                  QString::fromStdString(students[i].getSurname()) + "  " +
-                                  QString::number(students[i].getCourse()) + "  " +
-                                  QString::number(students[i].getAge()) + "  " +
-                                  QString::number(students[i].getAverageScore(), 'f', 2);
-            dataTable->setItem(i, 0, new QTableWidgetItem(studentInfo));
+            addStudentToTable(i, 0 , students[i]);
         }
     }
     QMessageBox::information(this, "Загрузка завершена", "Данные успешно загружены.");
@@ -251,34 +265,11 @@ void SortUI::onSortButtonClicked() {
             QMessageBox::warning(this, "Ошибка", "Данные для сортировки отсутствуют.");
             return;
         }
-
-        std::unique_ptr<ISorter<int>> sorter;
-        if (selectedSort == "Метод пузырька") {
-            sorter = std::make_unique<BubbleSorter<int>>();
-        } else if (selectedSort == "Шейкерная сортировка") {
-            sorter = std::make_unique<ShakerSorter<int>>();
-        } else if (selectedSort == "Метод простых вставок") {
-            sorter = std::make_unique<InsertionSorter<int>>();
-        } else if (selectedSort == "Сортировка выбором") {
-            sorter = std::make_unique<SelectionSorter<int>>();
-        } else if (selectedSort == "Сортировка подсчетом") {
-            sorter = std::make_unique<CountingSorter<int>>();
-        } else if (selectedSort == "Метод двоичных вставок") {
-            sorter = std::make_unique<BinaryInsertionSorter<int>>();
-        } else if (selectedSort == "Квадратичная сортировка") {
-            sorter = std::make_unique<ImprovedSelectionSorter<int>>();
-        } else if (selectedSort == "Сортировка деревом") {
-            sorter = std::make_unique<TreeSorter<int>>();
-        } else if (selectedSort == "Сортировка слиянием") {
-            sorter = std::make_unique<MergeSorter<int>>();
-        } else if (selectedSort == "Пирамидальная сортировка") {
-            sorter = std::make_unique<HeapSorter<int>>();
-        } else if (selectedSort == "Быстрая сортировка") {
-            sorter = std::make_unique<QuickSorter<int>>();
-        } else if (selectedSort == "Сортировка Шелла") {
-            sorter = std::make_unique<ShellSorter<int>>();
+        auto sorter = getSorter<int>(selectedSort);
+        if (!sorter) {
+            QMessageBox::warning(this, "Ошибка", "Выбранный метод сортировки не поддерживается.");
+            return;
         }
-
         sorter->sort(intData->begin(), intData->end(), [](const int &a, const int &b) { return a < b; });
         for (int i = 0; i < intData->getSize(); ++i) {
             dataTable->setItem(i, 1, new QTableWidgetItem(QString::number((*intData)[i])));
@@ -289,58 +280,30 @@ void SortUI::onSortButtonClicked() {
             QMessageBox::warning(this, "Ошибка", "Данные для сортировки отсутствуют.");
             return;
         }
+        auto sorter = getSorter<Student>(selectedSort);
+        if (!sorter) {
+            QMessageBox::warning(this, "Ошибка", "Выбранный метод сортировки не поддерживается.");
+            return;
+        }
         std::function<bool(const Student &, const Student &)> comp;
         QString selectedSortBy = sortByComboBox->currentText();
-
-        std::unique_ptr<ISorter<Student>> sorter;
-        if (selectedSort == "Метод пузырька") {
-            sorter = std::make_unique<BubbleSorter<Student>>();
-        } else if (selectedSort == "Шейкерная сортировка") {
-            sorter = std::make_unique<ShakerSorter<Student>>();
-        } else if (selectedSort == "Метод простых вставок") {
-            sorter = std::make_unique<InsertionSorter<Student>>();
-        } else if (selectedSort == "Сортировка выбором") {
-            sorter = std::make_unique<SelectionSorter<Student>>();
-        } else if (selectedSort == "Сортировка подсчетом") {
-            sorter = std::make_unique<CountingSorter<Student>>();
-        } else if (selectedSort == "Метод двоичных вставок") {
-            sorter = std::make_unique<BinaryInsertionSorter<Student>>();
-        } else if (selectedSort == "Квадратичная сортировка") {
-            sorter = std::make_unique<ImprovedSelectionSorter<Student>>();
-        } else if (selectedSort == "Сортировка деревом") {
-            sorter = std::make_unique<TreeSorter<Student>>();
-        } else if (selectedSort == "Сортировка слиянием") {
-            sorter = std::make_unique<MergeSorter<Student>>();
-        } else if (selectedSort == "Пирамидальная сортировка") {
-            sorter = std::make_unique<HeapSorter<Student>>();
-        } else if (selectedSort == "Быстрая сортировка") {
-            sorter = std::make_unique<QuickSorter<Student>>();
-        } else if (selectedSort == "Сортировка Шелла") {
-            sorter = std::make_unique<ShellSorter<Student>>();
-        }
-
         if (selectedSortBy == "Возраст") {
             comp = Student::compareByAge;
         } else if (selectedSortBy == "Курс") {
             comp = Student::compareByCourse;
         } else if (selectedSortBy == "Средний балл") {
             comp = Student::compareByAverageScore;
+        } else {
+            QMessageBox::warning(this, "Ошибка", "Выбранное поле для сортировки не поддерживается.");
+            return;
         }
         sorter->sort(studentData->begin(), studentData->end(), comp);
-
         for (int i = 0; i < studentData->getSize(); ++i) {
-            Student student = (*studentData)[i];
-            QString studentInfo = QString::fromStdString(student.getName()) + " " +
-                                  QString::fromStdString(student.getSurname()) + "  " +
-                                  QString::number(student.getCourse()) + "  " +
-                                  QString::number(student.getAge()) + "  " +
-                                  QString::number(student.getAverageScore(), 'f', 2);
-            dataTable->setItem(i, 1, new QTableWidgetItem(studentInfo));
+            addStudentToTable(i, 1, (*studentData)[i]);
         }
     }
 
     auto end = std::chrono::high_resolution_clock::now();
-
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     QMessageBox::information(this, "Сортировка завершена",
                              QString("Данные успешно отсортированы за %1 мс").arg(duration.count()));
@@ -376,4 +339,13 @@ void SortUI::onSaveToFileClicked() {
 
     file.close();
     QMessageBox::information(this, "Сохранение завершено", "Данные успешно сохранены.");
+}
+
+void SortUI::addStudentToTable(int row, int column, const Student &student) {
+    QString studentInfo = QString::fromStdString(student.getName()) + " " +
+                          QString::fromStdString(student.getSurname()) + "  " +
+                          QString::number(student.getCourse()) + "  " +
+                          QString::number(student.getAge()) + "  " +
+                          QString::number(student.getAverageScore(), 'f', 2);
+    dataTable->setItem(row, column, new QTableWidgetItem(studentInfo));
 }
