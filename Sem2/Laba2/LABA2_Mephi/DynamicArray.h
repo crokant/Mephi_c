@@ -73,6 +73,19 @@ public:
         delete[] data;
     }
 
+    DynamicArray<T>& operator=(const DynamicArray<T>& other) {
+        if (this != &other) {
+            delete[] data;
+            size = other.size;
+            allocatedMemory = other.allocatedMemory;
+            data = new T[allocatedMemory];
+            for (int i = 0; i < size; ++i) {
+                data[i] = other.data[i];
+            }
+        }
+        return *this;
+    }
+
     bool operator==(const DynamicArray<T> &other) const {
         if (size != other.size) {
             return false;
