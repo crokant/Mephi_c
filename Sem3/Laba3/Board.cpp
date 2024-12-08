@@ -83,3 +83,11 @@ GameState Board::checkGameState() const {
 
     return GameState::InProgress;
 }
+
+int Board::getEmptyCellsCount() const {
+    int count = 0;
+    for (const auto& row : grid) {
+        count += std::count(row.begin(), row.end(), CellState::Empty);
+    }
+    return count;
+}

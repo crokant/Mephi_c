@@ -1,22 +1,27 @@
-#pragma once
-
 #include "Board.h"
-#include <limits>
+#include "UnorderedMap.h"
 #include <utility>
+#include <future>
+#include <vector>
+#include <limits>
+#include <algorithm>
 
 class Bot {
 private:
     CellState aiPlayer;
     CellState humanPlayer;
+    mutable UnorderedMap<std::string, int> memo;
 
-    int minimax(Board& board, int depth, bool isMaximizing, int alpha, int beta, int maxDeapth);
+    int minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta, int maxDepth);
 
-    [[nodiscard]] int positionWeight(int x, int y, const Board& board) const;
+    [[nodiscard]] int evaluate(const Board &board) const;
 
-    [[nodiscard]] int evaluate(const Board& board) const;
+    [[nodiscard]] std::pair<int, int> findForcedMove(const Board &board, CellState player) const;
+
+    [[nodiscard]] std::string boardKey(const Board &board) const;
 
 public:
     Bot(CellState ai, CellState human);
 
-    std::pair<int, int> getBestMove(Board& board);
+    std::pair<int, int> getBestMove(Board &board);
 };

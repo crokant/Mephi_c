@@ -20,5 +20,6 @@ public:
     [[nodiscard]] CellState getCell(int x, int y) const;
     [[nodiscard]] GameState checkGameState() const;
     [[nodiscard]] int getSize() const;
+    [[nodiscard]] int getEmptyCellsCount() const;
 };
 
