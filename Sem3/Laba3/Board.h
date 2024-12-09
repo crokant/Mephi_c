@@ -13,7 +13,6 @@ private:
 
 public:
     explicit Board(int boardSize);
-    void printBoard() const;
     [[nodiscard]] bool isFull() const;
     [[nodiscard]] bool isCellEmpty(int x, int y) const;
     void setCell(int x, int y, CellState state);

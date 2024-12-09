@@ -3,18 +3,6 @@
 
 Board::Board(int boardSize) : size(boardSize), grid(boardSize, std::vector<CellState>(boardSize, CellState::Empty)) {}
 
-void Board::printBoard() const {
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            char symbol = '.';
-            if (grid[i][j] == CellState::Cross) symbol = 'X';
-            if (grid[i][j] == CellState::Nought) symbol = 'O';
-            std::cout << symbol << " ";
-        }
-        std::cout << "\n";
-    }
-}
-
 bool Board::isFull() const {
     for (const auto& row : grid)
         for (auto cell : row)

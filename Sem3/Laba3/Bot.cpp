@@ -81,7 +81,7 @@ std::pair<int, int> Bot::getBestMove(Board &board) {
     int bestScore = std::numeric_limits<int>::min();
     std::pair<int, int> bestMove = {-1, -1};
 
-    int maxDepth = board.getEmptyCellsCount() > 15 ? 3 : 15;
+    int maxDepth = board.getEmptyCellsCount() > 10 ? 2 : 10;
 
     auto forcedMove = findForcedMove(board, aiPlayer);
     if (forcedMove.first != -1) {

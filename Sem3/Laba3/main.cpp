@@ -1,12 +1,11 @@
-#include "Game.h"
+#include <QApplication>
+#include "TictactoeUI.h"
 
-int main() {
-    int size;
-    std::cout << "Enter board size: ";
-    std::cin >> size;
+int main(int argc, char* argv[]) {
+    QApplication app(argc, argv);
 
-    Game game(size);
-    game.start();
+    TictactoeUI tictactoeWindow;
+    tictactoeWindow.show();
 
-    return 0;
+    return app.exec();
 }

@@ -10,6 +10,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup()
 
-add_executable(LABA3_Mephi_Sem3 main.cpp Board.h Board.cpp Bot.h Bot.cpp Game.h Game.cpp UnorderedMap.h)
+add_executable(LABA3_Mephi_Sem3 main.cpp Board.h Board.cpp Bot.h Bot.cpp Game.h Game.cpp UnorderedMap.h TictactoeUI.cpp)
 
 target_link_libraries(LABA3_Mephi_Sem3 PRIVATE Qt6::Core Qt6::Widgets)
