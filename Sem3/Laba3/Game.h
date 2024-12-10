@@ -10,6 +10,7 @@ public:
     CellState currentPlayer;
 
     void botMove();
+
     explicit Game(int boardSize);
 };
 

@@ -3,6 +3,7 @@
 #include "../../Sem2/Laba2/LABA2_Mephi/LinkedList.h"
 #include "../../Sem2/Laba2/LABA2_Mephi/DynamicArray.h"
 #include <string>
+#include <functional>
 
 template<typename K, typename V>
 class UnorderedMap {
@@ -16,6 +17,7 @@ private:
 
     DynamicArray<LinkedList<KeyValuePair>> table;
     int bucketCount;
+    int elementCount;
 
     size_t hash(const K &key) const {
         std::hash<K> hasher;
@@ -23,7 +25,7 @@ private:
     }
 
 public:
-    explicit UnorderedMap(int size = 10) : bucketCount(size), table(size) {}
+    explicit UnorderedMap(int size = 10) : bucketCount(size), table(size), elementCount(0) {}
 
     void insert(const K &key, const V &value) {
         size_t index = hash(key);
@@ -36,6 +38,7 @@ public:
             }
         }
         bucket.append(KeyValuePair(key, value));
+        ++elementCount;
     }
 
     bool find(const K &key, V &value) const {
@@ -54,5 +57,9 @@ public:
     bool contains(const K &key) const {
         V dummy;
         return find(key, dummy);
+    }
+
+    [[nodiscard]] int size() const {
+        return elementCount;
     }
 };

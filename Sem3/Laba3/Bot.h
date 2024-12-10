@@ -1,10 +1,7 @@
+#pragma once
+
 #include "Board.h"
 #include "UnorderedMap.h"
-#include <utility>
-#include <future>
-#include <vector>
-#include <limits>
-#include <algorithm>
 
 class Bot {
 private:

@@ -19,7 +19,7 @@ TictactoeUI::TictactoeUI(QWidget *parent)
 void TictactoeUI::createUI() {
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setFont(QFont("Arial", 24, QFont::Bold));
-    titleLabel->setStyleSheet("color: #444;");
+    titleLabel->setStyleSheet("color: #555;");
     newGameButton->setFont(QFont("Arial", 16));
     newGameButton->setStyleSheet("background-color: #4CAF50; color: white; padding: 10px; border-radius: 7px;");
 
@@ -117,3 +117,4 @@ void TictactoeUI::updateBoard() {
 void TictactoeUI::onNewGameClicked() {
     resetGame();
 }
+
