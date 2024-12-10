@@ -36,7 +36,7 @@ std::pair<int, int> Bot::findForcedMove(const Board &board, CellState player) co
     return {-1, -1};
 }
 
-int Bot::minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta, int maxDepth) {
+int Bot::minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta) {
     std::string key = boardKey(board);
 
     int cachedScore;
@@ -45,7 +45,7 @@ int Bot::minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta
     }
 
     int score = evaluate(board);
-    if (score != 0 || board.checkGameState() == GameState::Draw || depth >= maxDepth) {
+    if (score != 0 || board.checkGameState() == GameState::Draw) {
         memo.insert(key, score);
         return score;
     }
@@ -56,7 +56,7 @@ int Bot::minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta
         for (int j = 0; j < board.getSize(); ++j) {
             if (board.isCellEmpty(i, j)) {
                 board.setCell(i, j, isMaximizing ? aiPlayer : humanPlayer);
-                int currentScore = minimax(board, depth + 1, !isMaximizing, alpha, beta, maxDepth);
+                int currentScore = minimax(board, depth + 1, !isMaximizing, alpha, beta);
                 board.setCell(i, j, CellState::Empty);
 
                 if (isMaximizing) {
@@ -81,8 +81,6 @@ std::pair<int, int> Bot::getBestMove(Board &board) {
     int bestScore = std::numeric_limits<int>::min();
     std::pair<int, int> bestMove = {-1, -1};
 
-    int maxDepth = board.getEmptyCellsCount() > 10 ? 2 : 10;
-
     auto forcedMove = findForcedMove(board, aiPlayer);
     if (forcedMove.first != -1) {
         return forcedMove;
@@ -97,7 +95,7 @@ std::pair<int, int> Bot::getBestMove(Board &board) {
         for (int j = 0; j < board.getSize(); ++j) {
             if (board.isCellEmpty(i, j)) {
                 board.setCell(i, j, aiPlayer);
-                int score = minimax(board, 0, false, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), maxDepth);
+                int score = minimax(board, 0, false, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
                 board.setCell(i, j, CellState::Empty);
 
                 if (score > bestScore) {

@@ -4,8 +4,6 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QSpinBox>
 #include <QLabel>
 #include "Game.h"
 
@@ -16,13 +14,12 @@ private:
     QVector<QPushButton*> buttons;
 
     QVBoxLayout* mainLayout;
-    QHBoxLayout* controlsLayout;
+    QLabel* titleLabel;
     QPushButton* newGameButton;
-    QSpinBox* sizeSelector;
 
     void createUI();
     void updateBoard();
-    void resetGame(int boardSize);
+    void resetGame();
 
 private slots:
     void handleButtonClick();

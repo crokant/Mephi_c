@@ -1,49 +1,53 @@
 #include "TictactoeUI.h"
 #include <QMessageBox>
+#include <QFont>
 
 TictactoeUI::TictactoeUI(QWidget* parent)
         : QWidget(parent),
           game(3),
           gridLayout(new QGridLayout()),
           mainLayout(new QVBoxLayout(this)),
-          controlsLayout(new QHBoxLayout()),
-          newGameButton(new QPushButton("Новая игра")),
-          sizeSelector(new QSpinBox()) {
-    setWindowTitle("Tic-Tac-Toe");
+          titleLabel(new QLabel("Крестики-нолики")),
+          newGameButton(new QPushButton("Новая игра")) {
+    setWindowTitle("Крестики-нолики");
+    setFixedSize(340, 450);
 
     createUI();
-    resetGame(3);
+    resetGame();
 }
 
 void TictactoeUI::createUI() {
-    QLabel* sizeLabel = new QLabel("Размер поля:");
-    sizeSelector->setRange(3, 10);
-    sizeSelector->setValue(3);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setFont(QFont("Arial", 24, QFont::Bold));
+    titleLabel->setStyleSheet("color: #444;");
 
-    controlsLayout->addWidget(sizeLabel);
-    controlsLayout->addWidget(sizeSelector);
-    controlsLayout->addWidget(newGameButton);
+    newGameButton->setFont(QFont("Arial", 16));
+    newGameButton->setStyleSheet("background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px;");
 
-    mainLayout->addLayout(controlsLayout);
+    mainLayout->addWidget(titleLabel);
     mainLayout->addLayout(gridLayout);
+    mainLayout->addWidget(newGameButton);
 
     connect(newGameButton, &QPushButton::clicked, this, &TictactoeUI::onNewGameClicked);
 }
 
-void TictactoeUI::resetGame(int boardSize) {
+void TictactoeUI::resetGame() {
     while (QLayoutItem* item = gridLayout->takeAt(0)) {
         delete item->widget();
         delete item;
     }
-    game = Game(boardSize);
+
+    game = Game(3);
     buttons.clear();
-    for (int i = 0; i < boardSize * boardSize; ++i) {
+
+    for (int i = 0; i < 9; ++i) {
         auto button = new QPushButton(".");
         button->setFixedSize(100, 100);
-        button->setFont(QFont("Arial", 24));
+        button->setFont(QFont("Arial", 24, QFont::Bold));
+        button->setStyleSheet("background-color: #F0F0F0; border: 2px solid #CCC; border-radius: 10px;");
         buttons.append(button);
         connect(button, &QPushButton::clicked, this, &TictactoeUI::handleButtonClick);
-        gridLayout->addWidget(button, i / boardSize, i % boardSize);
+        gridLayout->addWidget(button, i / 3, i % 3);
     }
     updateBoard();
 }
@@ -96,12 +100,21 @@ void TictactoeUI::updateBoard() {
         QString text = ".";
         if (cell == CellState::Cross) text = "X";
         if (cell == CellState::Nought) text = "O";
+
         buttons[i]->setText(text);
+
+        if (cell == CellState::Cross) {
+            buttons[i]->setStyleSheet("background-color: #FFEBEE; border: 2px solid #E91E63; border-radius: 10px;");
+        } else if (cell == CellState::Nought) {
+            buttons[i]->setStyleSheet("background-color: #E8F5E9; border: 2px solid #4CAF50; border-radius: 10px;");
+        } else {
+            buttons[i]->setStyleSheet("background-color: #F0F0F0; border: 2px solid #CCC; border-radius: 10px;");
+        }
+
         buttons[i]->setEnabled(cell == CellState::Empty);
     }
 }
 
 void TictactoeUI::onNewGameClicked() {
-    int newSize = sizeSelector->value();
-    resetGame(newSize);
+    resetGame();
 }
