@@ -4,7 +4,7 @@
 #include "../../Sem2/Laba2/LABA2_Mephi/DynamicArray.h"
 #include <string>
 
-template <typename K, typename V>
+template<typename K, typename V>
 class UnorderedMap {
 private:
     struct KeyValuePair {

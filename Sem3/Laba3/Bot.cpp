@@ -27,7 +27,7 @@ std::pair<int, int> Bot::findForcedMove(const Board &board, CellState player) co
             if (board.isCellEmpty(i, j)) {
                 Board tempBoard = board;
                 tempBoard.setCell(i, j, player);
-                if (tempBoard.checkGameState() == (player == aiPlayer ? GameState::CrossWin : GameState::NoughtWin)) {
+                if (tempBoard.checkGameState() == (player == aiPlayer ? GameState::NoughtWin : GameState::CrossWin)) {
                     return {i, j};
                 }
             }
@@ -36,7 +36,7 @@ std::pair<int, int> Bot::findForcedMove(const Board &board, CellState player) co
     return {-1, -1};
 }
 
-int Bot::minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta) {
+int Bot::minimax(Board &board, int depth, bool isMaximizing) {
     std::string key = boardKey(board);
 
     int cachedScore;
@@ -56,19 +56,13 @@ int Bot::minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta
         for (int j = 0; j < board.getSize(); ++j) {
             if (board.isCellEmpty(i, j)) {
                 board.setCell(i, j, isMaximizing ? aiPlayer : humanPlayer);
-                int currentScore = minimax(board, depth + 1, !isMaximizing, alpha, beta);
+                int currentScore = minimax(board, depth + 1, !isMaximizing);
                 board.setCell(i, j, CellState::Empty);
 
                 if (isMaximizing) {
                     bestScore = std::max(bestScore, currentScore);
-                    alpha = std::max(alpha, bestScore);
                 } else {
                     bestScore = std::min(bestScore, currentScore);
-                    beta = std::min(beta, bestScore);
-                }
-
-                if (beta <= alpha) {
-                    break;
                 }
             }
         }
@@ -95,7 +89,7 @@ std::pair<int, int> Bot::getBestMove(Board &board) {
         for (int j = 0; j < board.getSize(); ++j) {
             if (board.isCellEmpty(i, j)) {
                 board.setCell(i, j, aiPlayer);
-                int score = minimax(board, 0, false, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+                int score = minimax(board, 0, false);
                 board.setCell(i, j, CellState::Empty);
 
                 if (score > bestScore) {
@@ -105,6 +99,5 @@ std::pair<int, int> Bot::getBestMove(Board &board) {
             }
         }
     }
-
     return bestMove;
 }

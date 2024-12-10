@@ -4,8 +4,8 @@
 Board::Board(int boardSize) : size(boardSize), grid(boardSize, std::vector<CellState>(boardSize, CellState::Empty)) {}
 
 bool Board::isFull() const {
-    for (const auto& row : grid)
-        for (auto cell : row)
+    for (const auto &row: grid)
+        for (auto cell: row)
             if (cell == CellState::Empty)
                 return false;
     return true;
@@ -29,7 +29,8 @@ int Board::getSize() const {
 
 GameState Board::checkGameState() const {
     for (int i = 0; i < size; ++i) {
-        if (grid[i][0] != CellState::Empty && std::all_of(grid[i].begin(), grid[i].end(), [this, i](CellState s) { return s == grid[i][0]; }))
+        if (grid[i][0] != CellState::Empty &&
+            std::all_of(grid[i].begin(), grid[i].end(), [this, i](CellState s) { return s == grid[i][0]; }))
             return grid[i][0] == CellState::Cross ? GameState::CrossWin : GameState::NoughtWin;
 
         if (grid[0][i] != CellState::Empty) {
@@ -74,7 +75,7 @@ GameState Board::checkGameState() const {
 
 int Board::getEmptyCellsCount() const {
     int count = 0;
-    for (const auto& row : grid) {
+    for (const auto &row: grid) {
         count += std::count(row.begin(), row.end(), CellState::Empty);
     }
     return count;

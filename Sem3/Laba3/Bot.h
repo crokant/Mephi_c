@@ -12,7 +12,7 @@ private:
     CellState humanPlayer;
     mutable UnorderedMap<std::string, int> memo;
 
-    int minimax(Board &board, int depth, bool isMaximizing, int alpha, int beta);
+    int minimax(Board &board, int depth, bool isMaximizing);
 
     [[nodiscard]] int evaluate(const Board &board) const;
 

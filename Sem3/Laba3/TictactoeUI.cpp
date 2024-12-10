@@ -2,15 +2,15 @@
 #include <QMessageBox>
 #include <QFont>
 
-TictactoeUI::TictactoeUI(QWidget* parent)
+TictactoeUI::TictactoeUI(QWidget *parent)
         : QWidget(parent),
           game(3),
           gridLayout(new QGridLayout()),
           mainLayout(new QVBoxLayout(this)),
           titleLabel(new QLabel("Крестики-нолики")),
           newGameButton(new QPushButton("Новая игра")) {
-    setWindowTitle("Крестики-нолики");
-    setFixedSize(340, 450);
+    setWindowTitle("TicTacToe");
+    setFixedSize(340, 440);
 
     createUI();
     resetGame();
@@ -20,9 +20,8 @@ void TictactoeUI::createUI() {
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setFont(QFont("Arial", 24, QFont::Bold));
     titleLabel->setStyleSheet("color: #444;");
-
     newGameButton->setFont(QFont("Arial", 16));
-    newGameButton->setStyleSheet("background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px;");
+    newGameButton->setStyleSheet("background-color: #4CAF50; color: white; padding: 10px; border-radius: 7px;");
 
     mainLayout->addWidget(titleLabel);
     mainLayout->addLayout(gridLayout);
@@ -32,7 +31,7 @@ void TictactoeUI::createUI() {
 }
 
 void TictactoeUI::resetGame() {
-    while (QLayoutItem* item = gridLayout->takeAt(0)) {
+    while (QLayoutItem *item = gridLayout->takeAt(0)) {
         delete item->widget();
         delete item;
     }
@@ -53,7 +52,7 @@ void TictactoeUI::resetGame() {
 }
 
 void TictactoeUI::handleButtonClick() {
-    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
+    QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
     int index = buttons.indexOf(clickedButton);
 
     if (index == -1 || !game.board.isCellEmpty(index / game.board.getSize(), index % game.board.getSize())) {
@@ -97,7 +96,7 @@ void TictactoeUI::handleButtonClick() {
 void TictactoeUI::updateBoard() {
     for (int i = 0; i < buttons.size(); ++i) {
         CellState cell = game.board.getCell(i / game.board.getSize(), i % game.board.getSize());
-        QString text = ".";
+        QString text = "";
         if (cell == CellState::Cross) text = "X";
         if (cell == CellState::Nought) text = "O";
 

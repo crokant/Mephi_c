@@ -10,21 +10,25 @@
 class TictactoeUI : public QWidget {
 private:
     Game game;
-    QGridLayout* gridLayout;
-    QVector<QPushButton*> buttons;
+    QGridLayout *gridLayout;
+    QVector<QPushButton *> buttons;
 
-    QVBoxLayout* mainLayout;
-    QLabel* titleLabel;
-    QPushButton* newGameButton;
+    QVBoxLayout *mainLayout;
+    QLabel *titleLabel;
+    QPushButton *newGameButton;
 
     void createUI();
+
     void updateBoard();
+
     void resetGame();
 
 private slots:
+
     void handleButtonClick();
+
     void onNewGameClicked();
 
 public:
-    explicit TictactoeUI(QWidget* parent = nullptr);
+    explicit TictactoeUI(QWidget *parent = nullptr);
 };
