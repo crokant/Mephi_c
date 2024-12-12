@@ -24,10 +24,31 @@ private:
         return hasher(key) % bucketCount;
     }
 
+    void rehash() {
+        int newBucketCount = bucketCount * 2;
+        DynamicArray<LinkedList<KeyValuePair>> newTable(newBucketCount);
+
+        for (int i = 0; i < bucketCount; ++i) {
+            LinkedList<KeyValuePair> &bucket = table[i];
+            for (int j = 0; j < bucket.getLength(); ++j) {
+                KeyValuePair &pair = bucket.getByIndex(j);
+                size_t newIndex = std::hash<K>()(pair.key) % newBucketCount;
+                newTable[newIndex].append(pair);
+            }
+        }
+
+        table = std::move(newTable);
+        bucketCount = newBucketCount;
+    }
+
 public:
     explicit UnorderedMap(int size = 10) : bucketCount(size), table(size), elementCount(0) {}
 
     void insert(const K &key, const V &value) {
+        if (elementCount >= bucketCount * 0.8) {
+            rehash();
+        }
+
         size_t index = hash(key);
         LinkedList<KeyValuePair> &bucket = table[index];
 
