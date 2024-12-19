@@ -73,31 +73,6 @@ public:
         return vertex;
     }
 
-    std::string getGraphString(bool directed) {
-        std::string infix = directed ? " -> " : " -- ";
-        std::string result = directed ? "digraph G {\n" : "graph G {\n";
-        result += "layout=\"sfdp\" beautify=true;\n";
-
-        for (int i = 0; i < vertices.size(); ++i) {
-            std::string vertexName;
-            std::shared_ptr<Vertex<T>> vertex;
-            if (vertices.findByIndex(i, vertexName, vertex)) {
-                result += vertex->getName() + "[color=" + vertex->getColor() + "];\n";
-            }
-        }
-
-        for (int i = 0; i < edges.size(); ++i) {
-            std::pair<std::string, std::string> vertexPair;
-            std::shared_ptr<Edge<T>> edge;
-            if (edges.findByIndex(i, vertexPair, edge)) {
-                result += vertexPair.first + infix + vertexPair.second + ";\n";
-            }
-        }
-
-        result += "}\n";
-        return result;
-    }
-
     void removeVertex(const std::string &name) {
         if (!vertices.contains(name)) return;
 

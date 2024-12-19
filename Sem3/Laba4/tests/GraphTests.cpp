@@ -129,20 +129,6 @@ void testGraph_getEdgeByVertices() {
     check(graph.getEdgeByVertices(vertexB, vertexA) == nullptr);
 }
 
-void testGraph_getGraphString() {
-    Graph<int> graph;
-    auto vertexA = std::make_shared<Vertex<int>>("A", 10);
-    auto vertexB = std::make_shared<Vertex<int>>("B", 20);
-    auto edge = std::make_shared<Edge<int>>(vertexA, vertexB);
-
-    graph.addVertex(vertexA);
-    graph.addVertex(vertexB);
-    graph.addEdge(vertexA, vertexB, edge);
-
-    std::string graphString = graph.getGraphString(true);
-    check(graphString.find("A -> B") != std::string::npos);
-}
-
 void runGraphTests() {
     testGraph_addVertex();
     testGraph_addEdge();
@@ -154,6 +140,5 @@ void runGraphTests() {
     testGraph_getVertices();
     testGraph_getVertexByName();
     testGraph_getEdgeByVertices();
-    testGraph_getGraphString();
     std::cout << "Graph tests passed!" << std::endl;
 }
