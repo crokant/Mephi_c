@@ -171,6 +171,54 @@ public:
         return newList;
     }
 
+    void removeFirst() {
+        if (!first) {
+            throw std::out_of_range("ListIsEmpty");
+        }
+        Node<T> *temp = first;
+        first = first->right;
+        if (first) {
+            first->left = nullptr;
+        } else {
+            last = nullptr;
+        }
+        delete temp;
+        size--;
+    }
+
+    void removeLast() {
+        if (!last) {
+            throw std::out_of_range("ListIsEmpty");
+        }
+        Node<T> *temp = last;
+        last = last->left;
+        if (last) {
+            last->right = nullptr;
+        } else {
+            first = nullptr;
+        }
+        delete temp;
+        size--;
+    }
+
+    void removeByIndex(int index) {
+        checkIndex(index);
+        if (index == 0) {
+            removeFirst();
+        } else if (index == size - 1) {
+            removeLast();
+        } else {
+            Node<T> *temp = first;
+            for (int i = 0; i < index; ++i) {
+                temp = temp->right;
+            }
+            temp->left->right = temp->right;
+            temp->right->left = temp->left;
+            delete temp;
+            size--;
+        }
+    }
+
     LinkedList<T> &operator=(const LinkedList<T> &list) {
         if (this != &list) {
             destroyList();
